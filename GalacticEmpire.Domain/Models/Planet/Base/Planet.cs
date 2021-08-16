@@ -1,4 +1,5 @@
-﻿using GalacticEmpire.Domain.Models.EmpireModel.Base;
+﻿using GalacticEmpire.Domain.Models.EmpireModel;
+using GalacticEmpire.Domain.Models.EmpireModel.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,9 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Base
     {
         public string Name { get; set; }
         public TimeSpan CapturingTime { get; set; }
+
+        public ICollection<EmpirePlanet> EmpirePlanets { get; set; }
+        public ICollection<PlanetPriceMaterial> PlanetPriceMaterials { get; set; }
 
         public virtual void ApplyEffect(Empire model) { }
 
