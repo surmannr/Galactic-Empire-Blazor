@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>CQRS Snippet</Title>
+      <Author>Surmann Roland</Author>
+      <Description>CQRS Snippet for easier life</Description>
+      <Shortcut>cqrs</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="CSharp">
+        <![CDATA[
+             public class Query : IRequest<$DtoValType$>
+            {
+
+            }
+
+            public class Hander : IRequestHandler<Query, $DtoValType$>
+            {
+                private readonly $DbValType$ _dbContext;
+                private readonly IMapper _mapper;
+
+                public Hander($DbValType$ dbContext, IMapper mapper)
+                {
+                    _dbContext = dbContext;
+                    _mapper = mapper;
+                }
+            }
+        ]]>
+      </Code>
+      <Declarations>
+        <Literal>
+            <ID>DbValType</ID>
+            <Default>DbContext</Default>
+        </Literal>
+        <Literal>
+            <ID>DtoValType</ID>
+            <Default>Dto</Default>
+        </Literal>
+      </Declarations>
+      <Imports>
+        <Import>
+          <Namespace>MediatR</Namespace>
+          <Namespace>EntityFrameworkCore</Namespace>
+        </Import>
+      </Imports>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
