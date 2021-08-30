@@ -12,10 +12,10 @@ namespace GalacticEmpire.Domain.Models.UnitModel
     {
         public int Amount { get; set; }
 
-        public Guid MaterialId { get; set; }
+        public int MaterialId { get; set; }
         public Material Material { get; set; }
 
-        public Guid UnitId { get; set; }
+        public int UnitId { get; set; }
         public Unit Unit { get; set; }
     }
 }

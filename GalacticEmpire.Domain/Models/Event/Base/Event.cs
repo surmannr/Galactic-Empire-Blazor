@@ -5,9 +5,11 @@ using System.Collections.Generic;
 
 namespace GalacticEmpire.Domain.Models.EventModel.Base
 {
-    public abstract class Event : BaseModel<Guid>, IBaseEffect<Empire>
+    public abstract class Event : BaseModel<int>, IBaseEffect<Empire>
     {
         public string Name { get; set; }
+        public string Description { get; set; }
+        public string EventType { get; set; }
 
         public ICollection<EmpireEvent> EmpireEvents { get; set; }
 

@@ -18,5 +18,7 @@ namespace GalacticEmpire.Domain.Models.EmpireModel
 
         public Guid EmpireId { get; set; }
         public Empire Empire { get; set; }
+        
+        public FightPoint FightPoint { get; set; }
     }
 }

@@ -9,8 +9,7 @@
     </Header>
     <Snippet>
       <Code Language="CSharp">
-        <![CDATA[
-             public class Query : IRequest<$DtoValType$>
+        <![CDATA[public class Query : IRequest<$DtoValType$>
             {
 
             }
@@ -18,12 +17,10 @@
             public class Hander : IRequestHandler<Query, $DtoValType$>
             {
                 private readonly $DbValType$ _dbContext;
-                private readonly IMapper _mapper;
 
-                public Hander($DbValType$ dbContext, IMapper mapper)
+                public Hander($DbValType$ dbContext)
                 {
                     _dbContext = dbContext;
-                    _mapper = mapper;
                 }
             }
         ]]>

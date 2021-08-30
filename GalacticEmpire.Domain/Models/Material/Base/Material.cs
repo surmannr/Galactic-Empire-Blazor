@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GalacticEmpire.Domain.Models.MaterialModel.Base
 {
-    public class Material : BaseModel<Guid>
+    public class Material : BaseModel<int>
     {
         public string Name { get; set; }
 

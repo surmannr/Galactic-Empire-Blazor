@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\GalacticEmpire.Dal\GalacticEmpire.Dal.csproj" />
     <ProjectReference Include="..\Client\GalacticEmpire.Client.csproj" />
     <ProjectReference Include="..\Shared\GalacticEmpire.Shared.csproj" />
   </ItemGroup>

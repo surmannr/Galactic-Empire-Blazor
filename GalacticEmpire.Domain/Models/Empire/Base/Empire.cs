@@ -12,9 +12,10 @@ namespace GalacticEmpire.Domain.Models.EmpireModel.Base
     {
         public string Name { get; set; }
         public int MaxNumberOfUnits { get; set; }
+        public int MaxNumberOfPopulation { get; set; }
         public int Population { get; set; }
 
-        public Guid OwnerId { get; set; }
+        public string OwnerId { get; set; }
         public User Owner { get; set; }
 
         public AllianceMember Alliance { get; set; }
@@ -24,7 +25,6 @@ namespace GalacticEmpire.Domain.Models.EmpireModel.Base
 
         public ICollection<EmpireEvent> EmpireEvents { get; set; }
         public ICollection<EmpireMaterial> EmpireMaterials { get; set; }
-        public ICollection<EmpireUpgrade> EmpireUpgrades { get; set; }
         public ICollection<EmpirePlanet> EmpirePlanets { get; set; }
         public ICollection<EmpireUnit> EmpireUnits { get; set; }
 
@@ -33,5 +33,8 @@ namespace GalacticEmpire.Domain.Models.EmpireModel.Base
 
         public ICollection<DroneAttack> DroneAttackerAttack { get; set; }
         public ICollection<DroneAttack> DroneDefenderAttack { get; set; }
+
+        public ICollection<AllianceInvitation> AllianceReceivedInvitations { get; set; }
+        public ICollection<AllianceInvitation> AllianceSentInvitations { get; set; }
     }
 }

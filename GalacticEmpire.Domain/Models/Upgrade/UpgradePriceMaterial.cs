@@ -12,10 +12,10 @@ namespace GalacticEmpire.Domain.Models.UpgradeModel
     {
         public int Amount { get; set; }
 
-        public Guid MaterialId { get; set; }
+        public int MaterialId { get; set; }
         public Material Material { get; set; }
 
-        public Guid UpgradeId { get; set; }
+        public int UpgradeId { get; set; }
         public Upgrade Upgrade { get; set; }
     }
 }

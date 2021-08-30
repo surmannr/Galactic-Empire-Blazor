@@ -12,11 +12,12 @@ namespace GalacticEmpire.Domain.Models.EmpireModel
     {
         public double BaseProduction { get; set; }
         public double ProductionMultiplier { get; set; }
+        public int Amount { get; set; }
 
         public Guid EmpireId { get; set; }
         public Empire Empire { get; set; }
 
-        public Guid MaterialId { get; set; }
+        public int MaterialId { get; set; }
         public Material Material { get; set; }
     }
 }

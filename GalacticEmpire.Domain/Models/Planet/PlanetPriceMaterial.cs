@@ -12,10 +12,10 @@ namespace GalacticEmpire.Domain.Models.PlanetModel
     {
         public int Amount { get; set; }
 
-        public Guid MaterialId { get; set; }
+        public int MaterialId { get; set; }
         public Material Material { get; set; }
 
-        public Guid PlanetId { get; set; }
+        public int PlanetId { get; set; }
         public Planet Planet { get; set; }
     }
 }
