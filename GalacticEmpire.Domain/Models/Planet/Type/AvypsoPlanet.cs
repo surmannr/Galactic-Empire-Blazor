@@ -24,20 +24,13 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             base.RemoveEffect(empire);
         }
 
-        public AvypsoPlanet()
+        public AvypsoPlanet(int id)
         {
+            Id = id;
             Name = PlanetEnum.Avypso.GetDisplayName();
             Description = PlanetDescriptionConstants.Avypso_Description;
             PlanetType = PlanetTypeConstants.AvypsoType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
-            PlanetProperty = new PlanetProperty
-            {
-                BaseFood = PlanetEffectConstants.Avypso_BaseFood,
-                BaseBitcoin = PlanetEffectConstants.Avypso_BaseBitcoin,
-                BaseQuartz = PlanetEffectConstants.Avypso_BaseQuartz,
-                MaxPopulationCount = PlanetEffectConstants.Avypso_MaxPopulationCount,
-                MaxUnitCount = PlanetEffectConstants.Avypso_MaxUnitCount
-            };
         }
     }
 }

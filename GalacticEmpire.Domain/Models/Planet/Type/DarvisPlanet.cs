@@ -24,20 +24,13 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             base.RemoveEffect(empire);
         }
 
-        public DarvisPlanet()
+        public DarvisPlanet(int id)
         {
+            Id = id;
             Name = PlanetEnum.Darvis.GetDisplayName();
             Description = PlanetDescriptionConstants.Darvis_Description;
             PlanetType = PlanetTypeConstants.DarvisType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
-            PlanetProperty = new PlanetProperty
-            {
-                BaseFood = PlanetEffectConstants.Darvis_BaseFood,
-                BaseBitcoin = PlanetEffectConstants.Darvis_BaseBitcoin,
-                BaseQuartz = PlanetEffectConstants.Darvis_BaseQuartz,
-                MaxPopulationCount = PlanetEffectConstants.Darvis_MaxPopulationCount,
-                MaxUnitCount = PlanetEffectConstants.Darvis_MaxUnitCount
-            };
         }
     }
 }

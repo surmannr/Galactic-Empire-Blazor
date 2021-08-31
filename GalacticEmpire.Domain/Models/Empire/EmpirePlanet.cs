@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace GalacticEmpire.Domain.Models.EmpireModel
 {
-    public class EmpirePlanet
+    public class EmpirePlanet : BaseModel<Guid>
     {
         public Guid PlanetId { get; set; }
         public Planet Planet { get; set; }

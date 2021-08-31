@@ -24,20 +24,13 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             base.RemoveEffect(empire);
         }
 
-        public CribatunePlanet()
+        public CribatunePlanet(int id)
         {
+            Id = id;
             Name = PlanetEnum.Cribatune.GetDisplayName();
             Description = PlanetDescriptionConstants.Cribatune_Description;
             PlanetType = PlanetTypeConstants.CribatuneType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
-            PlanetProperty = new PlanetProperty
-            {
-                BaseFood = PlanetEffectConstants.Cribatune_BaseFood,
-                BaseBitcoin = PlanetEffectConstants.Cribatune_BaseBitcoin,
-                BaseQuartz = PlanetEffectConstants.Cribatune_BaseQuartz,
-                MaxPopulationCount = PlanetEffectConstants.Cribatune_MaxPopulationCount,
-                MaxUnitCount = PlanetEffectConstants.Cribatune_MaxUnitCount
-            };
         }
     }
 }

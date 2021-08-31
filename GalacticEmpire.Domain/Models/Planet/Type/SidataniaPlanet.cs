@@ -24,20 +24,13 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             base.RemoveEffect(empire);
         }
 
-        public SidataniaPlanet()
+        public SidataniaPlanet(int id)
         {
+            Id = id;
             Name = PlanetEnum.Sidatania.GetDisplayName();
             Description = PlanetDescriptionConstants.Sidatania_Description;
             PlanetType = PlanetTypeConstants.SidataniaType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
-            PlanetProperty = new PlanetProperty
-            {
-                BaseFood = PlanetEffectConstants.Sidatania_BaseFood,
-                BaseBitcoin = PlanetEffectConstants.Sidatania_BaseBitcoin,
-                BaseQuartz = PlanetEffectConstants.Sidatania_BaseQuartz,
-                MaxPopulationCount = PlanetEffectConstants.Sidatania_MaxPopulationCount,
-                MaxUnitCount = PlanetEffectConstants.Sidatania_MaxUnitCount
-            };
         }
     }
 }

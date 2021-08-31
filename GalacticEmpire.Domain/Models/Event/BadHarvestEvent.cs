@@ -35,6 +35,7 @@ namespace GalacticEmpire.Domain.Models.EventModel
 
         public BadHarvestEvent()
         {
+            Id = 1;
             Name = EventEnum.BadHarvest.GetDisplayName();
             Description = EventDescriptionConstants.BadHarvest_Description;
             EventType = EventTypeConstants.BadHarvestType;

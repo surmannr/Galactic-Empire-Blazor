@@ -14,47 +14,47 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Planet
         public void Configure(EntityTypeBuilder<Domain.Models.PlanetModel.Base.Planet> builder)
         {
             builder.HasData(
-                new AvypsoPlanet()
+                new AvypsoPlanet(1)
                 {
                     Id = 1
                 },
-                new C137EarthPlanet()
+                new C137EarthPlanet(2)
                 {
                     Id = 2
                 },
-                new CribatunePlanet()
+                new CribatunePlanet(3)
                 {
                     Id = 3
                 },
-                new DarvisPlanet()
+                new DarvisPlanet(4)
                 {
                     Id = 4
                 },
-                new DillonPlanet()
+                new DillonPlanet(5)
                 {
                     Id = 5
                 },
-                new GingeriaPlanet()
+                new GingeriaPlanet(6)
                 {
                     Id = 6
                 },
-                new HeolaraPlanet()
+                new HeolaraPlanet(7)
                 {
                     Id = 7
                 },
-                new NusobosPlanet()
+                new NusobosPlanet(8)
                 {
                     Id = 8
                 },
-                new SidataniaPlanet()
+                new SidataniaPlanet(9)
                 {
                     Id = 9
                 },
-                new YoiphusPlanet()
+                new YoiphusPlanet(10)
                 {
                     Id = 10
                 },
-                new ZuccarsPlanet()
+                new ZuccarsPlanet(11)
                 {
                     Id = 11
                 }

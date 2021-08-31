@@ -1,4 +1,5 @@
-﻿using GalacticEmpire.Domain.Models.PlanetModel.Base;
+﻿using GalacticEmpire.Domain.Models.EmpireModel.Base;
+using GalacticEmpire.Domain.Models.PlanetModel.Base;
 using GalacticEmpire.Domain.Models.UpgradeModel.Base;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,10 @@ namespace GalacticEmpire.Domain.Models.EmpireModel
 {
     public class EmpirePlanetUpgrade
     {
-        public Guid UpgradeId { get; set; }
+        public int UpgradeId { get; set; }
         public Upgrade Upgrade { get; set; }
 
-        public Guid EmpireId { get; set; }
-        public Planet Planet { get; set; }
+        public EmpirePlanet EmpirePlanet { get; set; }
+        public Guid EmpirePlanetId { get; set; }
     }
 }

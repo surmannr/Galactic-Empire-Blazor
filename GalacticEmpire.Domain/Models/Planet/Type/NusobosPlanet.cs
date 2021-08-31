@@ -24,20 +24,13 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             base.RemoveEffect(empire);
         }
 
-        public NusobosPlanet()
+        public NusobosPlanet(int id)
         {
+            Id = id;
             Name = PlanetEnum.Nusobos.GetDisplayName();
             Description = PlanetDescriptionConstants.Nusobos_Description;
             PlanetType = PlanetTypeConstants.NusobosType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
-            PlanetProperty = new PlanetProperty
-            {
-                BaseFood = PlanetEffectConstants.Nusobos_BaseFood,
-                BaseBitcoin = PlanetEffectConstants.Nusobos_BaseBitcoin,
-                BaseQuartz = PlanetEffectConstants.Nusobos_BaseQuartz,
-                MaxPopulationCount = PlanetEffectConstants.Nusobos_MaxPopulationCount,
-                MaxUnitCount = PlanetEffectConstants.Nusobos_MaxUnitCount
-            };
         }
     }
 }

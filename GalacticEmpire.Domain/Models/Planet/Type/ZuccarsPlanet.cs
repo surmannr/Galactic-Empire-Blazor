@@ -24,20 +24,13 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             base.RemoveEffect(empire);
         }
 
-        public ZuccarsPlanet()
+        public ZuccarsPlanet(int id)
         {
+            Id = id;
             Name = PlanetEnum.Zuccars.GetDisplayName();
             Description = PlanetDescriptionConstants.Zuccars_Description;
             PlanetType = PlanetTypeConstants.ZuccarsType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
-            PlanetProperty = new PlanetProperty
-            {
-                BaseFood = PlanetEffectConstants.Zuccars_BaseFood,
-                BaseBitcoin = PlanetEffectConstants.Zuccars_BaseBitcoin,
-                BaseQuartz = PlanetEffectConstants.Zuccars_BaseQuartz,
-                MaxPopulationCount = PlanetEffectConstants.Zuccars_MaxPopulationCount,
-                MaxUnitCount = PlanetEffectConstants.Zuccars_MaxUnitCount
-            };
         }
     }
 }

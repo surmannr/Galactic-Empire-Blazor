@@ -16,6 +16,7 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Base
         public string Description { get; set; }
         public string PlanetType { get; set; }
         public TimeSpan CapturingTime { get; set; }
+
         public PlanetProperty PlanetProperty { get; set; }
 
         public ICollection<EmpirePlanet> EmpirePlanets { get; set; }

@@ -24,20 +24,13 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             base.RemoveEffect(empire);
         }
 
-        public GingeriaPlanet()
+        public GingeriaPlanet(int id)
         {
+            Id = id;
             Name = PlanetEnum.Gingeria.GetDisplayName();
             Description = PlanetDescriptionConstants.Gingeria_Description;
             PlanetType = PlanetTypeConstants.GingeriaType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
-            PlanetProperty = new PlanetProperty
-            {
-                BaseFood = PlanetEffectConstants.Gingeria_BaseFood,
-                BaseBitcoin = PlanetEffectConstants.Gingeria_BaseBitcoin,
-                BaseQuartz = PlanetEffectConstants.Gingeria_BaseQuartz,
-                MaxPopulationCount = PlanetEffectConstants.Gingeria_MaxPopulationCount,
-                MaxUnitCount = PlanetEffectConstants.Gingeria_MaxUnitCount
-            };
         }
     }
 }

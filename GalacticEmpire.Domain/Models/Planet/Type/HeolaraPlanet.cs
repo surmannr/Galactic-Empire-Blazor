@@ -24,20 +24,13 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             base.RemoveEffect(empire);
         }
 
-        public HeolaraPlanet()
+        public HeolaraPlanet(int id)
         {
+            Id = id;
             Name = PlanetEnum.Heolara.GetDisplayName();
             Description = PlanetDescriptionConstants.Heolara_Description;
             PlanetType = PlanetTypeConstants.HeolaraType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
-            PlanetProperty = new PlanetProperty
-            {
-                BaseFood = PlanetEffectConstants.Heolara_BaseFood,
-                BaseBitcoin = PlanetEffectConstants.Heolara_BaseBitcoin,
-                BaseQuartz = PlanetEffectConstants.Heolara_BaseQuartz,
-                MaxPopulationCount = PlanetEffectConstants.Heolara_MaxPopulationCount,
-                MaxUnitCount = PlanetEffectConstants.Heolara_MaxUnitCount
-            };
         }
     }
 }

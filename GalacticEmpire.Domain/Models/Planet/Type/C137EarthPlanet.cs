@@ -24,20 +24,13 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             base.RemoveEffect(empire);
         }
 
-        public C137EarthPlanet()
+        public C137EarthPlanet(int id)
         {
+            Id = id;
             Name = PlanetEnum.C137Earth.GetDisplayName();
             Description = PlanetDescriptionConstants.C137Earth_Description;
             PlanetType = PlanetTypeConstants.C137EarthType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
-            PlanetProperty = new PlanetProperty
-            {
-                BaseFood = PlanetEffectConstants.C137Earth_BaseFood,
-                BaseBitcoin = PlanetEffectConstants.C137Earth_BaseBitcoin,
-                BaseQuartz = PlanetEffectConstants.C137Earth_BaseQuartz,
-                MaxPopulationCount = PlanetEffectConstants.C137Earth_MaxPopulationCount,
-                MaxUnitCount = PlanetEffectConstants.C137Earth_MaxUnitCount
-            };
         }
     }
 }

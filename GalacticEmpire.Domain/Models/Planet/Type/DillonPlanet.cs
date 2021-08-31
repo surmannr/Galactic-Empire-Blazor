@@ -24,20 +24,13 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             base.RemoveEffect(empire);
         }
 
-        public DillonPlanet()
+        public DillonPlanet(int id)
         {
+            Id = id;
             Name = PlanetEnum.Dillon.GetDisplayName();
             Description = PlanetDescriptionConstants.Dillon_Description;
             PlanetType = PlanetTypeConstants.DillonType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
-            PlanetProperty = new PlanetProperty
-            {
-                BaseFood = PlanetEffectConstants.Dillon_BaseFood,
-                BaseBitcoin = PlanetEffectConstants.Dillon_BaseBitcoin,
-                BaseQuartz = PlanetEffectConstants.Dillon_BaseQuartz,
-                MaxPopulationCount = PlanetEffectConstants.Dillon_MaxPopulationCount,
-                MaxUnitCount = PlanetEffectConstants.Dillon_MaxUnitCount
-            };
         }
     }
 }
