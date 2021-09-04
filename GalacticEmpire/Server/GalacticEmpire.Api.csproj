@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>GalacticEmpire.Server-73416215-E90D-4ECB-9498-E49EDE2931A8</UserSecretsId>
   </PropertyGroup>
 
