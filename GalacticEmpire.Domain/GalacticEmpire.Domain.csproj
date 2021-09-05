@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Galactic.Empire\Shared\GalacticEmpire.Shared.csproj" />
+    <ProjectReference Include="..\GalacticEmpire\Shared\GalacticEmpire.Shared.csproj" />
   </ItemGroup>
 
 </Project>
