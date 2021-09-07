@@ -6,7 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\" />
+    <Folder Include="Features\Empire\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GalacticEmpire.Dal\GalacticEmpire.Dal.csproj" />
+    <ProjectReference Include="..\GalacticEmpire\Shared\GalacticEmpire.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -44,6 +44,28 @@ namespace GalacticEmpire.Server
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "GalacticEmpire API";
+                    document.Info.Description = "BME BSc Szakdolgozat - Surmann Roland";
+                    document.Info.TermsOfService = "None";
+                    document.Info.Contact = new NSwag.OpenApiContact
+                    {
+                        Name = "Surmann Roland",
+                        Email = "surmannroland@gmail.com",
+                        Url = "https://www.linkedin.com/in/rolandsurmann/"
+                    };
+                    document.Info.License = new NSwag.OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = "https://example.com/license"
+                    };
+                };
+            });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -67,6 +89,9 @@ namespace GalacticEmpire.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseRouting();
 
