@@ -1,3 +1,5 @@
+using GalacticEmpire.Api.ExtensionsAndServices.Identity;
+using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Event.Queries;
 using GalacticEmpire.Application.Mapper;
 using GalacticEmpire.Application.Mediator;
@@ -53,7 +55,9 @@ namespace GalacticEmpire.Server
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
             services.AddHttpContextAccessor();
-            
+
+            services.AddScoped<IIdentityService, IdentityService>();
+
             services.AddIdentityServer()
                 .AddApiAuthorization<User, GalacticEmpireDbContext>();
 
