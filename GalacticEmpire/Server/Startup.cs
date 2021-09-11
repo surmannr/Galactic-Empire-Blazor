@@ -1,6 +1,9 @@
+using GalacticEmpire.Application.Features.Event.Queries;
 using GalacticEmpire.Application.Mapper;
+using GalacticEmpire.Application.Mediator;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.UserModel.Base;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 using System.Linq;
 
 namespace GalacticEmpire.Server
@@ -32,23 +37,29 @@ namespace GalacticEmpire.Server
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
-
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<GalacticEmpireDbContext>()
                 .AddDefaultTokenProviders();
+            
+            services.Configure<IdentityOptions>(opts =>
+            {
+                opts.User.RequireUniqueEmail = true;
+                opts.Password.RequiredLength = 8;
+
+                opts.SignIn.RequireConfirmedEmail = true;
+            });
 
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
             services.AddHttpContextAccessor();
-
+            
             services.AddIdentityServer()
                 .AddApiAuthorization<User, GalacticEmpireDbContext>();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
-
+            
             services.AddSwaggerDocument(config =>
             {
                 config.PostProcess = document =>
@@ -69,8 +80,19 @@ namespace GalacticEmpire.Server
                         Url = "https://example.com/license"
                     };
                 };
+                config.DocumentProcessors.Add(new SecurityDefinitionAppender("JWT Token",
+                    new OpenApiSecurityScheme
+                    {
+                        Type = OpenApiSecuritySchemeType.ApiKey,
+                        Name = "Authorization",
+                        Description = "Copy 'Bearer ' + valid JWT token into field",
+                        In = OpenApiSecurityApiKeyLocation.Header
+                    }));
             });
 
+            services.AddMediatR(typeof(GetAllEventsQuery));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+            
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -81,7 +103,6 @@ namespace GalacticEmpire.Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
                 app.UseWebAssemblyDebugging();
             }
             else

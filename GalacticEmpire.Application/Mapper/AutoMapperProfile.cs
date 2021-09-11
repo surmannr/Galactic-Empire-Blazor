@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using GalacticEmpire.Domain.Models.EventModel.Base;
+using GalacticEmpire.Shared.Dto.Event;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,7 @@ namespace GalacticEmpire.Application.Mapper
     {
         public AutoMapperProfile()
         {
-
+            CreateMap<Event, EventDto>();
         }
     }
 }

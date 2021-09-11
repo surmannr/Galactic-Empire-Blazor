@@ -1,5 +1,4 @@
 ﻿using GalacticEmpire.Dal.EntityConfigurations.Empire;
-using GalacticEmpire.Dal.EntityConfigurations.Event;
 using GalacticEmpire.Dal.EntityConfigurations.Material;
 using GalacticEmpire.Dal.EntityConfigurations.Planet;
 using GalacticEmpire.Dal.EntityConfigurations.Unit;
@@ -592,6 +591,7 @@ namespace GalacticEmpire.Dal
         }
 
         // Configurations
+        
         public static void ApplyConfigurationsInOrder(this ModelBuilder builder)
         {
             builder.ApplyConfiguration(new MaterialEntityConfiguration());
