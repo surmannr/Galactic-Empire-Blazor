@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.7" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.13.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\GalacticEmpire.Application\GalacticEmpire.Application.csproj" />
     <ProjectReference Include="..\..\GalacticEmpire.Dal\GalacticEmpire.Dal.csproj" />
     <ProjectReference Include="..\Client\GalacticEmpire.Client.csproj" />
     <ProjectReference Include="..\Shared\GalacticEmpire.Shared.csproj" />

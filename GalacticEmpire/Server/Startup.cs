@@ -1,3 +1,4 @@
+using GalacticEmpire.Application.Mapper;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.UserModel.Base;
 using Microsoft.AspNetCore.Authentication;
@@ -37,6 +38,10 @@ namespace GalacticEmpire.Server
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<GalacticEmpireDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            services.AddHttpContextAccessor();
 
             services.AddIdentityServer()
                 .AddApiAuthorization<User, GalacticEmpireDbContext>();
