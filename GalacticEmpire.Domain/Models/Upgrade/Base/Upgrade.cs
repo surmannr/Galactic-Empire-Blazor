@@ -10,6 +10,7 @@ namespace GalacticEmpire.Domain.Models.UpgradeModel.Base
         public string Name { get; set; }
         public string Description { get; set; }
         public string UpgradeType { get; set; }
+        public string ImageUrl { get; set; }
         public TimeSpan UpgradeTime { get; set; }
 
         public ICollection<EmpirePlanetUpgrade> PlanetUpgrades { get; set; }

@@ -1,3 +1,5 @@
+using Autofac;
+using FluentValidation.AspNetCore;
 using GalacticEmpire.Api.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Event.Queries;
@@ -7,6 +9,7 @@ using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.UserModel.Base;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -19,6 +22,7 @@ using Microsoft.Extensions.Hosting;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using System.Linq;
+using System.Reflection;
 
 namespace GalacticEmpire.Server
 {
@@ -61,7 +65,9 @@ namespace GalacticEmpire.Server
             services.AddIdentityServer()
                 .AddApiAuthorization<User, GalacticEmpireDbContext>();
 
-            services.AddAuthentication()
+            services.AddAuthentication(
+                    options => options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme
+                )
                 .AddIdentityServerJwt();
             
             services.AddSwaggerDocument(config =>
@@ -96,9 +102,18 @@ namespace GalacticEmpire.Server
 
             services.AddMediatR(typeof(GetAllEventsQuery));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
-            
-            services.AddControllersWithViews();
+
+            services.AddControllers().AddFluentValidation();
+
             services.AddRazorPages();
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterAssemblyTypes(Assembly.Load("GalacticEmpire.Application"))
+                .Where(x => x.Name.EndsWith("Validator"))
+                .AsImplementedInterfaces()
+                .InstancePerDependency();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

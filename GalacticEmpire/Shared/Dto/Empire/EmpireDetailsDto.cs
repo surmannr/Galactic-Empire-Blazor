@@ -10,6 +10,7 @@ namespace GalacticEmpire.Shared.Dto.Empire
 {
     public class EmpireDetailsDto
     {
+        public Guid Id {  get; set; }
         public string Name { get; set; }
         public int MaxNumberOfUnits { get; set; }
         public int MaxNumberOfPopulation { get; set; }

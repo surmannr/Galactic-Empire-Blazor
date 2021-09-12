@@ -8,7 +8,7 @@ namespace GalacticEmpire.Domain.Models.EmpireModel
 {
     public class EmpirePlanet : BaseModel<Guid>
     {
-        public Guid PlanetId { get; set; }
+        public int PlanetId { get; set; }
         public Planet Planet { get; set; }
 
         public Guid EmpireId { get; set; }

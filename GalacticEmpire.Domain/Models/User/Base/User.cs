@@ -8,7 +8,6 @@ namespace GalacticEmpire.Domain.Models.UserModel.Base
     {
         public int Points { get; set; }
 
-        public Guid EmpireId { get; set; }
         public Empire Empire { get; set; }
     }
 }

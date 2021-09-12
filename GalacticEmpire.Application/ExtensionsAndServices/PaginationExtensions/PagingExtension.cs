@@ -11,12 +11,14 @@ namespace GalacticEmpire.Application.PaginationExtensions
     {
         public static async Task<PagedResult<T>> ToPagedList<T>(this IQueryable<T> list, int pagesize, int pagenumber)
         {
-            PagedResult<T> result = new PagedResult<T>(
-                await list.Skip(pagesize * (pagenumber - 1)).Take(pagesize).ToListAsync(),
-                await list.CountAsync(),
-                pagenumber,
-                pagesize
-            );
+            PagedResult<T> result = new PagedResult<T>()
+            {
+                AllResultsCount = await list.CountAsync(),
+                PageNumber = pagenumber,
+                PageSize = pagesize,
+                Results = await list.Skip(pagesize * (pagenumber - 1)).Take(pagesize).ToListAsync()
+            };
+
             return result;
         }
     }

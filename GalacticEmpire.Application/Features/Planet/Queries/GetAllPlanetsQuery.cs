@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using FluentValidation;
 using GalacticEmpire.Dal;
-using GalacticEmpire.Shared.Dto.Event;
+using GalacticEmpire.Shared.Dto.Planet;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,13 +12,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GalacticEmpire.Application.Features.Event.Queries
+namespace GalacticEmpire.Application.Features.Planet.Queries
 {
-    public static class GetAllEventsQuery
+    public static class GetAllPlanetsQuery
     {
-        public class Query : IRequest<List<EventDto>> { }
+        public class Query : IRequest<List<PlanetDto>> { }
 
-        public class Handler : IRequestHandler<Query, List<EventDto>>
+        public class Handler : IRequestHandler<Query, List<PlanetDto>>
         {
             private readonly GalacticEmpireDbContext dbContext;
             private readonly IMapper mapper;
@@ -29,13 +29,15 @@ namespace GalacticEmpire.Application.Features.Event.Queries
                 this.mapper = mapper;
             }
 
-            public async Task<List<EventDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<PlanetDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var events = await this.dbContext.Events
-                    .ProjectTo<EventDto>(mapper.ConfigurationProvider)
+                var planets = await dbContext.Planets
+                    .Include(planet => planet.PlanetPriceMaterials)
+                        .ThenInclude(ppm => ppm.Material)
+                    .ProjectTo<PlanetDto>(mapper.ConfigurationProvider)
                     .ToListAsync();
 
-                return events;
+                return planets;
             }
         }
 

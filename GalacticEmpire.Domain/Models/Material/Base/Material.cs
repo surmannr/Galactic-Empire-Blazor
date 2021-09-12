@@ -13,6 +13,7 @@ namespace GalacticEmpire.Domain.Models.MaterialModel.Base
     public class Material : BaseModel<int>
     {
         public string Name { get; set; }
+        public string ImageUrl { get; set; }
 
         public ICollection<UnitPriceMaterial> UnitPriceMaterials { get; set; }
         public ICollection<PlanetPriceMaterial> PlanetPriceMaterials { get; set; }

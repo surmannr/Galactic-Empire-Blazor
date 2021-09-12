@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GalacticEmpire.Dal.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,6 +19,32 @@ namespace GalacticEmpire.Dal.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Points = table.Column<int>(type: "int", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -41,23 +67,6 @@ namespace GalacticEmpire.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Empires",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MaxNumberOfUnits = table.Column<int>(type: "int", nullable: false),
-                    MaxNumberOfPopulation = table.Column<int>(type: "int", nullable: false),
-                    Population = table.Column<int>(type: "int", nullable: false),
-                    OwnerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OwnedAllianceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Empires", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Events",
                 columns: table => new
                 {
@@ -65,6 +74,7 @@ namespace GalacticEmpire.Dal.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EventType = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -78,7 +88,8 @@ namespace GalacticEmpire.Dal.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -113,6 +124,7 @@ namespace GalacticEmpire.Dal.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PlanetType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CapturingTime = table.Column<TimeSpan>(type: "time", nullable: false)
                 },
@@ -147,6 +159,7 @@ namespace GalacticEmpire.Dal.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpgradeType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpgradeTime = table.Column<TimeSpan>(type: "time", nullable: false)
                 },
                 constraints: table =>
@@ -176,6 +189,224 @@ namespace GalacticEmpire.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Empires",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MaxNumberOfUnits = table.Column<int>(type: "int", nullable: false),
+                    MaxNumberOfPopulation = table.Column<int>(type: "int", nullable: false),
+                    Population = table.Column<int>(type: "int", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    OwnedAllianceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Empires", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Empires_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlanetPriceMaterials",
+                columns: table => new
+                {
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
+                    PlanetId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlanetPriceMaterials", x => new { x.PlanetId, x.MaterialId });
+                    table.ForeignKey(
+                        name: "FK_PlanetPriceMaterials_Materials_MaterialId",
+                        column: x => x.MaterialId,
+                        principalTable: "Materials",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PlanetPriceMaterials_Planets_PlanetId",
+                        column: x => x.PlanetId,
+                        principalTable: "Planets",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlanetProperties",
+                columns: table => new
+                {
+                    PlanetId = table.Column<int>(type: "int", nullable: false),
+                    BaseFood = table.Column<int>(type: "int", nullable: false),
+                    BaseQuartz = table.Column<int>(type: "int", nullable: false),
+                    BaseBitcoin = table.Column<int>(type: "int", nullable: false),
+                    MaxUnitCount = table.Column<int>(type: "int", nullable: false),
+                    MaxPopulationCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlanetProperties", x => x.PlanetId);
+                    table.ForeignKey(
+                        name: "FK_PlanetProperties_Planets_PlanetId",
+                        column: x => x.PlanetId,
+                        principalTable: "Planets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UnitLevels",
+                columns: table => new
+                {
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    UnitId = table.Column<int>(type: "int", nullable: false),
+                    AttackPoint = table.Column<int>(type: "int", nullable: false),
+                    DefensePoint = table.Column<int>(type: "int", nullable: false),
+                    TrainingTime = table.Column<TimeSpan>(type: "time", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UnitLevels", x => new { x.UnitId, x.Level });
+                    table.ForeignKey(
+                        name: "FK_UnitLevels_Units_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "Units",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UnitPriceMaterials",
+                columns: table => new
+                {
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
+                    UnitId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UnitPriceMaterials", x => new { x.UnitId, x.MaterialId });
+                    table.ForeignKey(
+                        name: "FK_UnitPriceMaterials_Materials_MaterialId",
+                        column: x => x.MaterialId,
+                        principalTable: "Materials",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UnitPriceMaterials_Units_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "Units",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UpgradePriceMaterials",
+                columns: table => new
+                {
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
+                    UpgradeId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UpgradePriceMaterials", x => new { x.UpgradeId, x.MaterialId });
+                    table.ForeignKey(
+                        name: "FK_UpgradePriceMaterials_Materials_MaterialId",
+                        column: x => x.MaterialId,
+                        principalTable: "Materials",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UpgradePriceMaterials_Upgrades_UpgradeId",
+                        column: x => x.UpgradeId,
+                        principalTable: "Upgrades",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Alliances",
                 columns: table => new
                 {
@@ -189,38 +420,6 @@ namespace GalacticEmpire.Dal.Migrations
                     table.ForeignKey(
                         name: "FK_Alliances_Empires_LeaderEmpireId",
                         column: x => x.LeaderEmpireId,
-                        principalTable: "Empires",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Points = table.Column<int>(type: "int", nullable: false),
-                    EmpireId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Empires_EmpireId",
-                        column: x => x.EmpireId,
                         principalTable: "Empires",
                         principalColumn: "Id");
                 });
@@ -332,8 +531,7 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlanetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlanetId1 = table.Column<int>(type: "int", nullable: true),
+                    PlanetId = table.Column<int>(type: "int", nullable: false),
                     EmpireId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -345,55 +543,10 @@ namespace GalacticEmpire.Dal.Migrations
                         principalTable: "Empires",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_EmpirePlanets_Planets_PlanetId1",
-                        column: x => x.PlanetId1,
-                        principalTable: "Planets",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlanetPriceMaterials",
-                columns: table => new
-                {
-                    MaterialId = table.Column<int>(type: "int", nullable: false),
-                    PlanetId = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlanetPriceMaterials", x => new { x.PlanetId, x.MaterialId });
-                    table.ForeignKey(
-                        name: "FK_PlanetPriceMaterials_Materials_MaterialId",
-                        column: x => x.MaterialId,
-                        principalTable: "Materials",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_PlanetPriceMaterials_Planets_PlanetId",
+                        name: "FK_EmpirePlanets_Planets_PlanetId",
                         column: x => x.PlanetId,
                         principalTable: "Planets",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlanetProperties",
-                columns: table => new
-                {
-                    PlanetId = table.Column<int>(type: "int", nullable: false),
-                    BaseFood = table.Column<int>(type: "int", nullable: false),
-                    BaseQuartz = table.Column<int>(type: "int", nullable: false),
-                    BaseBitcoin = table.Column<int>(type: "int", nullable: false),
-                    MaxUnitCount = table.Column<int>(type: "int", nullable: false),
-                    MaxPopulationCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlanetProperties", x => x.PlanetId);
-                    table.ForeignKey(
-                        name: "FK_PlanetProperties_Planets_PlanetId",
-                        column: x => x.PlanetId,
-                        principalTable: "Planets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -401,10 +554,9 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: table => new
                 {
                     Level = table.Column<int>(type: "int", nullable: false),
-                    UnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UnitId = table.Column<int>(type: "int", nullable: false),
                     EmpireId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: false),
-                    UnitId1 = table.Column<int>(type: "int", nullable: true),
                     FightPoint_AttackPointMultiplier = table.Column<double>(type: "float", nullable: true),
                     FightPoint_DefensePointMultiplier = table.Column<double>(type: "float", nullable: true),
                     FightPoint_AttackPointBonus = table.Column<int>(type: "int", nullable: true),
@@ -419,75 +571,9 @@ namespace GalacticEmpire.Dal.Migrations
                         principalTable: "Empires",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_EmpireUnits_Units_UnitId1",
-                        column: x => x.UnitId1,
-                        principalTable: "Units",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UnitLevels",
-                columns: table => new
-                {
-                    Level = table.Column<int>(type: "int", nullable: false),
-                    UnitId = table.Column<int>(type: "int", nullable: false),
-                    AttackPoint = table.Column<int>(type: "int", nullable: false),
-                    DefensePoint = table.Column<int>(type: "int", nullable: false),
-                    TrainingTime = table.Column<TimeSpan>(type: "time", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UnitLevels", x => new { x.UnitId, x.Level });
-                    table.ForeignKey(
-                        name: "FK_UnitLevels_Units_UnitId",
+                        name: "FK_EmpireUnits_Units_UnitId",
                         column: x => x.UnitId,
                         principalTable: "Units",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UnitPriceMaterials",
-                columns: table => new
-                {
-                    MaterialId = table.Column<int>(type: "int", nullable: false),
-                    UnitId = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UnitPriceMaterials", x => new { x.UnitId, x.MaterialId });
-                    table.ForeignKey(
-                        name: "FK_UnitPriceMaterials_Materials_MaterialId",
-                        column: x => x.MaterialId,
-                        principalTable: "Materials",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_UnitPriceMaterials_Units_UnitId",
-                        column: x => x.UnitId,
-                        principalTable: "Units",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UpgradePriceMaterials",
-                columns: table => new
-                {
-                    MaterialId = table.Column<int>(type: "int", nullable: false),
-                    UpgradeId = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UpgradePriceMaterials", x => new { x.UpgradeId, x.MaterialId });
-                    table.ForeignKey(
-                        name: "FK_UpgradePriceMaterials_Materials_MaterialId",
-                        column: x => x.MaterialId,
-                        principalTable: "Materials",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_UpgradePriceMaterials_Upgrades_UpgradeId",
-                        column: x => x.UpgradeId,
-                        principalTable: "Upgrades",
                         principalColumn: "Id");
                 });
 
@@ -544,91 +630,6 @@ namespace GalacticEmpire.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
-                columns: table => new
-                {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AttackUnits",
                 columns: table => new
                 {
@@ -680,67 +681,67 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "User", "307dbd17-233e-4b46-936f-883bf760fc49", "User", "USER" },
-                    { "Admin", "aac6ee81-f4ff-44a4-b9e5-c4a517ad5838", "Admin", "ADMIN" }
+                    { "User", "7b528db7-5ad9-4952-a0bb-02d0e31368d2", "User", "USER" },
+                    { "Admin", "05d95bc9-5abe-4368-8161-df05d3f7f4f2", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Empires",
-                columns: new[] { "Id", "MaxNumberOfPopulation", "MaxNumberOfUnits", "Name", "OwnedAllianceId", "OwnerId", "Population" },
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Points", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 0, 100, "Arkansas", null, "user10", 100 },
-                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 0, 100, "Londonderry", null, "user9", 100 },
-                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 0, 100, "Kipling", null, "user8", 100 },
-                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 0, 100, "Melody", null, "user7", 100 },
-                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 0, 100, "Center", null, "user1", 100 },
-                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 0, 100, "Carioca", null, "user5", 100 },
-                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 0, 100, "Melrose", null, "user2", 100 },
-                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 0, 100, "Norway Maple", null, "user6", 100 },
-                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 0, 100, "Algoma", null, "user4", 100 },
-                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 0, 100, "Gale", null, "user3", 100 }
+                    { "user10", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HFILINKOV9", "AQAAAAEAACcQAAAAEMChAYvOWT2brpxUxZ1EmFKOrq2uUIq6AXfnqsuzv/tv0urRLuXTvPBZGO9sbyV9tQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hfilinkov9" },
+                    { "user9", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "KSEELY8", "AQAAAAEAACcQAAAAEPbdrkFCa58VN2OSdSuOHWGK03jzOMkd3ju2IBIOzNCt6p00QHg85iPe5ZyNHu8NcQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "kseely8" },
+                    { "user8", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "ERYLETT7", "AQAAAAEAACcQAAAAENSXcauWg/4RoDHDB7ZbL6TwN87Z3H73rHbkLNLNBL4QXg5lWtV7kpzKqhSn8RxYnw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "erylett7" },
+                    { "user7", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "GBOSKELL6", "AQAAAAEAACcQAAAAEKGX3szafKUjuFqrV4Zetr0M8d5jwGY6uc6/diyBZxgH/5uN/kNIUh0M89OmDZ+CXg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "gboskell6" },
+                    { "user6", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HCHEVERELL5", "AQAAAAEAACcQAAAAEO5UYj5TWMOIZgi07D7sQcSjWrhv7RTBaKDTn/pm52YQXHQddNKmk5H0rK4pkoDzDQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hcheverell5" },
+                    { "user5", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "TMAXWORTHY4", "AQAAAAEAACcQAAAAEKDDEQgnqgShW3AM4K80amVrOzLmYXWn/gZNeu646jtt9aFltcZIu2qbRqAVfcRLIg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "tmaxworthy4" },
+                    { "user4", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "JMELIOR3", "AQAAAAEAACcQAAAAEDtALUOcAumSNEEUXI3wzJ21K2LmlNImm01gt3hw4uKFG9WjU9UrzK20B2zX5UhCJw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "jmelior3" },
+                    { "user3", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "BLYPTRATT2", "AQAAAAEAACcQAAAAEJNilWtIMCW3bQRdMs+jOIpfFCrFBYUUrPZPp3WiI7ksp86EjjBZBUijhHyyVrI0Sg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "blyptratt2" },
+                    { "user2", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "LTIPPIN1", "AQAAAAEAACcQAAAAEBUYxKzZL9mTbVwWbP+MYHBxF5jj1+lCLfN373IC0U9tGANQj5QB5fV79qdrBTkbcQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "ltippin1" },
+                    { "user1", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "SSTRAHAN0", "AQAAAAEAACcQAAAAEAM5xcISKWd9qjWS55758OryPDHOWpqLi6H9O+8M22Jp63GO77rwa/j6xxUl36bwcw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "sstrahan0" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Events",
-                columns: new[] { "Id", "Description", "EventType", "Name" },
+                columns: new[] { "Id", "Description", "EventType", "ImageUrl", "Name" },
                 values: new object[,]
                 {
-                    { 1, "A termelés csökken -15%-kal a rossz termelés miatt.", "event_badharvest", "Rossz termés" },
-                    { 2, "A termelés nő 15%-kal a jó termelés miatt.", "event_goodharvest", "Jó termés" },
-                    { 3, "Találtál egy elhagyott rakományt, amivel találtál nyersanyagokat! Mindeből 10000 db jóváírva a birodalomhoz.", "event_jackpot", "Jackpot" },
-                    { 4, "A lakosság nő 100 fővel, mert az emberek jól érzik magukat a birodalomban.", "event_satisfiedpeople", "Elégedett emberek" },
-                    { 6, "Katonáid elégedettek, ezért 20%-kal nagyobb a támadó és védekező erejük.", "event_satisfiedunits", "Elégedett katonák" },
-                    { 5, "A lakosság csökken -100 fővel, mert az emberek nem érzik jól magukat a birodalomban.", "event_unsatisfiedpeople", "Elégedetlen emberek" },
-                    { 7, "Katonáid elégedetlenek, ezért 20%-kal kevesebb a támadó és védekező erejük.", "event_unsatisfiedunits", "Elégedetlen katonák" }
+                    { 1, "A termelés csökken -15%-kal a rossz termelés miatt.", "event_badharvest", null, "Rossz termés" },
+                    { 7, "Katonáid elégedetlenek, ezért 20%-kal kevesebb a támadó és védekező erejük.", "event_unsatisfiedunits", null, "Elégedetlen katonák" },
+                    { 5, "A lakosság csökken -100 fővel, mert az emberek nem érzik jól magukat a birodalomban.", "event_unsatisfiedpeople", null, "Elégedetlen emberek" },
+                    { 6, "Katonáid elégedettek, ezért 20%-kal nagyobb a támadó és védekező erejük.", "event_satisfiedunits", null, "Elégedett katonák" },
+                    { 4, "A lakosság nő 100 fővel, mert az emberek jól érzik magukat a birodalomban.", "event_satisfiedpeople", null, "Elégedett emberek" },
+                    { 2, "A termelés nő 15%-kal a jó termelés miatt.", "event_goodharvest", null, "Jó termés" },
+                    { 3, "Találtál egy elhagyott rakományt, amivel találtál nyersanyagokat! Mindeből 10000 db jóváírva a birodalomhoz.", "event_jackpot", null, "Jackpot" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Materials",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "ImageUrl", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Kvarc" },
-                    { 2, "Élelem" },
-                    { 3, "Bitcoin" }
+                    { 2, null, "Élelem" },
+                    { 1, null, "Kvarc" },
+                    { 3, null, "Bitcoin" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Planets",
-                columns: new[] { "Id", "CapturingTime", "Description", "Name", "PlanetType" },
+                columns: new[] { "Id", "CapturingTime", "Description", "ImageUrl", "Name", "PlanetType" },
                 values: new object[,]
                 {
-                    { 8, new TimeSpan(0, 0, 5, 0, 0), "Kevés népességszámához képest egy rendkívűl gazdag bolygóról beszélünk. Rengeteg kvarcot és bitcoint bányásznak.", "Nusobos", "planet_nusobos" },
-                    { 11, new TimeSpan(0, 0, 5, 0, 0), "Nem egy nagy bolygó, de bitcoinban gazdagodik rendesen. Itt lehet kapni RX 3080 videókártyát az biztos.", "Zuccars", "planet_zuccars" },
-                    { 10, new TimeSpan(0, 0, 5, 0, 0), "A kozmikus háborúk miatt néhány bolygón továbbra is felkészültek a következő háborúra. Ezen a bolygón főleg hadegységek szoktak szállásolni.", "Yoiphus", "planet_yoiphus" },
-                    { 9, new TimeSpan(0, 0, 5, 0, 0), "A 224. galaktikus űrcsatában vesztes oldalon állt, aminek következtében elszegényedett. Vedd be a birodalomba és lendítsd fel a gazdaságát!", "Sidatania", "planet_sidatania" },
-                    { 7, new TimeSpan(0, 0, 5, 0, 0), "Kereskedőbolygó, aminek a kvarc a fő export cikke. A kvarc ami gazdaggá tette ezt a bolygót.", "Heolara", "planet_heolara" },
-                    { 5, new TimeSpan(0, 0, 5, 0, 0), "Ez egy teljesen egyszerű bolygó, ami mindent kitermel magának és nincs szüksége export cikkek vételére.", "Dillon", "planet_dillon" },
-                    { 6, new TimeSpan(0, 0, 5, 0, 0), "Egy átlagos bolygó az X-12Z Naprendszerben. Vajon tényleg átlagos?", "Gingeria", "planet_gingeria" },
-                    { 1, new TimeSpan(0, 0, 5, 0, 0), "Főleg katonai létesítményeket üzemeltetnek a bolygón. Ha háborúzni szeretnél, ezt a bolygót csatold a birodalmadba!", "Avypso", "planet_avypso" },
-                    { 3, new TimeSpan(0, 0, 5, 0, 0), "Rendkívűli bitcoin bányászat folyik ezen a bolygón, ami kiteszi annak gazdaságát.", "Cribatune", "planet_cribatune" },
-                    { 4, new TimeSpan(0, 0, 5, 0, 0), "Ez egy olyan bolygó, ahol főként csak a bányászok élnek, mert rendkívűl sok kvarc található a felszín alatt.", "Darvis", "planet_darvis" },
-                    { 2, new TimeSpan(0, 0, 5, 0, 0), "Egy bolygó, amin nagyon sok ember él és elég jól áll nyersanyaggal. Viszont azt mondják lakik erre egy őrült tudós...", "Föld C-137", "planet_c137earth" }
+                    { 4, new TimeSpan(0, 0, 5, 0, 0), "Ez egy olyan bolygó, ahol főként csak a bányászok élnek, mert rendkívűl sok kvarc található a felszín alatt.", null, "Darvis", "planet_darvis" },
+                    { 3, new TimeSpan(0, 0, 5, 0, 0), "Rendkívűli bitcoin bányászat folyik ezen a bolygón, ami kiteszi annak gazdaságát.", null, "Cribatune", "planet_cribatune" },
+                    { 2, new TimeSpan(0, 0, 5, 0, 0), "Egy bolygó, amin nagyon sok ember él és elég jól áll nyersanyaggal. Viszont azt mondják lakik erre egy őrült tudós...", null, "Föld C-137", "planet_c137earth" },
+                    { 10, new TimeSpan(0, 0, 5, 0, 0), "A kozmikus háborúk miatt néhány bolygón továbbra is felkészültek a következő háborúra. Ezen a bolygón főleg hadegységek szoktak szállásolni.", null, "Yoiphus", "planet_yoiphus" },
+                    { 9, new TimeSpan(0, 0, 5, 0, 0), "A 224. galaktikus űrcsatában vesztes oldalon állt, aminek következtében elszegényedett. Vedd be a birodalomba és lendítsd fel a gazdaságát!", null, "Sidatania", "planet_sidatania" },
+                    { 8, new TimeSpan(0, 0, 5, 0, 0), "Kevés népességszámához képest egy rendkívűl gazdag bolygóról beszélünk. Rengeteg kvarcot és bitcoint bányásznak.", null, "Nusobos", "planet_nusobos" },
+                    { 7, new TimeSpan(0, 0, 5, 0, 0), "Kereskedőbolygó, aminek a kvarc a fő export cikke. A kvarc ami gazdaggá tette ezt a bolygót.", null, "Heolara", "planet_heolara" },
+                    { 6, new TimeSpan(0, 0, 5, 0, 0), "Egy átlagos bolygó az X-12Z Naprendszerben. Vajon tényleg átlagos?", null, "Gingeria", "planet_gingeria" },
+                    { 5, new TimeSpan(0, 0, 5, 0, 0), "Ez egy teljesen egyszerű bolygó, ami mindent kitermel magának és nincs szüksége export cikkek vételére.", null, "Dillon", "planet_dillon" },
+                    { 11, new TimeSpan(0, 0, 5, 0, 0), "Nem egy nagy bolygó, de bitcoinban gazdagodik rendesen. Itt lehet kapni RX 3080 videókártyát az biztos.", null, "Zuccars", "planet_zuccars" },
+                    { 1, new TimeSpan(0, 0, 5, 0, 0), "Főleg katonai létesítményeket üzemeltetnek a bolygón. Ha háborúzni szeretnél, ezt a bolygót csatold a birodalmadba!", null, "Avypso", "planet_avypso" }
                 });
 
             migrationBuilder.InsertData(
@@ -748,87 +749,67 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "ImageUrl", "MercenaryPerHour", "Name", "RankPoint", "SupplyPerHour" },
                 values: new object[,]
                 {
-                    { 1, "later", 2, "Napvitorlás", 2, 5 },
                     { 2, "later", 3, "Űrcirkáló", 3, 6 },
-                    { 3, "later", 5, "Vasember", 5, 8 },
+                    { 5, "later", 2, "Felderítő drón", 1, 0 },
                     { 4, "later", 8, "Ezeréves sólyom", 8, 15 },
-                    { 5, "later", 2, "Felderítő drón", 1, 0 }
+                    { 3, "later", 5, "Vasember", 5, 8 },
+                    { 1, "later", 2, "Napvitorlás", 2, 5 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Upgrades",
-                columns: new[] { "Id", "Description", "Name", "UpgradeTime", "UpgradeType" },
+                columns: new[] { "Id", "Description", "ImageUrl", "Name", "UpgradeTime", "UpgradeType" },
                 values: new object[,]
                 {
-                    { 2, "A bolygó további 20%-kal több ételt termel a birodalom számára.", "Interdimenzionális gasztrokert", new TimeSpan(0, 0, 1, 0, 0), "upgrade_interdimensionalgastrogarden" },
-                    { 3, "A birodalomban lévő egységek védelme 30%-kal nő.", "Kinetikus pajzs", new TimeSpan(0, 0, 1, 0, 0), "upgrade_kineticshield" },
-                    { 4, "A birodalomban lévő egységek támadása 30%-kal nő.", "Lézerfegyverek", new TimeSpan(0, 0, 1, 0, 0), "upgrade_laserweapon" },
-                    { 5, "A bolygó további 20%-kal több kvarcot termel a birodalom számára.", "Kvarcbánya", new TimeSpan(0, 0, 1, 0, 0), "upgrade_quartzmine" }
+                    { 7, "A birodalomban lévő egységek támadása és védelme 20%-kal nő.", null, "Vibránium páncél", new TimeSpan(0, 0, 1, 0, 0), "upgrade_vibraniumarmor" },
+                    { 6, "A birodalom maximális egységszáma 10000 fővel nő.", null, "Titkos katonai bázis", new TimeSpan(0, 0, 1, 0, 0), "upgrade_secretmilitarybase" },
+                    { 5, "A bolygó további 20%-kal több kvarcot termel a birodalom számára.", null, "Kvarcbánya", new TimeSpan(0, 0, 1, 0, 0), "upgrade_quartzmine" },
+                    { 3, "A birodalomban lévő egységek védelme 30%-kal nő.", null, "Kinetikus pajzs", new TimeSpan(0, 0, 1, 0, 0), "upgrade_kineticshield" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Upgrades",
-                columns: new[] { "Id", "Description", "Name", "UpgradeTime", "UpgradeType" },
+                columns: new[] { "Id", "Description", "ImageUrl", "Name", "UpgradeTime", "UpgradeType" },
                 values: new object[,]
                 {
-                    { 6, "A birodalom maximális egységszáma 10000 fővel nő.", "Titkos katonai bázis", new TimeSpan(0, 0, 1, 0, 0), "upgrade_secretmilitarybase" },
-                    { 7, "A birodalomban lévő egységek támadása és védelme 20%-kal nő.", "Vibránium páncél", new TimeSpan(0, 0, 1, 0, 0), "upgrade_vibraniumarmor" },
-                    { 8, "A bolygó további 20%-kal több bitcoint termel a birodalom számára.", "Videókártya bővítés", new TimeSpan(0, 0, 1, 0, 0), "upgrade_videocardexpension" },
-                    { 1, "A birodalomban lévő maximális populáció emelkedik 1000000 fővel és az új lakóhelyeknek köszönhetően a jelenlegi populáció 20%-kal nő.", "Futurisztikus lakónegyed", new TimeSpan(0, 0, 1, 0, 0), "upgrade_futuristicresidentialarea" }
+                    { 2, "A bolygó további 20%-kal több ételt termel a birodalom számára.", null, "Interdimenzionális gasztrokert", new TimeSpan(0, 0, 1, 0, 0), "upgrade_interdimensionalgastrogarden" },
+                    { 1, "A birodalomban lévő maximális populáció emelkedik 1000000 fővel és az új lakóhelyeknek köszönhetően a jelenlegi populáció 20%-kal nő.", null, "Futurisztikus lakónegyed", new TimeSpan(0, 0, 1, 0, 0), "upgrade_futuristicresidentialarea" },
+                    { 8, "A bolygó további 20%-kal több bitcoint termel a birodalom számára.", null, "Videókártya bővítés", new TimeSpan(0, 0, 1, 0, 0), "upgrade_videocardexpension" },
+                    { 4, "A birodalomban lévő egységek támadása 30%-kal nő.", null, "Lézerfegyverek", new TimeSpan(0, 0, 1, 0, 0), "upgrade_laserweapon" }
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "EmpireId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Points", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "user1", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, false, new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), false, null, null, "SSTRAHAN0", "AQAAAAEAACcQAAAAEOHeSHpTqMNTmXzcvgpUmP9GleoEm/1/VLNNFSNmFQ35/X1thL1jHtd28hgq+hweAg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "sstrahan0" },
-                    { "user2", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, false, new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), false, null, null, "LTIPPIN1", "AQAAAAEAACcQAAAAENCatINdhYfWM0P1oYZQjWKB+KTSJH5N9W5YL5Y9QU3JJPLGRhj3FQD4QwyVh8nCaA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "ltippin1" },
-                    { "user3", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, false, new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), false, null, null, "BLYPTRATT2", "AQAAAAEAACcQAAAAEPR7ic/Go0ByxAQlsISepYXqc7GtjLOAfxPhMRYmhU/aTsWmUSJYo/cdRpPXkIwdyw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "blyptratt2" },
-                    { "user4", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, false, new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), false, null, null, "JMELIOR3", "AQAAAAEAACcQAAAAEK9sXl4Ev5eiygXS3JsLp32EOGg6Sotf45j5YPzYbdKfjjNr9YZ5TFck/7SlV2g6Aw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "jmelior3" },
-                    { "user5", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, false, new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), false, null, null, "TMAXWORTHY4", "AQAAAAEAACcQAAAAECmAmNa6F0F5Xb/mn+EgX8nXS+yTtY4DNuZuPr20/VcGLH42TaUh4yi0WoBTPcHo0g==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "tmaxworthy4" },
-                    { "user6", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, false, new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), false, null, null, "HCHEVERELL5", "AQAAAAEAACcQAAAAEMZrKoo9QvcYFwMm2bYrw2VfE1aFoTwpxM90RpghH2a6FSJAeK41QszOE+skDhi4sg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hcheverell5" },
-                    { "user7", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, false, new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), false, null, null, "GBOSKELL6", "AQAAAAEAACcQAAAAECZlHj3oSjJ0I7mLMnGsGE8iltoHgo4JWn5ZZtI96xisNarynqYZ8jXaqcCWfp+icw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "gboskell6" },
-                    { "user8", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, false, new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), false, null, null, "ERYLETT7", "AQAAAAEAACcQAAAAEPan2FNn36Ns6GHXP1GPcOzcgLeZkhVuheLaTPyopXMPx8fz1jjeprHQO5o29PQsnw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "erylett7" },
-                    { "user9", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, false, new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), false, null, null, "KSEELY8", "AQAAAAEAACcQAAAAEPp9KnqvOPEYcNym+tSEzqvwJRAsr54JBCqAyraaYngXIK448qVc0ZIO0oHvEWBB2g==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "kseely8" },
-                    { "user10", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, false, new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), false, null, null, "HFILINKOV9", "AQAAAAEAACcQAAAAENS2ogm/eRxPrItOFFZHbyrvjn+dOnDlkpQKLmchVNQC1qujejrQ0ePmtQQtOsSDaw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hfilinkov9" }
+                    { "User", "user10" },
+                    { "Admin", "user1" },
+                    { "User", "user2" },
+                    { "User", "user3" },
+                    { "User", "user4" },
+                    { "User", "user9" },
+                    { "User", "user6" },
+                    { "User", "user7" },
+                    { "User", "user8" },
+                    { "User", "user5" }
                 });
 
             migrationBuilder.InsertData(
-                table: "EmpireMaterials",
-                columns: new[] { "EmpireId", "MaterialId", "Amount", "BaseProduction", "ProductionMultiplier" },
+                table: "Empires",
+                columns: new[] { "Id", "MaxNumberOfPopulation", "MaxNumberOfUnits", "Name", "OwnedAllianceId", "OwnerId", "Population" },
                 values: new object[,]
                 {
-                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 1, 10000, 10.0, 1.0 }
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 1000000, 100, "Center", null, "user1", 1000 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 1000000, 100, "Londonderry", null, "user9", 1000 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 1000000, 100, "Kipling", null, "user8", 1000 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 1000000, 100, "Melody", null, "user7", 1000 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 1000000, 100, "Norway Maple", null, "user6", 1000 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 1000000, 100, "Carioca", null, "user5", 1000 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 1000000, 100, "Algoma", null, "user4", 1000 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 1000000, 100, "Gale", null, "user3", 1000 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 1000000, 100, "Melrose", null, "user2", 1000 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 1000000, 100, "Arkansas", null, "user10", 1000 }
                 });
 
             migrationBuilder.InsertData(
@@ -836,24 +817,17 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "MaterialId", "PlanetId", "Amount" },
                 values: new object[,]
                 {
-                    { 3, 7, 10000 },
-                    { 3, 8, 10000 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "PlanetPriceMaterials",
-                columns: new[] { "MaterialId", "PlanetId", "Amount" },
-                values: new object[,]
-                {
-                    { 3, 6, 10000 },
-                    { 3, 10, 10000 },
-                    { 3, 11, 10000 },
-                    { 3, 9, 10000 },
-                    { 3, 5, 10000 },
-                    { 3, 3, 10000 },
-                    { 3, 4, 10000 },
                     { 3, 1, 10000 },
-                    { 3, 2, 10000 }
+                    { 3, 6, 10000 },
+                    { 3, 9, 10000 },
+                    { 3, 8, 10000 },
+                    { 3, 7, 10000 },
+                    { 3, 10, 10000 },
+                    { 3, 5, 10000 },
+                    { 3, 11, 10000 },
+                    { 3, 3, 10000 },
+                    { 3, 2, 10000 },
+                    { 3, 4, 10000 }
                 });
 
             migrationBuilder.InsertData(
@@ -861,17 +835,17 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "PlanetId", "BaseBitcoin", "BaseFood", "BaseQuartz", "MaxPopulationCount", "MaxUnitCount" },
                 values: new object[,]
                 {
-                    { 11, 200, 85, 50, 305000, 20 },
-                    { 10, 50, 140, 70, 450000, 240 },
                     { 4, 30, 20, 180, 50000, 10 },
-                    { 9, 100, 80, 80, 500000, 50 },
-                    { 1, 20, 140, 70, 100000, 200 },
-                    { 2, 60, 100, 120, 1000000, 100 },
-                    { 7, 80, 40, 170, 250000, 140 },
-                    { 6, 120, 60, 80, 700000, 120 },
                     { 3, 150, 40, 75, 240000, 110 },
                     { 5, 100, 100, 100, 100000, 100 },
-                    { 8, 160, 70, 140, 85000, 60 }
+                    { 6, 120, 60, 80, 700000, 120 },
+                    { 2, 60, 100, 120, 1000000, 100 },
+                    { 10, 50, 140, 70, 450000, 240 },
+                    { 7, 80, 40, 170, 250000, 140 },
+                    { 8, 160, 70, 140, 85000, 60 },
+                    { 1, 20, 140, 70, 100000, 200 },
+                    { 9, 100, 80, 80, 500000, 50 },
+                    { 11, 200, 85, 50, 305000, 20 }
                 });
 
             migrationBuilder.InsertData(
@@ -879,21 +853,21 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Level", "UnitId", "AttackPoint", "DefensePoint", "TrainingTime" },
                 values: new object[,]
                 {
-                    { 3, 5, 0, 0, new TimeSpan(0, 0, 0, 20, 0) },
-                    { 2, 5, 0, 0, new TimeSpan(0, 0, 0, 15, 0) },
-                    { 1, 5, 0, 0, new TimeSpan(0, 0, 0, 10, 0) },
-                    { 3, 4, 20, 24, new TimeSpan(0, 0, 1, 0, 0) },
-                    { 2, 4, 15, 18, new TimeSpan(0, 0, 0, 45, 0) },
                     { 1, 4, 10, 12, new TimeSpan(0, 0, 0, 30, 0) },
-                    { 3, 3, 14, 14, new TimeSpan(0, 0, 0, 50, 0) },
+                    { 1, 5, 0, 0, new TimeSpan(0, 0, 0, 10, 0) },
+                    { 1, 3, 7, 7, new TimeSpan(0, 0, 0, 25, 0) },
                     { 2, 3, 10, 10, new TimeSpan(0, 0, 0, 37, 0) },
-                    { 3, 2, 8, 12, new TimeSpan(0, 0, 0, 40, 0) },
+                    { 3, 3, 14, 14, new TimeSpan(0, 0, 0, 50, 0) },
                     { 2, 2, 6, 9, new TimeSpan(0, 0, 0, 30, 0) },
+                    { 2, 4, 15, 18, new TimeSpan(0, 0, 0, 45, 0) },
+                    { 3, 4, 20, 24, new TimeSpan(0, 0, 1, 0, 0) },
+                    { 2, 5, 0, 0, new TimeSpan(0, 0, 0, 15, 0) },
+                    { 3, 2, 8, 12, new TimeSpan(0, 0, 0, 40, 0) },
                     { 1, 2, 4, 6, new TimeSpan(0, 0, 0, 20, 0) },
                     { 3, 1, 4, 12, new TimeSpan(0, 0, 0, 30, 0) },
                     { 2, 1, 3, 9, new TimeSpan(0, 0, 0, 22, 0) },
                     { 1, 1, 2, 6, new TimeSpan(0, 0, 0, 15, 0) },
-                    { 1, 3, 7, 7, new TimeSpan(0, 0, 0, 25, 0) }
+                    { 3, 5, 0, 0, new TimeSpan(0, 0, 0, 20, 0) }
                 });
 
             migrationBuilder.InsertData(
@@ -902,10 +876,10 @@ namespace GalacticEmpire.Dal.Migrations
                 values: new object[,]
                 {
                     { 3, 2, 140 },
-                    { 3, 3, 300 },
-                    { 3, 1, 100 },
                     { 3, 4, 420 },
-                    { 3, 5, 100 }
+                    { 3, 1, 100 },
+                    { 3, 5, 100 },
+                    { 3, 3, 300 }
                 });
 
             migrationBuilder.InsertData(
@@ -913,38 +887,51 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "MaterialId", "UpgradeId", "Amount" },
                 values: new object[,]
                 {
-                    { 1, 6, 10000 },
-                    { 1, 5, 10000 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "UpgradePriceMaterials",
-                columns: new[] { "MaterialId", "UpgradeId", "Amount" },
-                values: new object[,]
-                {
-                    { 1, 4, 10000 },
-                    { 1, 7, 10000 },
                     { 1, 2, 10000 },
-                    { 1, 1, 10000 },
+                    { 1, 8, 10000 },
+                    { 1, 7, 10000 },
+                    { 1, 6, 10000 },
+                    { 1, 5, 10000 },
                     { 1, 3, 10000 },
-                    { 1, 8, 10000 }
+                    { 1, 1, 10000 },
+                    { 1, 4, 10000 }
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
+                table: "EmpireMaterials",
+                columns: new[] { "EmpireId", "MaterialId", "Amount", "BaseProduction", "ProductionMultiplier" },
                 values: new object[,]
                 {
-                    { "Admin", "user1" },
-                    { "User", "user2" },
-                    { "User", "user3" },
-                    { "User", "user4" },
-                    { "User", "user5" },
-                    { "User", "user6" },
-                    { "User", "user7" },
-                    { "User", "user8" },
-                    { "User", "user9" },
-                    { "User", "user10" }
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 3, 10000, 10.0, 1.0 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -1000,12 +987,6 @@ namespace GalacticEmpire.Dal.Migrations
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_EmpireId",
-                table: "AspNetUsers",
-                column: "EmpireId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -1076,9 +1057,9 @@ namespace GalacticEmpire.Dal.Migrations
                 column: "EmpireId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmpirePlanets_PlanetId1",
+                name: "IX_EmpirePlanets_PlanetId",
                 table: "EmpirePlanets",
-                column: "PlanetId1");
+                column: "PlanetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmpirePlanetUpgrades_UpgradeId",
@@ -1086,9 +1067,16 @@ namespace GalacticEmpire.Dal.Migrations
                 column: "UpgradeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmpireUnits_UnitId1",
+                name: "IX_Empires_OwnerId",
+                table: "Empires",
+                column: "OwnerId",
+                unique: true,
+                filter: "[OwnerId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmpireUnits_UnitId",
                 table: "EmpireUnits",
-                column: "UnitId1");
+                column: "UnitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_Expiration",
@@ -1190,9 +1178,6 @@ namespace GalacticEmpire.Dal.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Attacks");
 
             migrationBuilder.DropTable(
@@ -1215,6 +1200,9 @@ namespace GalacticEmpire.Dal.Migrations
 
             migrationBuilder.DropTable(
                 name: "Planets");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

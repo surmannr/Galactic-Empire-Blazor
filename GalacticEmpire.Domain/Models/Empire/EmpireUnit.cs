@@ -13,7 +13,7 @@ namespace GalacticEmpire.Domain.Models.EmpireModel
         public int Amount { get; set; }
         public int Level { get; set; }
 
-        public Guid UnitId { get; set; }
+        public int UnitId { get; set; }
         public Unit Unit { get; set; }
 
         public Guid EmpireId { get; set; }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GalacticEmpire.Dal.Migrations
 {
     [DbContext(typeof(GalacticEmpireDbContext))]
-    [Migration("20210831141546_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20210912145452_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -190,12 +190,16 @@ namespace GalacticEmpire.Dal.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("OwnerId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Population")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId")
+                        .IsUnique()
+                        .HasFilter("[OwnerId] IS NOT NULL");
 
                     b.ToTable("Empires");
 
@@ -203,92 +207,92 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Center",
                             OwnerId = "user1",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Melrose",
                             OwnerId = "user2",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Gale",
                             OwnerId = "user3",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Algoma",
                             OwnerId = "user4",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Carioca",
                             OwnerId = "user5",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Norway Maple",
                             OwnerId = "user6",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Melody",
                             OwnerId = "user7",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Kipling",
                             OwnerId = "user8",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Londonderry",
                             OwnerId = "user9",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Arkansas",
                             OwnerId = "user10",
-                            Population = 100
+                            Population = 1000
                         });
                 });
 
@@ -594,17 +598,14 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<Guid>("EmpireId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PlanetId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("PlanetId1")
+                    b.Property<int>("PlanetId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EmpireId");
 
-                    b.HasIndex("PlanetId1");
+                    b.HasIndex("PlanetId");
 
                     b.ToTable("EmpirePlanets");
                 });
@@ -629,8 +630,8 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<Guid>("EmpireId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UnitId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UnitId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
@@ -638,12 +639,9 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UnitId1")
-                        .HasColumnType("int");
-
                     b.HasKey("EmpireId", "UnitId", "Level");
 
-                    b.HasIndex("UnitId1");
+                    b.HasIndex("UnitId");
 
                     b.ToTable("EmpireUnits");
                 });
@@ -662,6 +660,9 @@ namespace GalacticEmpire.Dal.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -678,6 +679,9 @@ namespace GalacticEmpire.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -715,6 +719,9 @@ namespace GalacticEmpire.Dal.Migrations
                         .HasColumnType("time");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -1221,6 +1228,9 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -1325,9 +1335,6 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("EmpireId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -1366,9 +1373,6 @@ namespace GalacticEmpire.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmpireId")
-                        .IsUnique();
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -1385,11 +1389,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user1",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "SSTRAHAN0",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOHeSHpTqMNTmXzcvgpUmP9GleoEm/1/VLNNFSNmFQ35/X1thL1jHtd28hgq+hweAg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAM5xcISKWd9qjWS55758OryPDHOWpqLi6H9O+8M22Jp63GO77rwa/j6xxUl36bwcw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1401,11 +1404,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user2",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "LTIPPIN1",
-                            PasswordHash = "AQAAAAEAACcQAAAAENCatINdhYfWM0P1oYZQjWKB+KTSJH5N9W5YL5Y9QU3JJPLGRhj3FQD4QwyVh8nCaA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBUYxKzZL9mTbVwWbP+MYHBxF5jj1+lCLfN373IC0U9tGANQj5QB5fV79qdrBTkbcQ==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1417,11 +1419,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user3",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "BLYPTRATT2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPR7ic/Go0ByxAQlsISepYXqc7GtjLOAfxPhMRYmhU/aTsWmUSJYo/cdRpPXkIwdyw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJNilWtIMCW3bQRdMs+jOIpfFCrFBYUUrPZPp3WiI7ksp86EjjBZBUijhHyyVrI0Sg==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1433,11 +1434,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user4",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "JMELIOR3",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK9sXl4Ev5eiygXS3JsLp32EOGg6Sotf45j5YPzYbdKfjjNr9YZ5TFck/7SlV2g6Aw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDtALUOcAumSNEEUXI3wzJ21K2LmlNImm01gt3hw4uKFG9WjU9UrzK20B2zX5UhCJw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1449,11 +1449,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user5",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "TMAXWORTHY4",
-                            PasswordHash = "AQAAAAEAACcQAAAAECmAmNa6F0F5Xb/mn+EgX8nXS+yTtY4DNuZuPr20/VcGLH42TaUh4yi0WoBTPcHo0g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKDDEQgnqgShW3AM4K80amVrOzLmYXWn/gZNeu646jtt9aFltcZIu2qbRqAVfcRLIg==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1465,11 +1464,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user6",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "HCHEVERELL5",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMZrKoo9QvcYFwMm2bYrw2VfE1aFoTwpxM90RpghH2a6FSJAeK41QszOE+skDhi4sg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEO5UYj5TWMOIZgi07D7sQcSjWrhv7RTBaKDTn/pm52YQXHQddNKmk5H0rK4pkoDzDQ==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1481,11 +1479,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user7",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "GBOSKELL6",
-                            PasswordHash = "AQAAAAEAACcQAAAAECZlHj3oSjJ0I7mLMnGsGE8iltoHgo4JWn5ZZtI96xisNarynqYZ8jXaqcCWfp+icw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKGX3szafKUjuFqrV4Zetr0M8d5jwGY6uc6/diyBZxgH/5uN/kNIUh0M89OmDZ+CXg==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1497,11 +1494,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user8",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ERYLETT7",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPan2FNn36Ns6GHXP1GPcOzcgLeZkhVuheLaTPyopXMPx8fz1jjeprHQO5o29PQsnw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENSXcauWg/4RoDHDB7ZbL6TwN87Z3H73rHbkLNLNBL4QXg5lWtV7kpzKqhSn8RxYnw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1513,11 +1509,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user9",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "KSEELY8",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPp9KnqvOPEYcNym+tSEzqvwJRAsr54JBCqAyraaYngXIK448qVc0ZIO0oHvEWBB2g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPbdrkFCa58VN2OSdSuOHWGK03jzOMkd3ju2IBIOzNCt6p00QHg85iPe5ZyNHu8NcQ==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1529,11 +1524,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user10",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "HFILINKOV9",
-                            PasswordHash = "AQAAAAEAACcQAAAAENS2ogm/eRxPrItOFFZHbyrvjn+dOnDlkpQKLmchVNQC1qujejrQ0ePmtQQtOsSDaw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMChAYvOWT2brpxUxZ1EmFKOrq2uUIq6AXfnqsuzv/tv0urRLuXTvPBZGO9sbyV9tQ==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1675,14 +1669,14 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = "Admin",
-                            ConcurrencyStamp = "aac6ee81-f4ff-44a4-b9e5-c4a517ad5838",
+                            ConcurrencyStamp = "05d95bc9-5abe-4368-8161-df05d3f7f4f2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "User",
-                            ConcurrencyStamp = "307dbd17-233e-4b46-936f-883bf760fc49",
+                            ConcurrencyStamp = "7b528db7-5ad9-4952-a0bb-02d0e31368d2",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -2396,6 +2390,16 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Navigation("Defender");
                 });
 
+            modelBuilder.Entity("GalacticEmpire.Domain.Models.EmpireModel.Base.Empire", b =>
+                {
+                    b.HasOne("GalacticEmpire.Domain.Models.UserModel.Base.User", "Owner")
+                        .WithOne("Empire")
+                        .HasForeignKey("GalacticEmpire.Domain.Models.EmpireModel.Base.Empire", "OwnerId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("GalacticEmpire.Domain.Models.EmpireModel.EmpireEvent", b =>
                 {
                     b.HasOne("GalacticEmpire.Domain.Models.EmpireModel.Base.Empire", "Empire")
@@ -2443,8 +2447,9 @@ namespace GalacticEmpire.Dal.Migrations
 
                     b.HasOne("GalacticEmpire.Domain.Models.PlanetModel.Base.Planet", "Planet")
                         .WithMany("EmpirePlanets")
-                        .HasForeignKey("PlanetId1")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("PlanetId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Empire");
 
@@ -2480,16 +2485,17 @@ namespace GalacticEmpire.Dal.Migrations
 
                     b.HasOne("GalacticEmpire.Domain.Models.UnitModel.Base.Unit", "Unit")
                         .WithMany("EmpireUnits")
-                        .HasForeignKey("UnitId1")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.OwnsOne("GalacticEmpire.Domain.Models.EmpireModel.FightPoint", "FightPoint", b1 =>
                         {
                             b1.Property<Guid>("EmpireUnitEmpireId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<Guid>("EmpireUnitUnitId")
-                                .HasColumnType("uniqueidentifier");
+                            b1.Property<int>("EmpireUnitUnitId")
+                                .HasColumnType("int");
 
                             b1.Property<int>("EmpireUnitLevel")
                                 .HasColumnType("int");
@@ -2600,17 +2606,6 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Navigation("Upgrade");
                 });
 
-            modelBuilder.Entity("GalacticEmpire.Domain.Models.UserModel.Base.User", b =>
-                {
-                    b.HasOne("GalacticEmpire.Domain.Models.EmpireModel.Base.Empire", "Empire")
-                        .WithOne("Owner")
-                        .HasForeignKey("GalacticEmpire.Domain.Models.UserModel.Base.User", "EmpireId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Empire");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -2699,8 +2694,6 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Navigation("EmpireUnits");
 
                     b.Navigation("OwnedAlliance");
-
-                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("GalacticEmpire.Domain.Models.EmpireModel.EmpirePlanet", b =>
@@ -2749,6 +2742,11 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Navigation("PlanetUpgrades");
 
                     b.Navigation("UpgradePriceMaterials");
+                });
+
+            modelBuilder.Entity("GalacticEmpire.Domain.Models.UserModel.Base.User", b =>
+                {
+                    b.Navigation("Empire");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,26 +1,29 @@
-﻿using GalacticEmpire.Application.Features.Event.Queries;
-using GalacticEmpire.Shared.Dto.Event;
+﻿using GalacticEmpire.Application.Features.Empire.Queries;
+using GalacticEmpire.Shared.Dto.Empire;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GalacticEmpire.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventsController : ControllerBase
+    public class EmpiresController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public EventsController(IMediator mediator)
+        public EmpiresController(IMediator mediator)
         {
             this.mediator = mediator;
         }
 
         [HttpGet]
-        [Route("all")]
-        public async Task<List<EventDto>> GetAllEvents([FromQuery] GetAllEventsQuery.Query query)
+        [Route("details")]
+        public async Task<EmpireDetailsDto> GetEmpireDetails([FromQuery] GetEmpireDetailsQuery.Query query)
         {
             return await mediator.Send(query);
         }

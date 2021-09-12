@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using FluentValidation;
 using GalacticEmpire.Dal;
-using GalacticEmpire.Shared.Dto.Event;
+using GalacticEmpire.Shared.Dto.Material;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,13 +12,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GalacticEmpire.Application.Features.Event.Queries
+namespace GalacticEmpire.Application.Features.Material.Queries
 {
-    public static class GetAllEventsQuery
+    public static class GetAllMaterialsQuery
     {
-        public class Query : IRequest<List<EventDto>> { }
+        public class Query : IRequest<List<MaterialDto>> { }
 
-        public class Handler : IRequestHandler<Query, List<EventDto>>
+        public class Handler : IRequestHandler<Query, List<MaterialDto>>
         {
             private readonly GalacticEmpireDbContext dbContext;
             private readonly IMapper mapper;
@@ -29,13 +29,13 @@ namespace GalacticEmpire.Application.Features.Event.Queries
                 this.mapper = mapper;
             }
 
-            public async Task<List<EventDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<MaterialDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var events = await this.dbContext.Events
-                    .ProjectTo<EventDto>(mapper.ConfigurationProvider)
+                var materials = await this.dbContext.Materials
+                    .ProjectTo<MaterialDto>(mapper.ConfigurationProvider)
                     .ToListAsync();
 
-                return events;
+                return materials;
             }
         }
 

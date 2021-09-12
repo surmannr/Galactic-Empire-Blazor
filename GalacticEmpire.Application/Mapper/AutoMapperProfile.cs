@@ -1,6 +1,22 @@
 ﻿using AutoMapper;
+using GalacticEmpire.Domain.Models.EmpireModel;
+using GalacticEmpire.Domain.Models.EmpireModel.Base;
 using GalacticEmpire.Domain.Models.EventModel.Base;
+using GalacticEmpire.Domain.Models.MaterialModel.Base;
+using GalacticEmpire.Domain.Models.PlanetModel;
+using GalacticEmpire.Domain.Models.PlanetModel.Base;
+using GalacticEmpire.Domain.Models.UnitModel;
+using GalacticEmpire.Domain.Models.UnitModel.Base;
+using GalacticEmpire.Domain.Models.UpgradeModel;
+using GalacticEmpire.Domain.Models.UpgradeModel.Base;
+using GalacticEmpire.Domain.Models.UserModel.Base;
+using GalacticEmpire.Shared.Dto.Empire;
 using GalacticEmpire.Shared.Dto.Event;
+using GalacticEmpire.Shared.Dto.Material;
+using GalacticEmpire.Shared.Dto.Planet;
+using GalacticEmpire.Shared.Dto.Unit;
+using GalacticEmpire.Shared.Dto.Upgrade;
+using GalacticEmpire.Shared.Dto.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +30,141 @@ namespace GalacticEmpire.Application.Mapper
         public AutoMapperProfile()
         {
             CreateMap<Event, EventDto>();
+
+            CreateMap<Material, MaterialDto>();
+
+            CreateMap<PlanetProperty, PlanetPropertyDto>();
+
+            CreateMap<UpgradePriceMaterial, PriceMaterialDto>()
+                .ForMember(
+                    pmdto => pmdto.Id, upm => upm.MapFrom(u => u.Material.Id)
+                )
+                .ForMember(
+                    pmdto => pmdto.Name, upm => upm.MapFrom(u => u.Material.Name)
+                )
+                .ForMember(
+                    pmdto => pmdto.ImageUrl, upm => upm.MapFrom(u => u.Material.ImageUrl)
+                );
+
+            CreateMap<PlanetPriceMaterial, PriceMaterialDto>()
+                .ForMember(
+                    pmdto => pmdto.Id, upm => upm.MapFrom(u => u.Material.Id)
+                )
+                .ForMember(
+                    pmdto => pmdto.Name, upm => upm.MapFrom(u => u.Material.Name)
+                )
+                .ForMember(
+                    pmdto => pmdto.ImageUrl, upm => upm.MapFrom(u => u.Material.ImageUrl)
+                );
+
+            CreateMap<UnitPriceMaterial, PriceMaterialDto>()
+                .ForMember(
+                    pmdto => pmdto.Id, upm => upm.MapFrom(u => u.Material.Id)
+                )
+                .ForMember(
+                    pmdto => pmdto.Name, upm => upm.MapFrom(u => u.Material.Name)
+                )
+                .ForMember(
+                    pmdto => pmdto.ImageUrl, upm => upm.MapFrom(u => u.Material.ImageUrl)
+                );
+
+            CreateMap<Planet, PlanetDto>()
+                .ForMember(
+                    planetDto => planetDto.RequiredMaterials,
+                    planet => planet.MapFrom(u => u.PlanetPriceMaterials)
+                );
+
+            CreateMap<Upgrade, UpgradeDto>()
+                .ForMember(
+                    upgradeDto => upgradeDto.RequiredMaterials,
+                    upgrade => upgrade.MapFrom(u => u.UpgradePriceMaterials)
+                );
+
+            CreateMap<UnitLevel, UnitLevelDto>();
+
+            CreateMap<Unit, UnitDto>()
+                .ForMember(
+                    unitDto => unitDto.RequiredMaterials,
+                    unit => unit.MapFrom(u => u.UnitPriceMaterials)
+                );
+
+            CreateMap<User,UserRankDto>()
+                .ForMember(
+                    urdto => urdto.EmpireName,
+                    user => user.MapFrom(u => u.Empire.Name)
+                );
+
+            CreateMap<EmpirePlanetUpgrade, EmpirePlanetUpgradeDto>()
+                .ForMember(
+                    epudto => epudto.UpgradeName,
+                    epu => epu.MapFrom(e => e.Upgrade.Name)
+                )
+                .ForMember(
+                    epudto => epudto.UpgradeDescription,
+                    epu => epu.MapFrom(e => e.Upgrade.Description)
+                )
+                .ForMember(
+                    epudto => epudto.RemainingTime,
+                    epu => epu.MapFrom(e => e.Upgrade.UpgradeTime)
+                );
+
+            CreateMap<EmpirePlanet, EmpirePlanetDto>()
+                .ForMember(
+                    epdto => epdto.PlanetProperty,
+                    ep => ep.MapFrom(e => e.Planet.PlanetProperty)
+                )
+                .ForMember(
+                    epdto => epdto.Name,
+                    ep => ep.MapFrom(e => e.Planet.Name)
+                )
+                .ForMember(
+                    epdto => epdto.Description,
+                    ep => ep.MapFrom(e => e.Planet.Description)
+                )
+                .ForMember(
+                    epdto => epdto.ImageUrl,
+                    ep => ep.MapFrom(e => e.Planet.ImageUrl)
+                )
+                .ForMember(
+                    epdto => epdto.Upgrades,
+                    ep => ep.MapFrom(e => e.EmpirePlanetUpgrades)
+                );
+
+            CreateMap<EmpireUnit, BattleUnitDto>()
+                .ForMember(
+                    budto => budto.ImageUrl,
+                    eu => eu.MapFrom(e => e.Unit.ImageUrl)
+                )
+                .ForMember(
+                    budto => budto.Count,
+                    eu => eu.MapFrom(e => e.Amount)
+                )
+                .ForMember(
+                    budto => budto.Id,
+                    eu => eu.MapFrom(e => e.Unit.Id)
+                )
+                .ForMember(
+                    budto => budto.Name,
+                    eu => eu.MapFrom(e => e.Unit.Name)
+                );
+
+            CreateMap<Empire, EmpireDetailsDto>()
+                .ForMember(
+                    edto => edto.AllianceName,
+                    empire => empire.MapFrom(e => e.Alliance.Alliance.Name)
+                )
+                .ForMember(
+                    edto => edto.AllianceInvitationRight,
+                    empire => empire.MapFrom(e => e.Alliance.InvitationRight)
+                )
+                .ForMember(
+                    edto => edto.Planets,
+                    empire => empire.MapFrom(e => e.EmpirePlanets)
+                )
+                .ForMember(
+                    edto => edto.Units,
+                    empire => empire.MapFrom(e => e.EmpireUnits)
+                );
         }
     }
 }

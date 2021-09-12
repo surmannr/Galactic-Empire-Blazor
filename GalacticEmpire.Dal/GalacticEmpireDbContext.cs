@@ -258,7 +258,6 @@ namespace GalacticEmpire.Dal
         {
             builder.HasOne(e => e.Owner)
                 .WithOne(e => e.Empire)
-                .HasForeignKey<User>(e => e.EmpireId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(e => e.Alliance)

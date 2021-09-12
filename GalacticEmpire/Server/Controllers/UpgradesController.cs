@@ -1,26 +1,29 @@
-﻿using GalacticEmpire.Application.Features.Event.Queries;
-using GalacticEmpire.Shared.Dto.Event;
+﻿using GalacticEmpire.Application.Features.Upgrade.Queries;
+using GalacticEmpire.Shared.Dto.Upgrade;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GalacticEmpire.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventsController : ControllerBase
+    public class UpgradesController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public EventsController(IMediator mediator)
+        public UpgradesController(IMediator mediator)
         {
             this.mediator = mediator;
         }
 
         [HttpGet]
         [Route("all")]
-        public async Task<List<EventDto>> GetAllEvents([FromQuery] GetAllEventsQuery.Query query)
+        public async Task<List<UpgradeDto>> GetAllUpgrades([FromQuery] GetAllUpgradesQuery.Query query)
         {
             return await mediator.Send(query);
         }

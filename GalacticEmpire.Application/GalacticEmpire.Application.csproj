@@ -6,10 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Empire\" />
-    <Folder Include="Features\Unit\" />
-    <Folder Include="Features\Upgrade\" />
-    <Folder Include="Features\Planet\" />
+    <Folder Include="Features\Attack\" />
+    <Folder Include="Features\Drone\" />
+    <Folder Include="Features\Alliance\" />
   </ItemGroup>
 
   <ItemGroup>
