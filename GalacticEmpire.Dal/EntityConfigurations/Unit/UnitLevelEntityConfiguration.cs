@@ -124,22 +124,6 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Unit
                     AttackPoint = (int)(UnitsConstants.ScoutDrone_AttackPoint * UnitLevelConstants.OneLevelMultiplier),
                     DefensePoint = (int)(UnitsConstants.ScoutDrone_DefensePoint * UnitLevelConstants.OneLevelMultiplier),
                     TrainingTime = new TimeSpan(0, 0, (int)(10 * UnitLevelConstants.OneLevelMultiplier))
-                },
-                new UnitLevel
-                {
-                    Level = 2,
-                    UnitId = 5,
-                    AttackPoint = (int)(UnitsConstants.ScoutDrone_AttackPoint * UnitLevelConstants.TwoLevelMultiplier),
-                    DefensePoint = (int)(UnitsConstants.ScoutDrone_DefensePoint * UnitLevelConstants.TwoLevelMultiplier),
-                    TrainingTime = new TimeSpan(0, 0, (int)(10 * UnitLevelConstants.TwoLevelMultiplier))
-                },
-                new UnitLevel
-                {
-                    Level = 3,
-                    UnitId = 5,
-                    AttackPoint = (int)(UnitsConstants.ScoutDrone_AttackPoint * UnitLevelConstants.ThreeLevelMultiplier),
-                    DefensePoint = (int)(UnitsConstants.ScoutDrone_DefensePoint * UnitLevelConstants.ThreeLevelMultiplier),
-                    TrainingTime = new TimeSpan(0, 0, (int)(10 * UnitLevelConstants.ThreeLevelMultiplier))
                 }
             );
         }

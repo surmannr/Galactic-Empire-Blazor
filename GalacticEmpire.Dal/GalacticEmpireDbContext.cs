@@ -643,6 +643,7 @@ namespace GalacticEmpire.Dal
 
             builder.ApplyConfiguration(new EmpireEntityConfiguration());
             builder.ApplyConfiguration(new EmpireMaterialEntityConfiguration());
+            builder.ApplyConfiguration(new EmpireUnitEntityConfiguration());
         }
     }
 }

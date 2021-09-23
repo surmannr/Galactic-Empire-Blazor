@@ -4,14 +4,16 @@ using GalacticEmpire.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GalacticEmpire.Dal.Migrations
 {
     [DbContext(typeof(GalacticEmpireDbContext))]
-    partial class GalacticEmpireDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210923174305_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

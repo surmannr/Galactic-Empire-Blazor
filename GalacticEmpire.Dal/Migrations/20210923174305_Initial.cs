@@ -641,8 +641,8 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "User", "8c9b5682-5aed-439c-90ef-cea436d155b6", "User", "USER" },
-                    { "Admin", "049b1baa-b92d-4072-8199-044eefd4097f", "Admin", "ADMIN" }
+                    { "User", "87eed0bd-6ab7-4e7f-bc62-6899059543dd", "User", "USER" },
+                    { "Admin", "f0ed4071-02f4-486c-a43b-9381a5b4ad70", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -650,16 +650,16 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Points", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "user10", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HFILINKOV9", "AQAAAAEAACcQAAAAEF9Kxi3EwEfan9q+wYuLJr1m8b+fG+p7aEpkSd6gg8v6EkbfdAI9sbWowd8+ucuAuw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hfilinkov9" },
-                    { "user9", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "KSEELY8", "AQAAAAEAACcQAAAAEON0kdfxgEkDjDc32Ie95UyiQw5bj4qhn7Ij3Upt0gNUOlFBagNRFH+66QMbEYwE3Q==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "kseely8" },
-                    { "user8", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "ERYLETT7", "AQAAAAEAACcQAAAAEH/dw5Bvsr7r7ak4dAEpYzP87BTWycdEMIUVADLwOUq0SVyzyT5QRea98cH/uHYm0A==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "erylett7" },
-                    { "user7", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "GBOSKELL6", "AQAAAAEAACcQAAAAEGoa48ejB9FnrswazzUJQiUZOeqBpAInl2vPMEF/n2xJCjM+d4D/ofN4rmsxLn6C8A==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "gboskell6" },
-                    { "user6", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HCHEVERELL5", "AQAAAAEAACcQAAAAEPuR/vBh91sDBj2UDu6Gc3AcBXavDv7P1AUGMXRCG1rJX6/l3WocixKtTyB0Sdef9g==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hcheverell5" },
-                    { "user5", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "TMAXWORTHY4", "AQAAAAEAACcQAAAAEM3TOkPF6GmY1+D9hf8l69Ekjz+pm82DfVgmwceG1cQ93N1zeYM/g7g+weQakuAvTA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "tmaxworthy4" },
-                    { "user4", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "JMELIOR3", "AQAAAAEAACcQAAAAEJdIfH9cunYE1Tjmd9NPYhif3/MMqLTh1O2a2BwKDRwhE2ur/3rAnER4SryxclPRzw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "jmelior3" },
-                    { "user3", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "BLYPTRATT2", "AQAAAAEAACcQAAAAEHEuKanne45ZSMhFm6uXk6Ckn0RpUeVcWR+rnTVKuqAESm8/wkDCxN7+QxUak4kMRw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "blyptratt2" },
-                    { "user2", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "LTIPPIN1", "AQAAAAEAACcQAAAAEPBGCERChNSBvyJq1Na8T/WINnZGyNTgH47MN8RwdVO0jFlvOWYdxFIrpUJQOsx9Bw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "ltippin1" },
-                    { "user1", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "SSTRAHAN0", "AQAAAAEAACcQAAAAEONIm4X58m61cZDk4CbDSXl7ywVl0abo9XkVQg8AmiRz0IBBZ2fxBaoFMsl5MU/l2A==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "sstrahan0" }
+                    { "user10", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HFILINKOV9", "AQAAAAEAACcQAAAAEDaf1U80+6NOD8/pXa74MZjc/jJ1eLlPaHTZAgybugCt7DGBEFGkW2w6jLIMNnVfbw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hfilinkov9" },
+                    { "user9", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "KSEELY8", "AQAAAAEAACcQAAAAEPNBymyKI5yLbqZXQkCk3WV/vir2QATGon+oAvqRmpZYYbjVNM9OVNPdBrS2IaVX4Q==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "kseely8" },
+                    { "user8", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "ERYLETT7", "AQAAAAEAACcQAAAAEIpUKVIJKjLXQ0f0mEf9wCmearyROO2DCKOyonxlvS60GuueRxGgzzRKZsWH7mOoRQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "erylett7" },
+                    { "user1", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "SSTRAHAN0", "AQAAAAEAACcQAAAAEAX1vC4GExuCBwAUD/FIlHHREIYgom+dFMuMClmDzMNQBpYulzc1XhuRFRrcx+qI0w==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "sstrahan0" },
+                    { "user7", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "GBOSKELL6", "AQAAAAEAACcQAAAAEFyCCk9vZbsEw8jyjsFFn0vkvGUt3H7uaenYp+sEvxGly2MFwFiO4GQD7fuXeaCkNg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "gboskell6" },
+                    { "user6", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HCHEVERELL5", "AQAAAAEAACcQAAAAECFT3x7uJgz6d+h1iB0lS/M8kVY5nDwRLSbNkv0VSvUyZfFGv8RIXJSV2yfl/JAy4A==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hcheverell5" },
+                    { "user5", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "TMAXWORTHY4", "AQAAAAEAACcQAAAAEGLgm7FCOp9jrwEki4qlZ0wi06Av1KDyRSnrKsST7pgRjMoOcoSVk1Xh9KV/I10Tbw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "tmaxworthy4" },
+                    { "user4", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "JMELIOR3", "AQAAAAEAACcQAAAAED8nFTl9X9k+r/CuhXtqK2y6YNEcFVyGcKdT0Q0uhs6J9EVff+WzujfsTG6TbLvirQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "jmelior3" },
+                    { "user3", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "BLYPTRATT2", "AQAAAAEAACcQAAAAENOjzxVUgb/aEw4oiyVG9WDtpjHo7swXB0TEFY2hE/FwS9noy1nXZu/7AzK/9lHl7g==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "blyptratt2" },
+                    { "user2", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "LTIPPIN1", "AQAAAAEAACcQAAAAEHga3belKRRJekIXTzLqG50PR5fMr8RdMbk6plA55/2OpFQ9SnfdtKbIwZQgSzvvYA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "ltippin1" }
                 });
 
             migrationBuilder.InsertData(
@@ -668,12 +668,12 @@ namespace GalacticEmpire.Dal.Migrations
                 values: new object[,]
                 {
                     { 1, "A termelés csökken -15%-kal a rossz termelés miatt.", "event_badharvest", null, "Rossz termés" },
-                    { 7, "Katonáid elégedetlenek, ezért 20%-kal kevesebb a támadó és védekező erejük.", "event_unsatisfiedunits", null, "Elégedetlen katonák" },
-                    { 5, "A lakosság csökken -100 fővel, mert az emberek nem érzik jól magukat a birodalomban.", "event_unsatisfiedpeople", null, "Elégedetlen emberek" },
-                    { 6, "Katonáid elégedettek, ezért 20%-kal nagyobb a támadó és védekező erejük.", "event_satisfiedunits", null, "Elégedett katonák" },
-                    { 4, "A lakosság nő 100 fővel, mert az emberek jól érzik magukat a birodalomban.", "event_satisfiedpeople", null, "Elégedett emberek" },
                     { 2, "A termelés nő 15%-kal a jó termelés miatt.", "event_goodharvest", null, "Jó termés" },
-                    { 3, "Találtál egy elhagyott rakományt, amivel találtál nyersanyagokat! Mindeből 10000 db jóváírva a birodalomhoz.", "event_jackpot", null, "Jackpot" }
+                    { 3, "Találtál egy elhagyott rakományt, amivel találtál nyersanyagokat! Mindeből 10000 db jóváírva a birodalomhoz.", "event_jackpot", null, "Jackpot" },
+                    { 7, "Katonáid elégedetlenek, ezért 20%-kal kevesebb a támadó és védekező erejük.", "event_unsatisfiedunits", null, "Elégedetlen katonák" },
+                    { 4, "A lakosság nő 100 fővel, mert az emberek jól érzik magukat a birodalomban.", "event_satisfiedpeople", null, "Elégedett emberek" },
+                    { 6, "Katonáid elégedettek, ezért 20%-kal nagyobb a támadó és védekező erejük.", "event_satisfiedunits", null, "Elégedett katonák" },
+                    { 5, "A lakosság csökken -100 fővel, mert az emberek nem érzik jól magukat a birodalomban.", "event_unsatisfiedpeople", null, "Elégedetlen emberek" }
                 });
 
             migrationBuilder.InsertData(
@@ -682,8 +682,8 @@ namespace GalacticEmpire.Dal.Migrations
                 values: new object[,]
                 {
                     { 2, null, "Élelem" },
-                    { 1, null, "Kvarc" },
-                    { 3, null, "Bitcoin" }
+                    { 3, null, "Bitcoin" },
+                    { 1, null, "Kvarc" }
                 });
 
             migrationBuilder.InsertData(
@@ -691,17 +691,17 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "CapturingTime", "Description", "ImageUrl", "Name", "PlanetType" },
                 values: new object[,]
                 {
-                    { 4, new TimeSpan(0, 0, 5, 0, 0), "Ez egy olyan bolygó, ahol főként csak a bányászok élnek, mert rendkívűl sok kvarc található a felszín alatt.", null, "Darvis", "planet_darvis" },
-                    { 3, new TimeSpan(0, 0, 5, 0, 0), "Rendkívűli bitcoin bányászat folyik ezen a bolygón, ami kiteszi annak gazdaságát.", null, "Cribatune", "planet_cribatune" },
-                    { 2, new TimeSpan(0, 0, 5, 0, 0), "Egy bolygó, amin nagyon sok ember él és elég jól áll nyersanyaggal. Viszont azt mondják lakik erre egy őrült tudós...", null, "Föld C-137", "planet_c137earth" },
-                    { 10, new TimeSpan(0, 0, 5, 0, 0), "A kozmikus háborúk miatt néhány bolygón továbbra is felkészültek a következő háborúra. Ezen a bolygón főleg hadegységek szoktak szállásolni.", null, "Yoiphus", "planet_yoiphus" },
-                    { 9, new TimeSpan(0, 0, 5, 0, 0), "A 224. galaktikus űrcsatában vesztes oldalon állt, aminek következtében elszegényedett. Vedd be a birodalomba és lendítsd fel a gazdaságát!", null, "Sidatania", "planet_sidatania" },
                     { 8, new TimeSpan(0, 0, 5, 0, 0), "Kevés népességszámához képest egy rendkívűl gazdag bolygóról beszélünk. Rengeteg kvarcot és bitcoint bányásznak.", null, "Nusobos", "planet_nusobos" },
-                    { 7, new TimeSpan(0, 0, 5, 0, 0), "Kereskedőbolygó, aminek a kvarc a fő export cikke. A kvarc ami gazdaggá tette ezt a bolygót.", null, "Heolara", "planet_heolara" },
-                    { 6, new TimeSpan(0, 0, 5, 0, 0), "Egy átlagos bolygó az X-12Z Naprendszerben. Vajon tényleg átlagos?", null, "Gingeria", "planet_gingeria" },
-                    { 5, new TimeSpan(0, 0, 5, 0, 0), "Ez egy teljesen egyszerű bolygó, ami mindent kitermel magának és nincs szüksége export cikkek vételére.", null, "Dillon", "planet_dillon" },
                     { 11, new TimeSpan(0, 0, 5, 0, 0), "Nem egy nagy bolygó, de bitcoinban gazdagodik rendesen. Itt lehet kapni RX 3080 videókártyát az biztos.", null, "Zuccars", "planet_zuccars" },
-                    { 1, new TimeSpan(0, 0, 5, 0, 0), "Főleg katonai létesítményeket üzemeltetnek a bolygón. Ha háborúzni szeretnél, ezt a bolygót csatold a birodalmadba!", null, "Avypso", "planet_avypso" }
+                    { 1, new TimeSpan(0, 0, 5, 0, 0), "Főleg katonai létesítményeket üzemeltetnek a bolygón. Ha háborúzni szeretnél, ezt a bolygót csatold a birodalmadba!", null, "Avypso", "planet_avypso" },
+                    { 2, new TimeSpan(0, 0, 5, 0, 0), "Egy bolygó, amin nagyon sok ember él és elég jól áll nyersanyaggal. Viszont azt mondják lakik erre egy őrült tudós...", null, "Föld C-137", "planet_c137earth" },
+                    { 3, new TimeSpan(0, 0, 5, 0, 0), "Rendkívűli bitcoin bányászat folyik ezen a bolygón, ami kiteszi annak gazdaságát.", null, "Cribatune", "planet_cribatune" },
+                    { 4, new TimeSpan(0, 0, 5, 0, 0), "Ez egy olyan bolygó, ahol főként csak a bányászok élnek, mert rendkívűl sok kvarc található a felszín alatt.", null, "Darvis", "planet_darvis" },
+                    { 5, new TimeSpan(0, 0, 5, 0, 0), "Ez egy teljesen egyszerű bolygó, ami mindent kitermel magának és nincs szüksége export cikkek vételére.", null, "Dillon", "planet_dillon" },
+                    { 6, new TimeSpan(0, 0, 5, 0, 0), "Egy átlagos bolygó az X-12Z Naprendszerben. Vajon tényleg átlagos?", null, "Gingeria", "planet_gingeria" },
+                    { 7, new TimeSpan(0, 0, 5, 0, 0), "Kereskedőbolygó, aminek a kvarc a fő export cikke. A kvarc ami gazdaggá tette ezt a bolygót.", null, "Heolara", "planet_heolara" },
+                    { 9, new TimeSpan(0, 0, 5, 0, 0), "A 224. galaktikus űrcsatában vesztes oldalon állt, aminek következtében elszegényedett. Vedd be a birodalomba és lendítsd fel a gazdaságát!", null, "Sidatania", "planet_sidatania" },
+                    { 10, new TimeSpan(0, 0, 5, 0, 0), "A kozmikus háborúk miatt néhány bolygón továbbra is felkészültek a következő háborúra. Ezen a bolygón főleg hadegységek szoktak szállásolni.", null, "Yoiphus", "planet_yoiphus" }
                 });
 
             migrationBuilder.InsertData(
@@ -710,10 +710,10 @@ namespace GalacticEmpire.Dal.Migrations
                 values: new object[,]
                 {
                     { 2, "later", 3, "Űrcirkáló", 3, 6 },
-                    { 5, "later", 2, "Felderítő drón", 1, 0 },
-                    { 4, "later", 8, "Ezeréves sólyom", 8, 15 },
                     { 3, "later", 5, "Vasember", 5, 8 },
-                    { 1, "later", 2, "Napvitorlás", 2, 5 }
+                    { 1, "later", 2, "Napvitorlás", 2, 5 },
+                    { 5, "later", 2, "Felderítő drón", 1, 0 },
+                    { 4, "later", 8, "Ezeréves sólyom", 8, 15 }
                 });
 
             migrationBuilder.InsertData(
@@ -724,7 +724,7 @@ namespace GalacticEmpire.Dal.Migrations
                     { 7, "A birodalomban lévő egységek támadása és védelme 20%-kal nő.", null, "Vibránium páncél", new TimeSpan(0, 0, 1, 0, 0), "upgrade_vibraniumarmor" },
                     { 6, "A birodalom maximális egységszáma 10000 fővel nő.", null, "Titkos katonai bázis", new TimeSpan(0, 0, 1, 0, 0), "upgrade_secretmilitarybase" },
                     { 5, "A bolygó további 20%-kal több kvarcot termel a birodalom számára.", null, "Kvarcbánya", new TimeSpan(0, 0, 1, 0, 0), "upgrade_quartzmine" },
-                    { 3, "A birodalomban lévő egységek védelme 30%-kal nő.", null, "Kinetikus pajzs", new TimeSpan(0, 0, 1, 0, 0), "upgrade_kineticshield" }
+                    { 4, "A birodalomban lévő egységek támadása 30%-kal nő.", null, "Lézerfegyverek", new TimeSpan(0, 0, 1, 0, 0), "upgrade_laserweapon" }
                 });
 
             migrationBuilder.InsertData(
@@ -732,10 +732,10 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "Description", "ImageUrl", "Name", "UpgradeTime", "UpgradeType" },
                 values: new object[,]
                 {
+                    { 3, "A birodalomban lévő egységek védelme 30%-kal nő.", null, "Kinetikus pajzs", new TimeSpan(0, 0, 1, 0, 0), "upgrade_kineticshield" },
                     { 2, "A bolygó további 20%-kal több ételt termel a birodalom számára.", null, "Interdimenzionális gasztrokert", new TimeSpan(0, 0, 1, 0, 0), "upgrade_interdimensionalgastrogarden" },
-                    { 1, "A birodalomban lévő maximális populáció emelkedik 1000000 fővel és az új lakóhelyeknek köszönhetően a jelenlegi populáció 20%-kal nő.", null, "Futurisztikus lakónegyed", new TimeSpan(0, 0, 1, 0, 0), "upgrade_futuristicresidentialarea" },
                     { 8, "A bolygó további 20%-kal több bitcoint termel a birodalom számára.", null, "Videókártya bővítés", new TimeSpan(0, 0, 1, 0, 0), "upgrade_videocardexpension" },
-                    { 4, "A birodalomban lévő egységek támadása 30%-kal nő.", null, "Lézerfegyverek", new TimeSpan(0, 0, 1, 0, 0), "upgrade_laserweapon" }
+                    { 1, "A birodalomban lévő maximális populáció emelkedik 1000000 fővel és az új lakóhelyeknek köszönhetően a jelenlegi populáció 20%-kal nő.", null, "Futurisztikus lakónegyed", new TimeSpan(0, 0, 1, 0, 0), "upgrade_futuristicresidentialarea" }
                 });
 
             migrationBuilder.InsertData(
@@ -778,16 +778,16 @@ namespace GalacticEmpire.Dal.Migrations
                 values: new object[,]
                 {
                     { 3, 1, 10000 },
-                    { 3, 6, 10000 },
-                    { 3, 9, 10000 },
-                    { 3, 8, 10000 },
                     { 3, 7, 10000 },
+                    { 3, 8, 10000 },
+                    { 3, 9, 10000 },
                     { 3, 10, 10000 },
-                    { 3, 5, 10000 },
-                    { 3, 11, 10000 },
-                    { 3, 3, 10000 },
+                    { 3, 6, 10000 },
                     { 3, 2, 10000 },
-                    { 3, 4, 10000 }
+                    { 3, 11, 10000 },
+                    { 3, 5, 10000 },
+                    { 3, 4, 10000 },
+                    { 3, 3, 10000 }
                 });
 
             migrationBuilder.InsertData(
@@ -795,17 +795,17 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "PlanetId", "BaseBitcoin", "BaseFood", "BaseQuartz", "MaxPopulationCount", "MaxUnitCount" },
                 values: new object[,]
                 {
+                    { 8, 160, 70, 140, 85000, 60 },
+                    { 9, 100, 80, 80, 500000, 50 },
+                    { 6, 120, 60, 80, 700000, 120 },
+                    { 5, 100, 100, 100, 100000, 100 },
                     { 4, 30, 20, 180, 50000, 10 },
                     { 3, 150, 40, 75, 240000, 110 },
-                    { 5, 100, 100, 100, 100000, 100 },
-                    { 6, 120, 60, 80, 700000, 120 },
                     { 2, 60, 100, 120, 1000000, 100 },
+                    { 11, 200, 85, 50, 305000, 20 },
                     { 10, 50, 140, 70, 450000, 240 },
-                    { 7, 80, 40, 170, 250000, 140 },
-                    { 8, 160, 70, 140, 85000, 60 },
                     { 1, 20, 140, 70, 100000, 200 },
-                    { 9, 100, 80, 80, 500000, 50 },
-                    { 11, 200, 85, 50, 305000, 20 }
+                    { 7, 80, 40, 170, 250000, 140 }
                 });
 
             migrationBuilder.InsertData(
@@ -813,21 +813,19 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Level", "UnitId", "AttackPoint", "DefensePoint", "TrainingTime" },
                 values: new object[,]
                 {
-                    { 1, 4, 10, 12, new TimeSpan(0, 0, 0, 30, 0) },
-                    { 1, 5, 0, 0, new TimeSpan(0, 0, 0, 10, 0) },
-                    { 1, 3, 7, 7, new TimeSpan(0, 0, 0, 25, 0) },
+                    { 1, 1, 2, 6, new TimeSpan(0, 0, 0, 15, 0) },
+                    { 2, 1, 3, 9, new TimeSpan(0, 0, 0, 22, 0) },
+                    { 3, 1, 4, 12, new TimeSpan(0, 0, 0, 30, 0) },
+                    { 1, 2, 4, 6, new TimeSpan(0, 0, 0, 20, 0) },
+                    { 2, 2, 6, 9, new TimeSpan(0, 0, 0, 30, 0) },
+                    { 3, 2, 8, 12, new TimeSpan(0, 0, 0, 40, 0) },
                     { 2, 3, 10, 10, new TimeSpan(0, 0, 0, 37, 0) },
                     { 3, 3, 14, 14, new TimeSpan(0, 0, 0, 50, 0) },
-                    { 2, 2, 6, 9, new TimeSpan(0, 0, 0, 30, 0) },
+                    { 1, 4, 10, 12, new TimeSpan(0, 0, 0, 30, 0) },
                     { 2, 4, 15, 18, new TimeSpan(0, 0, 0, 45, 0) },
                     { 3, 4, 20, 24, new TimeSpan(0, 0, 1, 0, 0) },
-                    { 2, 5, 0, 0, new TimeSpan(0, 0, 0, 15, 0) },
-                    { 3, 2, 8, 12, new TimeSpan(0, 0, 0, 40, 0) },
-                    { 1, 2, 4, 6, new TimeSpan(0, 0, 0, 20, 0) },
-                    { 3, 1, 4, 12, new TimeSpan(0, 0, 0, 30, 0) },
-                    { 2, 1, 3, 9, new TimeSpan(0, 0, 0, 22, 0) },
-                    { 1, 1, 2, 6, new TimeSpan(0, 0, 0, 15, 0) },
-                    { 3, 5, 0, 0, new TimeSpan(0, 0, 0, 20, 0) }
+                    { 1, 3, 7, 7, new TimeSpan(0, 0, 0, 25, 0) },
+                    { 1, 5, 0, 0, new TimeSpan(0, 0, 0, 10, 0) }
                 });
 
             migrationBuilder.InsertData(
@@ -835,11 +833,11 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "MaterialId", "UnitId", "Amount" },
                 values: new object[,]
                 {
-                    { 3, 2, 140 },
-                    { 3, 4, 420 },
-                    { 3, 1, 100 },
+                    { 3, 3, 300 },
                     { 3, 5, 100 },
-                    { 3, 3, 300 }
+                    { 3, 4, 420 },
+                    { 3, 2, 140 },
+                    { 3, 1, 100 }
                 });
 
             migrationBuilder.InsertData(
@@ -847,14 +845,14 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "MaterialId", "UpgradeId", "Amount" },
                 values: new object[,]
                 {
-                    { 1, 2, 10000 },
-                    { 1, 8, 10000 },
                     { 1, 7, 10000 },
                     { 1, 6, 10000 },
-                    { 1, 5, 10000 },
+                    { 1, 4, 10000 },
                     { 1, 3, 10000 },
+                    { 1, 2, 10000 },
                     { 1, 1, 10000 },
-                    { 1, 4, 10000 }
+                    { 1, 8, 10000 },
+                    { 1, 5, 10000 }
                 });
 
             migrationBuilder.InsertData(
@@ -863,36 +861,294 @@ namespace GalacticEmpire.Dal.Migrations
                 values: new object[,]
                 {
                     { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 3, 10000, 10.0, 1.0 },
                     { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 2, 10000, 10.0, 1.0 },
                     { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 1, 10000, 10.0, 1.0 },
                     { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 3, 10000, 10.0, 1.0 },
-                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 3, 10000, 10.0, 1.0 },
                     { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 1, 10000, 10.0, 1.0 },
-                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 3, 10000, 10.0, 1.0 },
                     { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 2, 10000, 10.0, 1.0 },
                     { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 2, 10000, 10.0, 1.0 },
-                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 3, 10000, 10.0, 1.0 }
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 3, 10000, 10.0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 1, 10000, 10.0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 2, 10000, 10.0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 3, 10000, 10.0, 1.0 }
                 });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[,]
+                {
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 3, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 1, 4, 0, 0, 1.0, 0, 1.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount" },
+                values: new object[] { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 1, 5, 0 });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[,]
+                {
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 1, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 2, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 2, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 2, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 2, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 1, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 3, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 1, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 3, 1, 0, 0, 1.0, 0, 1.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[,]
+                {
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 2, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 1, 1, 0, 0, 1.0, 0, 1.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount" },
+                values: new object[] { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 1, 5, 0 });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[,]
+                {
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 3, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 2, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 1, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 3, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 2, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 3, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 3, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 3, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 2, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 2, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 3, 4, 0, 0, 1.0, 0, 1.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount" },
+                values: new object[] { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 1, 5, 0 });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[,]
+                {
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 1, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 2, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 3, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 1, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 1, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 3, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 1, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 2, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 3, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 1, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 2, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 2, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 1, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 3, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 1, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 3, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 1, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 2, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 1, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 1, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 2, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 2, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 3, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 1, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 2, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 3, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 1, 2, 0, 0, 1.0, 0, 1.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[,]
+                {
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 2, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 3, 2, 0, 0, 1.0, 0, 1.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount" },
+                values: new object[] { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 1, 5, 0 });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[] { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 3, 2, 0, 0, 1.0, 0, 1.0 });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount" },
+                values: new object[] { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 1, 5, 0 });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[,]
+                {
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 1, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 3, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 1, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 2, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 3, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 1, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 2, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 2, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 3, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 1, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 2, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 3, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 1, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 2, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 3, 2, 0, 0, 1.0, 0, 1.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount" },
+                values: new object[] { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 1, 5, 0 });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[,]
+                {
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 1, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 1, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 2, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 1, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 2, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 3, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 1, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 2, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 3, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 3, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 1, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 3, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 1, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 2, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 3, 4, 0, 0, 1.0, 0, 1.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount" },
+                values: new object[] { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 1, 5, 0 });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[,]
+                {
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 1, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 2, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 2, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 2, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 1, 4, 0, 0, 1.0, 0, 1.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[,]
+                {
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 3, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 1, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 2, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 3, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 1, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 2, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 2, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 3, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 2, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 3, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 3, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 1, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 2, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 3, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 1, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 3, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 1, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 3, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 2, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 3, 4, 0, 0, 1.0, 0, 1.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount" },
+                values: new object[] { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 1, 5, 0 });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[,]
+                {
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 1, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 2, 1, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 3, 1, 0, 0, 1.0, 0, 1.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount" },
+                values: new object[] { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 1, 5, 0 });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount", "FightPoint_AttackPointBonus", "FightPoint_AttackPointMultiplier", "FightPoint_DefensePointBonus", "FightPoint_DefensePointMultiplier" },
+                values: new object[,]
+                {
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 1, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 3, 2, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 1, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 2, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 3, 3, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 1, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 2, 4, 0, 0, 1.0, 0, 1.0 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 2, 2, 0, 0, 1.0, 0, 1.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmpireUnits",
+                columns: new[] { "EmpireId", "Level", "UnitId", "Amount" },
+                values: new object[] { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 1, 5, 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AllianceInvitations_InvitedEmpireId",
