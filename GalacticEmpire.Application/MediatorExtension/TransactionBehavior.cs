@@ -3,7 +3,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GalacticEmpire.Application.Mediator
+namespace GalacticEmpire.Application.MediatorExtension
 {
     public class TransactionBehavior<TRequest, TResult> : IPipelineBehavior<TRequest, TResult>
          where TRequest : ICommand<TResult>

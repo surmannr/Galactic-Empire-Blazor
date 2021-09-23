@@ -24,7 +24,8 @@ namespace GalacticEmpire.Domain.Models.EventModel
         {
             base.RemoveEffect(empire);
 
-            empire.Population -= EventEffectConstants.UnsatisfiedPeople_Population;
+            // Nem kell elvenni, ha vége az eseménynek
+            // empire.Population -= EventEffectConstants.UnsatisfiedPeople_Population;
         }
 
         public UnsatisfiedPeopleEvent()

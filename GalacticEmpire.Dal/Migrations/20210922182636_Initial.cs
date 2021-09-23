@@ -48,25 +48,6 @@ namespace GalacticEmpire.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DeviceCodes",
-                columns: table => new
-                {
-                    UserCode = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    DeviceCode = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    SubjectId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    SessionId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ClientId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Expiration = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Data = table.Column<string>(type: "nvarchar(max)", maxLength: 50000, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DeviceCodes", x => x.UserCode);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Events",
                 columns: table => new
                 {
@@ -94,26 +75,6 @@ namespace GalacticEmpire.Dal.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Materials", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PersistedGrants",
-                columns: table => new
-                {
-                    Key = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    SubjectId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    SessionId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ClientId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Expiration = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ConsumedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Data = table.Column<string>(type: "nvarchar(max)", maxLength: 50000, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PersistedGrants", x => x.Key);
                 });
 
             migrationBuilder.CreateTable(
@@ -482,8 +443,7 @@ namespace GalacticEmpire.Dal.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Date = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EventId1 = table.Column<int>(type: "int", nullable: true),
+                    EventId = table.Column<int>(type: "int", nullable: false),
                     EmpireId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -495,8 +455,8 @@ namespace GalacticEmpire.Dal.Migrations
                         principalTable: "Empires",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_EmpireEvents_Events_EventId1",
-                        column: x => x.EventId1,
+                        name: "FK_EmpireEvents_Events_EventId",
+                        column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id");
                 });
@@ -681,8 +641,8 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "User", "7b528db7-5ad9-4952-a0bb-02d0e31368d2", "User", "USER" },
-                    { "Admin", "05d95bc9-5abe-4368-8161-df05d3f7f4f2", "Admin", "ADMIN" }
+                    { "User", "8c9b5682-5aed-439c-90ef-cea436d155b6", "User", "USER" },
+                    { "Admin", "049b1baa-b92d-4072-8199-044eefd4097f", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -690,16 +650,16 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Points", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "user10", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HFILINKOV9", "AQAAAAEAACcQAAAAEMChAYvOWT2brpxUxZ1EmFKOrq2uUIq6AXfnqsuzv/tv0urRLuXTvPBZGO9sbyV9tQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hfilinkov9" },
-                    { "user9", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "KSEELY8", "AQAAAAEAACcQAAAAEPbdrkFCa58VN2OSdSuOHWGK03jzOMkd3ju2IBIOzNCt6p00QHg85iPe5ZyNHu8NcQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "kseely8" },
-                    { "user8", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "ERYLETT7", "AQAAAAEAACcQAAAAENSXcauWg/4RoDHDB7ZbL6TwN87Z3H73rHbkLNLNBL4QXg5lWtV7kpzKqhSn8RxYnw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "erylett7" },
-                    { "user7", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "GBOSKELL6", "AQAAAAEAACcQAAAAEKGX3szafKUjuFqrV4Zetr0M8d5jwGY6uc6/diyBZxgH/5uN/kNIUh0M89OmDZ+CXg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "gboskell6" },
-                    { "user6", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HCHEVERELL5", "AQAAAAEAACcQAAAAEO5UYj5TWMOIZgi07D7sQcSjWrhv7RTBaKDTn/pm52YQXHQddNKmk5H0rK4pkoDzDQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hcheverell5" },
-                    { "user5", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "TMAXWORTHY4", "AQAAAAEAACcQAAAAEKDDEQgnqgShW3AM4K80amVrOzLmYXWn/gZNeu646jtt9aFltcZIu2qbRqAVfcRLIg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "tmaxworthy4" },
-                    { "user4", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "JMELIOR3", "AQAAAAEAACcQAAAAEDtALUOcAumSNEEUXI3wzJ21K2LmlNImm01gt3hw4uKFG9WjU9UrzK20B2zX5UhCJw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "jmelior3" },
-                    { "user3", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "BLYPTRATT2", "AQAAAAEAACcQAAAAEJNilWtIMCW3bQRdMs+jOIpfFCrFBYUUrPZPp3WiI7ksp86EjjBZBUijhHyyVrI0Sg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "blyptratt2" },
-                    { "user2", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "LTIPPIN1", "AQAAAAEAACcQAAAAEBUYxKzZL9mTbVwWbP+MYHBxF5jj1+lCLfN373IC0U9tGANQj5QB5fV79qdrBTkbcQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "ltippin1" },
-                    { "user1", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "SSTRAHAN0", "AQAAAAEAACcQAAAAEAM5xcISKWd9qjWS55758OryPDHOWpqLi6H9O+8M22Jp63GO77rwa/j6xxUl36bwcw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "sstrahan0" }
+                    { "user10", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HFILINKOV9", "AQAAAAEAACcQAAAAEF9Kxi3EwEfan9q+wYuLJr1m8b+fG+p7aEpkSd6gg8v6EkbfdAI9sbWowd8+ucuAuw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hfilinkov9" },
+                    { "user9", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "KSEELY8", "AQAAAAEAACcQAAAAEON0kdfxgEkDjDc32Ie95UyiQw5bj4qhn7Ij3Upt0gNUOlFBagNRFH+66QMbEYwE3Q==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "kseely8" },
+                    { "user8", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "ERYLETT7", "AQAAAAEAACcQAAAAEH/dw5Bvsr7r7ak4dAEpYzP87BTWycdEMIUVADLwOUq0SVyzyT5QRea98cH/uHYm0A==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "erylett7" },
+                    { "user7", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "GBOSKELL6", "AQAAAAEAACcQAAAAEGoa48ejB9FnrswazzUJQiUZOeqBpAInl2vPMEF/n2xJCjM+d4D/ofN4rmsxLn6C8A==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "gboskell6" },
+                    { "user6", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HCHEVERELL5", "AQAAAAEAACcQAAAAEPuR/vBh91sDBj2UDu6Gc3AcBXavDv7P1AUGMXRCG1rJX6/l3WocixKtTyB0Sdef9g==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hcheverell5" },
+                    { "user5", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "TMAXWORTHY4", "AQAAAAEAACcQAAAAEM3TOkPF6GmY1+D9hf8l69Ekjz+pm82DfVgmwceG1cQ93N1zeYM/g7g+weQakuAvTA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "tmaxworthy4" },
+                    { "user4", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "JMELIOR3", "AQAAAAEAACcQAAAAEJdIfH9cunYE1Tjmd9NPYhif3/MMqLTh1O2a2BwKDRwhE2ur/3rAnER4SryxclPRzw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "jmelior3" },
+                    { "user3", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "BLYPTRATT2", "AQAAAAEAACcQAAAAEHEuKanne45ZSMhFm6uXk6Ckn0RpUeVcWR+rnTVKuqAESm8/wkDCxN7+QxUak4kMRw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "blyptratt2" },
+                    { "user2", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "LTIPPIN1", "AQAAAAEAACcQAAAAEPBGCERChNSBvyJq1Na8T/WINnZGyNTgH47MN8RwdVO0jFlvOWYdxFIrpUJQOsx9Bw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "ltippin1" },
+                    { "user1", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "SSTRAHAN0", "AQAAAAEAACcQAAAAEONIm4X58m61cZDk4CbDSXl7ywVl0abo9XkVQg8AmiRz0IBBZ2fxBaoFMsl5MU/l2A==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "sstrahan0" }
                 });
 
             migrationBuilder.InsertData(
@@ -1016,17 +976,6 @@ namespace GalacticEmpire.Dal.Migrations
                 column: "UnitId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DeviceCodes_DeviceCode",
-                table: "DeviceCodes",
-                column: "DeviceCode",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DeviceCodes_Expiration",
-                table: "DeviceCodes",
-                column: "Expiration");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_DroneAttacks_AttackerId",
                 table: "DroneAttacks",
                 column: "AttackerId");
@@ -1042,9 +991,9 @@ namespace GalacticEmpire.Dal.Migrations
                 column: "EmpireId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmpireEvents_EventId1",
+                name: "IX_EmpireEvents_EventId",
                 table: "EmpireEvents",
-                column: "EventId1");
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmpireMaterials_MaterialId",
@@ -1077,21 +1026,6 @@ namespace GalacticEmpire.Dal.Migrations
                 name: "IX_EmpireUnits_UnitId",
                 table: "EmpireUnits",
                 column: "UnitId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PersistedGrants_Expiration",
-                table: "PersistedGrants",
-                column: "Expiration");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PersistedGrants_SubjectId_ClientId_Type",
-                table: "PersistedGrants",
-                columns: new[] { "SubjectId", "ClientId", "Type" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PersistedGrants_SubjectId_SessionId_Type",
-                table: "PersistedGrants",
-                columns: new[] { "SubjectId", "SessionId", "Type" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlanetPriceMaterials_MaterialId",
@@ -1136,9 +1070,6 @@ namespace GalacticEmpire.Dal.Migrations
                 name: "AttackUnits");
 
             migrationBuilder.DropTable(
-                name: "DeviceCodes");
-
-            migrationBuilder.DropTable(
                 name: "DroneAttacks");
 
             migrationBuilder.DropTable(
@@ -1152,9 +1083,6 @@ namespace GalacticEmpire.Dal.Migrations
 
             migrationBuilder.DropTable(
                 name: "EmpireUnits");
-
-            migrationBuilder.DropTable(
-                name: "PersistedGrants");
 
             migrationBuilder.DropTable(
                 name: "PlanetPriceMaterials");

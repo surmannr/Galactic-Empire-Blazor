@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GalacticEmpire.Dal.Migrations
 {
     [DbContext(typeof(GalacticEmpireDbContext))]
-    [Migration("20210912145452_Initial")]
+    [Migration("20210922182636_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -308,17 +308,14 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<Guid>("EmpireId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("EventId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("EventId1")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EmpireId");
 
-                    b.HasIndex("EventId1");
+                    b.HasIndex("EventId");
 
                     b.ToTable("EmpireEvents");
                 });
@@ -1392,7 +1389,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "SSTRAHAN0",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAM5xcISKWd9qjWS55758OryPDHOWpqLi6H9O+8M22Jp63GO77rwa/j6xxUl36bwcw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEONIm4X58m61cZDk4CbDSXl7ywVl0abo9XkVQg8AmiRz0IBBZ2fxBaoFMsl5MU/l2A==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1407,7 +1404,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "LTIPPIN1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBUYxKzZL9mTbVwWbP+MYHBxF5jj1+lCLfN373IC0U9tGANQj5QB5fV79qdrBTkbcQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPBGCERChNSBvyJq1Na8T/WINnZGyNTgH47MN8RwdVO0jFlvOWYdxFIrpUJQOsx9Bw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1422,7 +1419,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "BLYPTRATT2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJNilWtIMCW3bQRdMs+jOIpfFCrFBYUUrPZPp3WiI7ksp86EjjBZBUijhHyyVrI0Sg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHEuKanne45ZSMhFm6uXk6Ckn0RpUeVcWR+rnTVKuqAESm8/wkDCxN7+QxUak4kMRw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1437,7 +1434,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "JMELIOR3",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDtALUOcAumSNEEUXI3wzJ21K2LmlNImm01gt3hw4uKFG9WjU9UrzK20B2zX5UhCJw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJdIfH9cunYE1Tjmd9NPYhif3/MMqLTh1O2a2BwKDRwhE2ur/3rAnER4SryxclPRzw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1452,7 +1449,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "TMAXWORTHY4",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKDDEQgnqgShW3AM4K80amVrOzLmYXWn/gZNeu646jtt9aFltcZIu2qbRqAVfcRLIg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM3TOkPF6GmY1+D9hf8l69Ekjz+pm82DfVgmwceG1cQ93N1zeYM/g7g+weQakuAvTA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1467,7 +1464,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "HCHEVERELL5",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO5UYj5TWMOIZgi07D7sQcSjWrhv7RTBaKDTn/pm52YQXHQddNKmk5H0rK4pkoDzDQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPuR/vBh91sDBj2UDu6Gc3AcBXavDv7P1AUGMXRCG1rJX6/l3WocixKtTyB0Sdef9g==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1482,7 +1479,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "GBOSKELL6",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKGX3szafKUjuFqrV4Zetr0M8d5jwGY6uc6/diyBZxgH/5uN/kNIUh0M89OmDZ+CXg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGoa48ejB9FnrswazzUJQiUZOeqBpAInl2vPMEF/n2xJCjM+d4D/ofN4rmsxLn6C8A==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1497,7 +1494,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ERYLETT7",
-                            PasswordHash = "AQAAAAEAACcQAAAAENSXcauWg/4RoDHDB7ZbL6TwN87Z3H73rHbkLNLNBL4QXg5lWtV7kpzKqhSn8RxYnw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEH/dw5Bvsr7r7ak4dAEpYzP87BTWycdEMIUVADLwOUq0SVyzyT5QRea98cH/uHYm0A==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1512,7 +1509,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "KSEELY8",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPbdrkFCa58VN2OSdSuOHWGK03jzOMkd3ju2IBIOzNCt6p00QHg85iPe5ZyNHu8NcQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEON0kdfxgEkDjDc32Ie95UyiQw5bj4qhn7Ij3Upt0gNUOlFBagNRFH+66QMbEYwE3Q==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1527,116 +1524,13 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "HFILINKOV9",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMChAYvOWT2brpxUxZ1EmFKOrq2uUIq6AXfnqsuzv/tv0urRLuXTvPBZGO9sbyV9tQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF9Kxi3EwEfan9q+wYuLJr1m8b+fG+p7aEpkSd6gg8v6EkbfdAI9sbWowd8+ucuAuw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
                             TwoFactorEnabled = false,
                             UserName = "hfilinkov9"
                         });
-                });
-
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
-                {
-                    b.Property<string>("UserCode")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Data")
-                        .IsRequired()
-                        .HasMaxLength(50000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("DeviceCode")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime?>("Expiration")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SessionId")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("SubjectId")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("UserCode");
-
-                    b.HasIndex("DeviceCode")
-                        .IsUnique();
-
-                    b.HasIndex("Expiration");
-
-                    b.ToTable("DeviceCodes");
-                });
-
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.PersistedGrant", b =>
-                {
-                    b.Property<string>("Key")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime?>("ConsumedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Data")
-                        .IsRequired()
-                        .HasMaxLength(50000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime?>("Expiration")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SessionId")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("SubjectId")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Key");
-
-                    b.HasIndex("Expiration");
-
-                    b.HasIndex("SubjectId", "ClientId", "Type");
-
-                    b.HasIndex("SubjectId", "SessionId", "Type");
-
-                    b.ToTable("PersistedGrants");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1669,14 +1563,14 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = "Admin",
-                            ConcurrencyStamp = "05d95bc9-5abe-4368-8161-df05d3f7f4f2",
+                            ConcurrencyStamp = "049b1baa-b92d-4072-8199-044eefd4097f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "User",
-                            ConcurrencyStamp = "7b528db7-5ad9-4952-a0bb-02d0e31368d2",
+                            ConcurrencyStamp = "8c9b5682-5aed-439c-90ef-cea436d155b6",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -2410,8 +2304,9 @@ namespace GalacticEmpire.Dal.Migrations
 
                     b.HasOne("GalacticEmpire.Domain.Models.EventModel.Base.Event", "Event")
                         .WithMany("EmpireEvents")
-                        .HasForeignKey("EventId1")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Empire");
 

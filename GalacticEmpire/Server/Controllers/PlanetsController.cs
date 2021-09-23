@@ -1,4 +1,5 @@
-﻿using GalacticEmpire.Application.Features.Planet.Queries;
+﻿using GalacticEmpire.Application.Features.Planet.Commands;
+using GalacticEmpire.Application.Features.Planet.Queries;
 using GalacticEmpire.Shared.Dto.Planet;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,21 @@ namespace GalacticEmpire.Api.Controllers
         public async Task<List<PlanetDto>> GetAllPlanets([FromQuery] GetAllPlanetsQuery.Query query)
         {
             return await mediator.Send(query);
+        }
+
+        [HttpPost]
+        [Route("buy-planet/{planetid}")]
+        public async Task<bool> BuyPlanet(int planetid)
+        {
+            var command = new BuyPlanetCommand.Command
+            {
+                BuyPlanet = new BuyPlanetDto()
+                {
+                    PlanetId = planetid
+                }
+            };
+
+            return await mediator.Send(command);
         }
     }
 }

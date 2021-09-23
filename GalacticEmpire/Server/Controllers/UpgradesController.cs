@@ -1,4 +1,5 @@
-﻿using GalacticEmpire.Application.Features.Upgrade.Queries;
+﻿using GalacticEmpire.Application.Features.Upgrade.Commands;
+using GalacticEmpire.Application.Features.Upgrade.Queries;
 using GalacticEmpire.Shared.Dto.Upgrade;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,22 @@ namespace GalacticEmpire.Api.Controllers
         public async Task<List<UpgradeDto>> GetAllUpgrades([FromQuery] GetAllUpgradesQuery.Query query)
         {
             return await mediator.Send(query);
+        }
+
+        [HttpPost]
+        [Route("{empirePlanetId}/add-upgrade/{upgradeId}")]
+        public async Task<bool> BuyPlanetUpgrade(Guid empirePlanetId, int upgradeId)
+        {
+            var command = new BuyUpgradeForPlanetCommand.Command
+            {
+                BuyUpgrade = new BuyUpgradeDto
+                {
+                    EmpirePlanetId = empirePlanetId,
+                    UpgradeId = upgradeId
+                }
+            };
+
+            return await mediator.Send(command);
         }
     }
 }

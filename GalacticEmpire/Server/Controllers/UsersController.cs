@@ -25,8 +25,14 @@ namespace GalacticEmpire.Api.Controllers
 
         [HttpGet]
         [Route("ranklist")]
-        public async Task<PagedResult<UserRankDto>> GetRankList([FromQuery] GetRankListQuery.Query query)
+        public async Task<PagedResult<UserRankDto>> GetRankList([FromQuery] string filter, [FromQuery] PaginationData data)
         {
+            var query = new GetRankListQuery.Query
+            {
+                Filter = filter,
+                PaginationData = data
+            };
+
             return await mediator.Send(query);
         }
 

@@ -8,7 +8,7 @@ namespace GalacticEmpire.Domain.Models.EmpireModel
     {
         public DateTimeOffset Date { get; set; }
 
-        public Guid EventId { get; set; }
+        public int EventId { get; set; }
         public Event Event { get; set; }
 
         public Guid EmpireId { get; set; }

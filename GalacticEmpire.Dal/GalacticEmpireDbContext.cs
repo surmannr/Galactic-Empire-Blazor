@@ -27,15 +27,19 @@ using GalacticEmpire.Shared.Constants.Event;
 using GalacticEmpire.Shared.Constants.Planet;
 using GalacticEmpire.Shared.Constants.Upgrade;
 using IdentityServer4.EntityFramework.Options;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Options;
 
 namespace GalacticEmpire.Dal
 {
-    public class GalacticEmpireDbContext : ApiAuthorizationDbContext<User>
+    public class GalacticEmpireDbContext : IdentityDbContext<User>
     {
+        public GalacticEmpireDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
         public DbSet<Alliance> Alliances { get; set; }
         public DbSet<AllianceInvitation> AllianceInvitations { get; set; }
         public DbSet<AllianceMember> AllianceMembers { get; set; }
@@ -66,9 +70,6 @@ namespace GalacticEmpire.Dal
         public DbSet<Upgrade> Upgrades { get; set; }
         public DbSet<UpgradePriceMaterial> UpgradePriceMaterials { get; set; }
 
-        public GalacticEmpireDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
-        {
-        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

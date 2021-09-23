@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace GalacticEmpire.Application.Mediator
+namespace GalacticEmpire.Application.MediatorExtension
 {
     public interface ICommand<TResult> : IRequest<TResult>
     {

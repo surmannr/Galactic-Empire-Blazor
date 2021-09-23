@@ -23,8 +23,9 @@ namespace GalacticEmpire.Domain.Models.EventModel
         public override void RemoveEffect(Empire empire)
         {
             base.RemoveEffect(empire);
-
-            empire.Population -= EventEffectConstants.SatisfiedPeople_Population;
+            
+            // Ha kéne, de az esemény vége nem fogja módosítani
+            // empire.Population -= EventEffectConstants.SatisfiedPeople_Population;
         }
 
         public SatisfiedPeopleEvent()

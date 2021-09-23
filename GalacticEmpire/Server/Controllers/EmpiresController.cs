@@ -1,6 +1,8 @@
 ﻿using GalacticEmpire.Application.Features.Empire.Queries;
 using GalacticEmpire.Shared.Dto.Empire;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +14,7 @@ namespace GalacticEmpire.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EmpiresController : ControllerBase
     {
         private readonly IMediator mediator;

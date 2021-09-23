@@ -108,6 +108,38 @@ namespace GalacticEmpire.Application.Mapper
                     epu => epu.MapFrom(e => e.Upgrade.UpgradeTime)
                 );
 
+            CreateMap<EmpireEvent, EventDto>()
+                .ForMember(
+                    edto => edto.Name,
+                    ee => ee.MapFrom(e => e.Event.Name)
+                )
+                .ForMember(
+                    edto => edto.Description,
+                    ee => ee.MapFrom(e => e.Event.Description)
+                );
+
+            CreateMap<EmpireMaterial, MaterialDetailsDto>()
+                .ForMember(
+                    edto => edto.Id,
+                    ee => ee.MapFrom(e => e.Material.Id)
+                )
+                .ForMember(
+                    edto => edto.Name,
+                    ee => ee.MapFrom(e => e.Material.Name)
+                )
+                .ForMember(
+                    edto => edto.Amount,
+                    ee => ee.MapFrom(e => e.Amount)
+                )
+                .ForMember(
+                    edto => edto.Production,
+                    ee => ee.MapFrom(e => e.BaseProduction * e.ProductionMultiplier)
+                )
+                .ForMember(
+                    edto => edto.ImageUrl,
+                    ee => ee.MapFrom(e => e.Material.ImageUrl)
+                );
+
             CreateMap<EmpirePlanet, EmpirePlanetDto>()
                 .ForMember(
                     epdto => epdto.PlanetProperty,
@@ -164,6 +196,14 @@ namespace GalacticEmpire.Application.Mapper
                 .ForMember(
                     edto => edto.Units,
                     empire => empire.MapFrom(e => e.EmpireUnits)
+                )
+                .ForMember(
+                    edto => edto.Materials,
+                    empire => empire.MapFrom(e => e.EmpireMaterials)
+                )
+                .ForMember(
+                    edto => edto.Event,
+                    empire => empire.MapFrom(e => e.EmpireEvents.OrderByDescending(s => s.Date).FirstOrDefault())
                 );
         }
     }

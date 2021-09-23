@@ -4,6 +4,9 @@ using FluentValidation;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Shared.Dto.Empire;
+using GalacticEmpire.Shared.Dto.Event;
+using GalacticEmpire.Shared.Dto.Material;
+using GalacticEmpire.Shared.Dto.Unit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -45,13 +48,33 @@ namespace GalacticEmpire.Application.Features.Empire.Queries
                     .Include(e => e.EmpirePlanets)
                         .ThenInclude(e => e.EmpirePlanetUpgrades)
                             .ThenInclude(e => e.Upgrade)
+                    .Include(e => e.EmpireMaterials)
+                        .ThenInclude(e => e.Material)
                     .Include(e => e.EmpirePlanets)
                         .ThenInclude(e => e.Planet)
                             .ThenInclude(e => e.PlanetProperty)
-                    .ProjectTo<EmpireDetailsDto>(mapper.ConfigurationProvider)
+                    .Include(e => e.EmpireEvents)
+                        .ThenInclude(e => e.Event)
                     .FirstOrDefaultAsync();
 
-                return empire;
+                var empireEvent = empire.EmpireEvents.LastOrDefault();
+
+                var empireDetails = new EmpireDetailsDto
+                {
+                    Id = empire.Id,
+                    Name = empire.Name,
+                    MaxNumberOfUnits = empire.MaxNumberOfUnits,
+                    MaxNumberOfPopulation = empire.MaxNumberOfPopulation,
+                    Event = mapper.Map<EventDto>(empireEvent),
+                    Planets = mapper.Map<List<EmpirePlanetDto>>(empire.EmpirePlanets),
+                    Materials = mapper.Map<List<MaterialDetailsDto>>(empire.EmpireMaterials),
+                    AllianceName = empire.Alliance?.Alliance.Name ?? null,
+                    AllianceInvitationRight = empire.Alliance?.InvitationRight,
+                    Population = empire.Population,
+                    Units = mapper.Map<List<BattleUnitDto>>(empire.EmpireUnits)
+                };
+
+                return empireDetails;
             }
         }
 

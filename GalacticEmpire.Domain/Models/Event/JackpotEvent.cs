@@ -26,11 +26,12 @@ namespace GalacticEmpire.Domain.Models.EventModel
         public override void RemoveEffect(Empire empire)
         {
             base.RemoveEffect(empire);
-
-            foreach (var material in empire.EmpireMaterials)
-            {
-                material.Amount -= EventEffectConstants.Jackpot;
-            }
+            
+            /// Nem lesz elvéve, ha vége az esemény
+            // foreach (var material in empire.EmpireMaterials)
+            // {
+            //     material.Amount -= EventEffectConstants.Jackpot;
+            // }
         }
 
         public JackpotEvent()

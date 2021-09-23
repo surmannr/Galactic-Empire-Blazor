@@ -64,11 +64,11 @@ namespace GalacticEmpire.Application.Features.User.Queries
             {
                 if (request.PaginationData is not null)
                 {
-                    return await users.ToPagedList(request.PaginationData.PageSize, request.PaginationData.PageNumber);
+                    return await users.ToPagedListAsync(request.PaginationData.PageSize, request.PaginationData.PageNumber);
                 }
                 else
                 {
-                    return await users.ToPagedList(users.Count(), 1);
+                    return await users.ToPagedListAsync(users.Count(), 1);
                 }
             }
         }

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
-using GalacticEmpire.Application.Mediator;
+using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.EmpireModel;
 using GalacticEmpire.Domain.Models.EmpireModel.Base;
