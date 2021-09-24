@@ -11,5 +11,6 @@ namespace GalacticEmpire.Shared.Dto.Alliance
         public string EmpireName { get; set; }
         public int RankPoint { get; set; }
         public bool InvitationRight { get; set; }
+        public bool IsLeader { get; set; }
     }
 }

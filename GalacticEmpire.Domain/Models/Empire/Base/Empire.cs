@@ -20,9 +20,6 @@ namespace GalacticEmpire.Domain.Models.EmpireModel.Base
 
         public AllianceMember Alliance { get; set; }
 
-        public Guid? OwnedAllianceId { get; set; }
-        public Alliance OwnedAlliance { get; set; }
-
         public ICollection<EmpireEvent> EmpireEvents { get; set; }
         public ICollection<EmpireMaterial> EmpireMaterials { get; set; }
         public ICollection<EmpirePlanet> EmpirePlanets { get; set; }

@@ -55,6 +55,9 @@ namespace GalacticEmpire.Dal.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
+                    b.Property<bool>("IsLeader")
+                        .HasColumnType("bit");
+
                     b.HasKey("AllianceId", "EmpireId");
 
                     b.HasIndex("EmpireId")
@@ -69,16 +72,10 @@ namespace GalacticEmpire.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("LeaderEmpireId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LeaderEmpireId")
-                        .IsUnique();
 
                     b.ToTable("Alliances");
                 });
@@ -184,16 +181,17 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("OwnedAllianceId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("OwnerId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Population")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId")
+                        .IsUnique()
+                        .HasFilter("[OwnerId] IS NOT NULL");
 
                     b.ToTable("Empires");
 
@@ -201,92 +199,92 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Center",
                             OwnerId = "user1",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Melrose",
                             OwnerId = "user2",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Gale",
                             OwnerId = "user3",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Algoma",
                             OwnerId = "user4",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Carioca",
                             OwnerId = "user5",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Norway Maple",
                             OwnerId = "user6",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Melody",
                             OwnerId = "user7",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Kipling",
                             OwnerId = "user8",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Londonderry",
                             OwnerId = "user9",
-                            Population = 100
+                            Population = 1000
                         },
                         new
                         {
                             Id = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
-                            MaxNumberOfPopulation = 0,
+                            MaxNumberOfPopulation = 1000000,
                             MaxNumberOfUnits = 100,
                             Name = "Arkansas",
                             OwnerId = "user10",
-                            Population = 100
+                            Population = 1000
                         });
                 });
 
@@ -302,17 +300,14 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<Guid>("EmpireId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("EventId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("EventId1")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EmpireId");
 
-                    b.HasIndex("EventId1");
+                    b.HasIndex("EventId");
 
                     b.ToTable("EmpireEvents");
                 });
@@ -592,17 +587,14 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<Guid>("EmpireId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PlanetId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("PlanetId1")
+                    b.Property<int>("PlanetId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EmpireId");
 
-                    b.HasIndex("PlanetId1");
+                    b.HasIndex("PlanetId");
 
                     b.ToTable("EmpirePlanets");
                 });
@@ -627,8 +619,8 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<Guid>("EmpireId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UnitId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UnitId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
@@ -636,14 +628,923 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UnitId1")
-                        .HasColumnType("int");
-
                     b.HasKey("EmpireId", "UnitId", "Level");
 
-                    b.HasIndex("UnitId1");
+                    b.HasIndex("UnitId");
 
                     b.ToTable("EmpireUnits");
+
+                    b.HasData(
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 1,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 1,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 1,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 2,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 2,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 2,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 3,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 3,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 3,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 4,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 4,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 4,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            UnitId = 5,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 1,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 1,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 1,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 2,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 2,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 2,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 3,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 3,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 3,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 4,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 4,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 4,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            UnitId = 5,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 1,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 1,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 1,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 2,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 2,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 2,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 3,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 3,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 3,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 4,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 4,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 4,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            UnitId = 5,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 1,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 1,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 1,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 2,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 2,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 2,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 3,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 3,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 3,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 4,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 4,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 4,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            UnitId = 5,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 1,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 1,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 1,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 2,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 2,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 2,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 3,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 3,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 3,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 4,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 4,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 4,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            UnitId = 5,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 1,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 1,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 1,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 2,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 2,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 2,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 3,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 3,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 3,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 4,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 4,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 4,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            UnitId = 5,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 1,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 1,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 1,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 2,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 2,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 2,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 3,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 3,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 3,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 4,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 4,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 4,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            UnitId = 5,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 1,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 1,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 1,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 2,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 2,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 2,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 3,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 3,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 3,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 4,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 4,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 4,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            UnitId = 5,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 1,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 1,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 1,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 2,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 2,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 2,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 3,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 3,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 3,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 4,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 4,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 4,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            UnitId = 5,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 1,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 1,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 1,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 2,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 2,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 2,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 3,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 3,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 3,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 4,
+                            Level = 1,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 4,
+                            Level = 2,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 4,
+                            Level = 3,
+                            Amount = 0
+                        },
+                        new
+                        {
+                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            UnitId = 5,
+                            Level = 1,
+                            Amount = 0
+                        });
                 });
 
             modelBuilder.Entity("GalacticEmpire.Domain.Models.EventModel.Base.Event", b =>
@@ -658,6 +1559,9 @@ namespace GalacticEmpire.Dal.Migrations
 
                     b.Property<string>("EventType")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -676,6 +1580,9 @@ namespace GalacticEmpire.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -713,6 +1620,9 @@ namespace GalacticEmpire.Dal.Migrations
                         .HasColumnType("time");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -1140,22 +2050,6 @@ namespace GalacticEmpire.Dal.Migrations
                             AttackPoint = 0,
                             DefensePoint = 0,
                             TrainingTime = new TimeSpan(0, 0, 0, 10, 0)
-                        },
-                        new
-                        {
-                            UnitId = 5,
-                            Level = 2,
-                            AttackPoint = 0,
-                            DefensePoint = 0,
-                            TrainingTime = new TimeSpan(0, 0, 0, 15, 0)
-                        },
-                        new
-                        {
-                            UnitId = 5,
-                            Level = 3,
-                            AttackPoint = 0,
-                            DefensePoint = 0,
-                            TrainingTime = new TimeSpan(0, 0, 0, 20, 0)
                         });
                 });
 
@@ -1217,6 +2111,9 @@ namespace GalacticEmpire.Dal.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -1323,9 +2220,6 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("EmpireId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -1364,9 +2258,6 @@ namespace GalacticEmpire.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmpireId")
-                        .IsUnique();
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -1383,11 +2274,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user1",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "SSTRAHAN0",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOHeSHpTqMNTmXzcvgpUmP9GleoEm/1/VLNNFSNmFQ35/X1thL1jHtd28hgq+hweAg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC1RPemaKERv6FguQC35o/JKafCAi4cbr8pcLFbFNEKRhaC2defX0Mg2Id6nfC7Q2g==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1399,11 +2289,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user2",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "LTIPPIN1",
-                            PasswordHash = "AQAAAAEAACcQAAAAENCatINdhYfWM0P1oYZQjWKB+KTSJH5N9W5YL5Y9QU3JJPLGRhj3FQD4QwyVh8nCaA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGEwYFiEugDSINzPnXUcm2t+us3WYR0iTVr2taHJ+5WF5QNUkVjZJO899ZNXaSbXGw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1415,11 +2304,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user3",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "BLYPTRATT2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPR7ic/Go0ByxAQlsISepYXqc7GtjLOAfxPhMRYmhU/aTsWmUSJYo/cdRpPXkIwdyw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED0XjyOnAa9ufEzSNMPeI9V4cez8RxE0ljCKro5ER6mr9m+8qxRjMwmSWkE3Z9EdBw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1431,11 +2319,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user4",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "JMELIOR3",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK9sXl4Ev5eiygXS3JsLp32EOGg6Sotf45j5YPzYbdKfjjNr9YZ5TFck/7SlV2g6Aw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEUmZtZ8zLaJzqloAhQUFkKSUI+vF2UDGPziWbJqC6yrU5BYAIDn4Ni8PXEcXr8t1w==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1447,11 +2334,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user5",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "TMAXWORTHY4",
-                            PasswordHash = "AQAAAAEAACcQAAAAECmAmNa6F0F5Xb/mn+EgX8nXS+yTtY4DNuZuPr20/VcGLH42TaUh4yi0WoBTPcHo0g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHtIlvGfPWHxtrncb6RUV5EiXkZVlFOTkADhzgx3O4FdvwGHT+Jp1d9aWjNk0aVRhQ==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1463,11 +2349,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user6",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "HCHEVERELL5",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMZrKoo9QvcYFwMm2bYrw2VfE1aFoTwpxM90RpghH2a6FSJAeK41QszOE+skDhi4sg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF69Hzq5rHiOF1aXN0t9GLlh+G0oHrm0KunVKaE9oWdTXwzMw++Q5zRdGmXSJhrSNA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1479,11 +2364,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user7",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "GBOSKELL6",
-                            PasswordHash = "AQAAAAEAACcQAAAAECZlHj3oSjJ0I7mLMnGsGE8iltoHgo4JWn5ZZtI96xisNarynqYZ8jXaqcCWfp+icw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGsSkRsaBvpwk7++7AC+y150lPOgiPSS/d1R0th8ZpUiMB5u3QKE2nx8IjVnhW4bOw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1495,11 +2379,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user8",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ERYLETT7",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPan2FNn36Ns6GHXP1GPcOzcgLeZkhVuheLaTPyopXMPx8fz1jjeprHQO5o29PQsnw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAKmKWVVSu4SwK4/JvUMPtmcttfKmC6f4voWNMFntNbU7UWZqsAv2N14nJvMW9uXQQ==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1511,11 +2394,10 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user9",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "KSEELY8",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPp9KnqvOPEYcNym+tSEzqvwJRAsr54JBCqAyraaYngXIK448qVc0ZIO0oHvEWBB2g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEELw13Flav1YX2m37f8angPXx+7NA1DrgLzI0qHmoHemnedaKXhoP7CRi3Zi+KP2VQ==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -1527,120 +2409,16 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = "user10",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cfc830af-302f-44b7-a973-805e6439b2ad",
-                            EmailConfirmed = false,
-                            EmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "HFILINKOV9",
-                            PasswordHash = "AQAAAAEAACcQAAAAENS2ogm/eRxPrItOFFZHbyrvjn+dOnDlkpQKLmchVNQC1qujejrQ0ePmtQQtOsSDaw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBjA6Milq/SBfwwRnMy2tG5NNxFaMnuPQE7zA0nVMzjqd/Pt2YY3zFd0nWw2cnPbyA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
                             TwoFactorEnabled = false,
                             UserName = "hfilinkov9"
                         });
-                });
-
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
-                {
-                    b.Property<string>("UserCode")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Data")
-                        .IsRequired()
-                        .HasMaxLength(50000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("DeviceCode")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime?>("Expiration")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SessionId")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("SubjectId")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("UserCode");
-
-                    b.HasIndex("DeviceCode")
-                        .IsUnique();
-
-                    b.HasIndex("Expiration");
-
-                    b.ToTable("DeviceCodes");
-                });
-
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.PersistedGrant", b =>
-                {
-                    b.Property<string>("Key")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime?>("ConsumedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Data")
-                        .IsRequired()
-                        .HasMaxLength(50000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime?>("Expiration")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SessionId")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("SubjectId")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Key");
-
-                    b.HasIndex("Expiration");
-
-                    b.HasIndex("SubjectId", "ClientId", "Type");
-
-                    b.HasIndex("SubjectId", "SessionId", "Type");
-
-                    b.ToTable("PersistedGrants");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1673,14 +2451,14 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = "Admin",
-                            ConcurrencyStamp = "aac6ee81-f4ff-44a4-b9e5-c4a517ad5838",
+                            ConcurrencyStamp = "b5959442-1b8f-421a-9bdb-4d278b5e6802",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "User",
-                            ConcurrencyStamp = "307dbd17-233e-4b46-936f-883bf760fc49",
+                            ConcurrencyStamp = "5722d683-aa5f-44dd-b8c6-7d866db078be",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -2327,17 +3105,6 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Navigation("Empire");
                 });
 
-            modelBuilder.Entity("GalacticEmpire.Domain.Models.AllianceModel.Base.Alliance", b =>
-                {
-                    b.HasOne("GalacticEmpire.Domain.Models.EmpireModel.Base.Empire", "LeaderEmpire")
-                        .WithOne("OwnedAlliance")
-                        .HasForeignKey("GalacticEmpire.Domain.Models.AllianceModel.Base.Alliance", "LeaderEmpireId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("LeaderEmpire");
-                });
-
             modelBuilder.Entity("GalacticEmpire.Domain.Models.AttackModel.AttackUnit", b =>
                 {
                     b.HasOne("GalacticEmpire.Domain.Models.AttackModel.Base.Attack", "Attack")
@@ -2394,6 +3161,16 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Navigation("Defender");
                 });
 
+            modelBuilder.Entity("GalacticEmpire.Domain.Models.EmpireModel.Base.Empire", b =>
+                {
+                    b.HasOne("GalacticEmpire.Domain.Models.UserModel.Base.User", "Owner")
+                        .WithOne("Empire")
+                        .HasForeignKey("GalacticEmpire.Domain.Models.EmpireModel.Base.Empire", "OwnerId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("GalacticEmpire.Domain.Models.EmpireModel.EmpireEvent", b =>
                 {
                     b.HasOne("GalacticEmpire.Domain.Models.EmpireModel.Base.Empire", "Empire")
@@ -2404,8 +3181,9 @@ namespace GalacticEmpire.Dal.Migrations
 
                     b.HasOne("GalacticEmpire.Domain.Models.EventModel.Base.Event", "Event")
                         .WithMany("EmpireEvents")
-                        .HasForeignKey("EventId1")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Empire");
 
@@ -2441,8 +3219,9 @@ namespace GalacticEmpire.Dal.Migrations
 
                     b.HasOne("GalacticEmpire.Domain.Models.PlanetModel.Base.Planet", "Planet")
                         .WithMany("EmpirePlanets")
-                        .HasForeignKey("PlanetId1")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("PlanetId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Empire");
 
@@ -2478,16 +3257,17 @@ namespace GalacticEmpire.Dal.Migrations
 
                     b.HasOne("GalacticEmpire.Domain.Models.UnitModel.Base.Unit", "Unit")
                         .WithMany("EmpireUnits")
-                        .HasForeignKey("UnitId1")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.OwnsOne("GalacticEmpire.Domain.Models.EmpireModel.FightPoint", "FightPoint", b1 =>
                         {
                             b1.Property<Guid>("EmpireUnitEmpireId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<Guid>("EmpireUnitUnitId")
-                                .HasColumnType("uniqueidentifier");
+                            b1.Property<int>("EmpireUnitUnitId")
+                                .HasColumnType("int");
 
                             b1.Property<int>("EmpireUnitLevel")
                                 .HasColumnType("int");
@@ -2510,6 +3290,1308 @@ namespace GalacticEmpire.Dal.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("EmpireUnitEmpireId", "EmpireUnitUnitId", "EmpireUnitLevel");
+
+                            b1.HasData(
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
+                                    EmpireUnitUnitId = 5,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
+                                    EmpireUnitUnitId = 5,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
+                                    EmpireUnitUnitId = 5,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
+                                    EmpireUnitUnitId = 5,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
+                                    EmpireUnitUnitId = 5,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
+                                    EmpireUnitUnitId = 5,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
+                                    EmpireUnitUnitId = 5,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
+                                    EmpireUnitUnitId = 5,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
+                                    EmpireUnitUnitId = 5,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 1,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 2,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 3,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 1,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 2,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 4,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                },
+                                new
+                                {
+                                    EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
+                                    EmpireUnitUnitId = 5,
+                                    EmpireUnitLevel = 3,
+                                    AttackPointBonus = 0,
+                                    AttackPointMultiplier = 1.0,
+                                    DefensePointBonus = 0,
+                                    DefensePointMultiplier = 1.0
+                                });
                         });
 
                     b.Navigation("Empire");
@@ -2598,17 +4680,6 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Navigation("Upgrade");
                 });
 
-            modelBuilder.Entity("GalacticEmpire.Domain.Models.UserModel.Base.User", b =>
-                {
-                    b.HasOne("GalacticEmpire.Domain.Models.EmpireModel.Base.Empire", "Empire")
-                        .WithOne("Owner")
-                        .HasForeignKey("GalacticEmpire.Domain.Models.UserModel.Base.User", "EmpireId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Empire");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -2695,10 +4766,6 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Navigation("EmpirePlanets");
 
                     b.Navigation("EmpireUnits");
-
-                    b.Navigation("OwnedAlliance");
-
-                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("GalacticEmpire.Domain.Models.EmpireModel.EmpirePlanet", b =>
@@ -2747,6 +4814,11 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Navigation("PlanetUpgrades");
 
                     b.Navigation("UpgradePriceMaterials");
+                });
+
+            modelBuilder.Entity("GalacticEmpire.Domain.Models.UserModel.Base.User", b =>
+                {
+                    b.Navigation("Empire");
                 });
 #pragma warning restore 612, 618
         }

@@ -15,7 +15,7 @@ namespace GalacticEmpire.Shared.Dto.Unit
         public int MercenaryPerRound { get; set; }
         public int SupplyPerRound { get; set; }
         public int RankPoint { get; set; }
-        public ICollection<MaterialDto> RequiredMaterials { get; set; }
+        public ICollection<PriceMaterialDto> RequiredMaterials { get; set; }
         public int CurrentCount { get; set; }
         public string ImageUrl { get; set; }
     }

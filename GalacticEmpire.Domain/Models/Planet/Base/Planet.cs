@@ -14,6 +14,7 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Base
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public string ImageUrl { get; set; }
         public string PlanetType { get; set; }
         public TimeSpan CapturingTime { get; set; }
 

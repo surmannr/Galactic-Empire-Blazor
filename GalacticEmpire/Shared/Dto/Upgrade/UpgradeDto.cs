@@ -16,6 +16,6 @@ namespace GalacticEmpire.Shared.Dto.Upgrade
         public TimeSpan UpgradeTime { get; set; }
         public string ImageUrl { get; set; }
 
-        public ICollection<MaterialDto> RequiredMaterials { get; set; }
+        public ICollection<PriceMaterialDto> RequiredMaterials { get; set; }
     }
 }

@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalacticEmpire.Domain", "Ga
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalacticEmpire.Dal", "GalacticEmpire.Dal\GalacticEmpire.Dal.csproj", "{7DB868B7-ABEA-4065-BD3C-B26729A937F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GalacticEmpire.Application", "GalacticEmpire.Application\GalacticEmpire.Application.csproj", "{A720B04F-3792-4FA3-90D0-8C2A5E799835}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalacticEmpire.Application", "GalacticEmpire.Application\GalacticEmpire.Application.csproj", "{A720B04F-3792-4FA3-90D0-8C2A5E799835}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{072A5A50-FB13-4476-A616-C406C6E425D1}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

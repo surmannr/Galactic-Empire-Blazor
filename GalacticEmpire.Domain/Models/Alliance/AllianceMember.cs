@@ -17,5 +17,6 @@ namespace GalacticEmpire.Domain.Models.AllianceModel
         public Empire Empire { get; set; }
 
         public bool InvitationRight { get; set; }
+        public bool IsLeader { get; set; }
     }
 }

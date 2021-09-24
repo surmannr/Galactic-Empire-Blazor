@@ -1,5 +1,4 @@
 ﻿using GalacticEmpire.Dal.EntityConfigurations.Empire;
-using GalacticEmpire.Dal.EntityConfigurations.Event;
 using GalacticEmpire.Dal.EntityConfigurations.Material;
 using GalacticEmpire.Dal.EntityConfigurations.Planet;
 using GalacticEmpire.Dal.EntityConfigurations.Unit;
@@ -28,15 +27,19 @@ using GalacticEmpire.Shared.Constants.Event;
 using GalacticEmpire.Shared.Constants.Planet;
 using GalacticEmpire.Shared.Constants.Upgrade;
 using IdentityServer4.EntityFramework.Options;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Options;
 
 namespace GalacticEmpire.Dal
 {
-    public class GalacticEmpireDbContext : ApiAuthorizationDbContext<User>
+    public class GalacticEmpireDbContext : IdentityDbContext<User>
     {
+        public GalacticEmpireDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
         public DbSet<Alliance> Alliances { get; set; }
         public DbSet<AllianceInvitation> AllianceInvitations { get; set; }
         public DbSet<AllianceMember> AllianceMembers { get; set; }
@@ -67,9 +70,6 @@ namespace GalacticEmpire.Dal
         public DbSet<Upgrade> Upgrades { get; set; }
         public DbSet<UpgradePriceMaterial> UpgradePriceMaterials { get; set; }
 
-        public GalacticEmpireDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
-        {
-        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -157,11 +157,6 @@ namespace GalacticEmpire.Dal
         // Connections
         public static EntityTypeBuilder<Alliance> AllianceConnection(this EntityTypeBuilder<Alliance> builder)
         {
-            builder.HasOne(a => a.LeaderEmpire)
-                .WithOne(a => a.OwnedAlliance)
-                .HasForeignKey<Empire>(a => a.OwnedAllianceId)
-                .OnDelete(DeleteBehavior.NoAction);
-
             builder.HasMany(a => a.Members)
                 .WithOne(a => a.Alliance)
                 .OnDelete(DeleteBehavior.NoAction);
@@ -259,17 +254,11 @@ namespace GalacticEmpire.Dal
         {
             builder.HasOne(e => e.Owner)
                 .WithOne(e => e.Empire)
-                .HasForeignKey<User>(e => e.EmpireId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(e => e.Alliance)
                 .WithOne(e => e.Empire)
                 .HasForeignKey<AllianceMember>(e => e.EmpireId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasOne(e => e.OwnedAlliance)
-                .WithOne(e => e.LeaderEmpire)
-                .HasForeignKey<Alliance>(e => e.LeaderEmpireId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(e => e.EmpireEvents)
@@ -592,6 +581,7 @@ namespace GalacticEmpire.Dal
         }
 
         // Configurations
+        
         public static void ApplyConfigurationsInOrder(this ModelBuilder builder)
         {
             builder.ApplyConfiguration(new MaterialEntityConfiguration());
@@ -643,6 +633,7 @@ namespace GalacticEmpire.Dal
 
             builder.ApplyConfiguration(new EmpireEntityConfiguration());
             builder.ApplyConfiguration(new EmpireMaterialEntityConfiguration());
+            builder.ApplyConfiguration(new EmpireUnitEntityConfiguration());
         }
     }
 }

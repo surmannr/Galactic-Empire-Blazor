@@ -18,7 +18,8 @@ namespace GalacticEmpire.Shared.Constants
         public static readonly int BaseBitcoinAmount = 10000;
 
         public static readonly int BaseMaxCountOfUnits = 100;
+        public static readonly int BaseMaxCountOfPopulation = 1000000;
 
-        public static readonly int BasePopulation = 100;
+        public static readonly int BasePopulation = 1000;
     }
 }

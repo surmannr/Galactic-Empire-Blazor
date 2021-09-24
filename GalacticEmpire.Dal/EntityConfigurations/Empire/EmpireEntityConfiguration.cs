@@ -18,6 +18,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Empire
                     OwnerId = "user1",
                     Population = BaseProductionConstants.BasePopulation,
                     MaxNumberOfUnits = BaseProductionConstants.BaseMaxCountOfUnits,
+                    MaxNumberOfPopulation = BaseProductionConstants.BaseMaxCountOfPopulation
                 },
                 new Domain.Models.EmpireModel.Base.Empire()
                 {
@@ -26,6 +27,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Empire
                     OwnerId = "user2",
                     Population = BaseProductionConstants.BasePopulation,
                     MaxNumberOfUnits = BaseProductionConstants.BaseMaxCountOfUnits,
+                    MaxNumberOfPopulation = BaseProductionConstants.BaseMaxCountOfPopulation
                 },
                 new Domain.Models.EmpireModel.Base.Empire()
                 {
@@ -34,6 +36,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Empire
                     OwnerId = "user3",
                     Population = BaseProductionConstants.BasePopulation,
                     MaxNumberOfUnits = BaseProductionConstants.BaseMaxCountOfUnits,
+                    MaxNumberOfPopulation = BaseProductionConstants.BaseMaxCountOfPopulation
                 },
                 new Domain.Models.EmpireModel.Base.Empire()
                 {
@@ -42,6 +45,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Empire
                     OwnerId = "user4",
                     Population = BaseProductionConstants.BasePopulation,
                     MaxNumberOfUnits = BaseProductionConstants.BaseMaxCountOfUnits,
+                    MaxNumberOfPopulation = BaseProductionConstants.BaseMaxCountOfPopulation
                 },
                 new Domain.Models.EmpireModel.Base.Empire()
                 {
@@ -50,6 +54,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Empire
                     OwnerId = "user5",
                     Population = BaseProductionConstants.BasePopulation,
                     MaxNumberOfUnits = BaseProductionConstants.BaseMaxCountOfUnits,
+                    MaxNumberOfPopulation = BaseProductionConstants.BaseMaxCountOfPopulation
                 },
                 new Domain.Models.EmpireModel.Base.Empire()
                 {
@@ -58,6 +63,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Empire
                     OwnerId = "user6",
                     Population = BaseProductionConstants.BasePopulation,
                     MaxNumberOfUnits = BaseProductionConstants.BaseMaxCountOfUnits,
+                    MaxNumberOfPopulation = BaseProductionConstants.BaseMaxCountOfPopulation
                 },
                 new Domain.Models.EmpireModel.Base.Empire()
                 {
@@ -66,6 +72,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Empire
                     OwnerId = "user7",
                     Population = BaseProductionConstants.BasePopulation,
                     MaxNumberOfUnits = BaseProductionConstants.BaseMaxCountOfUnits,
+                    MaxNumberOfPopulation = BaseProductionConstants.BaseMaxCountOfPopulation
                 },
                 new Domain.Models.EmpireModel.Base.Empire()
                 {
@@ -74,6 +81,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Empire
                     OwnerId = "user8",
                     Population = BaseProductionConstants.BasePopulation,
                     MaxNumberOfUnits = BaseProductionConstants.BaseMaxCountOfUnits,
+                    MaxNumberOfPopulation = BaseProductionConstants.BaseMaxCountOfPopulation
                 },
                 new Domain.Models.EmpireModel.Base.Empire()
                 {
@@ -82,6 +90,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Empire
                     OwnerId = "user9",
                     Population = BaseProductionConstants.BasePopulation,
                     MaxNumberOfUnits = BaseProductionConstants.BaseMaxCountOfUnits,
+                    MaxNumberOfPopulation = BaseProductionConstants.BaseMaxCountOfPopulation
                 },
                 new Domain.Models.EmpireModel.Base.Empire()
                 {
@@ -90,6 +99,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Empire
                     OwnerId = "user10",
                     Population = BaseProductionConstants.BasePopulation,
                     MaxNumberOfUnits = BaseProductionConstants.BaseMaxCountOfUnits,
+                    MaxNumberOfPopulation = BaseProductionConstants.BaseMaxCountOfPopulation
                 }
             );
         }
