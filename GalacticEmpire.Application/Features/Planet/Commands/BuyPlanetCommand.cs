@@ -27,13 +27,11 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
         {
             private readonly GalacticEmpireDbContext dbContext;
             private readonly IIdentityService identityService;
-            private readonly IMapper mapper;
 
-            public Handler(GalacticEmpireDbContext dbContext, IIdentityService identityService, IMapper mapper)
+            public Handler(GalacticEmpireDbContext dbContext, IIdentityService identityService)
             {
                 this.dbContext = dbContext;
                 this.identityService = identityService;
-                this.mapper = mapper;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using GalacticEmpire.Domain.Models.AllianceModel;
+using GalacticEmpire.Domain.Models.AllianceModel.Base;
 using GalacticEmpire.Domain.Models.EmpireModel;
 using GalacticEmpire.Domain.Models.EmpireModel.Base;
 using GalacticEmpire.Domain.Models.EventModel.Base;
@@ -10,6 +12,7 @@ using GalacticEmpire.Domain.Models.UnitModel.Base;
 using GalacticEmpire.Domain.Models.UpgradeModel;
 using GalacticEmpire.Domain.Models.UpgradeModel.Base;
 using GalacticEmpire.Domain.Models.UserModel.Base;
+using GalacticEmpire.Shared.Dto.Alliance;
 using GalacticEmpire.Shared.Dto.Empire;
 using GalacticEmpire.Shared.Dto.Event;
 using GalacticEmpire.Shared.Dto.Material;
@@ -204,6 +207,46 @@ namespace GalacticEmpire.Application.Mapper
                 .ForMember(
                     edto => edto.Event,
                     empire => empire.MapFrom(e => e.EmpireEvents.OrderByDescending(s => s.Date).FirstOrDefault())
+                );
+
+            CreateMap<AllianceInvitation, AllianceInvitationDto>()
+                .ForMember(
+                    aidto => aidto.AllianceName,
+                    ai => ai.MapFrom(a => a.Alliance.Name)
+                )
+                .ForMember(
+                    aidto => aidto.InviterEmpireName,
+                    ai => ai.MapFrom(a => a.InviterEmpire.Name)
+                )
+                .ForMember(
+                    aidto => aidto.MembersCount,
+                    ai => ai.MapFrom(a => a.Alliance.Members.Count())
+                )
+                .ForMember(
+                    aidto => aidto.Date,
+                    ai => ai.MapFrom(a => a.Date)
+                );
+
+            CreateMap<AllianceMember, AllianceMemberDto>()
+                .ForMember(
+                    amdto => amdto.EmpireName,
+                    am => am.MapFrom(a => a.Empire.Name)
+                )
+                .ForMember(
+                    amdto => amdto.RankPoint,
+                    am => am.MapFrom(a => a.Empire.Owner.Points)
+                );
+
+            CreateMap<Alliance, AllianceDetailsDto>()
+                .ForMember(
+                    amdto => amdto.Members,
+                    am => am.MapFrom(a => a.Members)
+                );
+
+            CreateMap<Alliance, AlliancePreviewDto>()
+                .ForMember(
+                    aidto => aidto.MembersCount,
+                    ai => ai.MapFrom(a => a.Members.Count())
                 );
         }
     }

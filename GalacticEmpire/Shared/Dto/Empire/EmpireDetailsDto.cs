@@ -19,6 +19,7 @@ namespace GalacticEmpire.Shared.Dto.Empire
 
         public string AllianceName { get; set; }
         public bool? AllianceInvitationRight { get; set; }
+        public bool? IsAllianceLeader { get; set; }
 
         public IEnumerable<EmpirePlanetDto> Planets { get; set; }
         public ICollection<BattleUnitDto> Units { get; set; }

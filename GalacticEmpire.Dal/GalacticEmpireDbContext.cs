@@ -157,11 +157,6 @@ namespace GalacticEmpire.Dal
         // Connections
         public static EntityTypeBuilder<Alliance> AllianceConnection(this EntityTypeBuilder<Alliance> builder)
         {
-            builder.HasOne(a => a.LeaderEmpire)
-                .WithOne(a => a.OwnedAlliance)
-                .HasForeignKey<Empire>(a => a.OwnedAllianceId)
-                .OnDelete(DeleteBehavior.NoAction);
-
             builder.HasMany(a => a.Members)
                 .WithOne(a => a.Alliance)
                 .OnDelete(DeleteBehavior.NoAction);
@@ -264,11 +259,6 @@ namespace GalacticEmpire.Dal
             builder.HasOne(e => e.Alliance)
                 .WithOne(e => e.Empire)
                 .HasForeignKey<AllianceMember>(e => e.EmpireId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasOne(e => e.OwnedAlliance)
-                .WithOne(e => e.LeaderEmpire)
-                .HasForeignKey<Alliance>(e => e.LeaderEmpireId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(e => e.EmpireEvents)

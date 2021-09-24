@@ -8,7 +8,6 @@
   <ItemGroup>
     <Folder Include="Features\Attack\" />
     <Folder Include="Features\Drone\" />
-    <Folder Include="Features\Alliance\" />
   </ItemGroup>
 
   <ItemGroup>

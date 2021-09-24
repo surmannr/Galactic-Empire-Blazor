@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace GalacticEmpire.Shared.Dto.Alliance
 {
-    public class AllianceDetailsDto
+    public class AlliancePreviewDto
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-
-        public ICollection<AllianceMemberDto> Members { get; set; }
+        public string Name {  get; set; }
+        public int MembersCount { get; set; }
     }
 }

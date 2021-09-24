@@ -1,4 +1,5 @@
-﻿using GalacticEmpire.Application.Features.Unit.Queries;
+﻿using GalacticEmpire.Application.Features.Unit.Commands;
+using GalacticEmpire.Application.Features.Unit.Queries;
 using GalacticEmpire.Shared.Dto.Unit;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,18 @@ namespace GalacticEmpire.Api.Controllers
         public async Task<List<UnitDto>> GetAllUnits([FromQuery] GetAllUnitsQuery.Query query)
         {
             return await mediator.Send(query);
+        }
+
+        [HttpPost]
+        [Route("buy-units")]
+        public async Task<bool> BuyUnits([FromBody] BuyUnitsCollectionDto buyUnitsCollection)
+        {
+            var command = new BuyUnitsCommand.Command
+            {
+                UnitsCollection = buyUnitsCollection
+            };
+
+            return await mediator.Send(command);
         }
     }
 }

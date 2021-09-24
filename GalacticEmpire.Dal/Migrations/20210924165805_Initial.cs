@@ -8,6 +8,18 @@ namespace GalacticEmpire.Dal.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Alliances",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Alliances", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -243,8 +255,7 @@ namespace GalacticEmpire.Dal.Migrations
                     MaxNumberOfUnits = table.Column<int>(type: "int", nullable: false),
                     MaxNumberOfPopulation = table.Column<int>(type: "int", nullable: false),
                     Population = table.Column<int>(type: "int", nullable: false),
-                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    OwnedAllianceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -368,19 +379,54 @@ namespace GalacticEmpire.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Alliances",
+                name: "AllianceInvitations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LeaderEmpireId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    AllianceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InviterEmpireId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InvitedEmpireId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Date = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Alliances", x => x.Id);
+                    table.PrimaryKey("PK_AllianceInvitations", x => new { x.AllianceId, x.InvitedEmpireId, x.InviterEmpireId });
                     table.ForeignKey(
-                        name: "FK_Alliances_Empires_LeaderEmpireId",
-                        column: x => x.LeaderEmpireId,
+                        name: "FK_AllianceInvitations_Alliances_AllianceId",
+                        column: x => x.AllianceId,
+                        principalTable: "Alliances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AllianceInvitations_Empires_InvitedEmpireId",
+                        column: x => x.InvitedEmpireId,
+                        principalTable: "Empires",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AllianceInvitations_Empires_InviterEmpireId",
+                        column: x => x.InviterEmpireId,
+                        principalTable: "Empires",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AllianceMembers",
+                columns: table => new
+                {
+                    AllianceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmpireId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InvitationRight = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    IsLeader = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AllianceMembers", x => new { x.AllianceId, x.EmpireId });
+                    table.ForeignKey(
+                        name: "FK_AllianceMembers_Alliances_AllianceId",
+                        column: x => x.AllianceId,
+                        principalTable: "Alliances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AllianceMembers_Empires_EmpireId",
+                        column: x => x.EmpireId,
                         principalTable: "Empires",
                         principalColumn: "Id");
                 });
@@ -538,58 +584,6 @@ namespace GalacticEmpire.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AllianceInvitations",
-                columns: table => new
-                {
-                    AllianceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InviterEmpireId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InvitedEmpireId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Date = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AllianceInvitations", x => new { x.AllianceId, x.InvitedEmpireId, x.InviterEmpireId });
-                    table.ForeignKey(
-                        name: "FK_AllianceInvitations_Alliances_AllianceId",
-                        column: x => x.AllianceId,
-                        principalTable: "Alliances",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_AllianceInvitations_Empires_InvitedEmpireId",
-                        column: x => x.InvitedEmpireId,
-                        principalTable: "Empires",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_AllianceInvitations_Empires_InviterEmpireId",
-                        column: x => x.InviterEmpireId,
-                        principalTable: "Empires",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AllianceMembers",
-                columns: table => new
-                {
-                    AllianceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EmpireId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InvitationRight = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AllianceMembers", x => new { x.AllianceId, x.EmpireId });
-                    table.ForeignKey(
-                        name: "FK_AllianceMembers_Alliances_AllianceId",
-                        column: x => x.AllianceId,
-                        principalTable: "Alliances",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_AllianceMembers_Empires_EmpireId",
-                        column: x => x.EmpireId,
-                        principalTable: "Empires",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AttackUnits",
                 columns: table => new
                 {
@@ -641,8 +635,8 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "User", "87eed0bd-6ab7-4e7f-bc62-6899059543dd", "User", "USER" },
-                    { "Admin", "f0ed4071-02f4-486c-a43b-9381a5b4ad70", "Admin", "ADMIN" }
+                    { "User", "5722d683-aa5f-44dd-b8c6-7d866db078be", "User", "USER" },
+                    { "Admin", "b5959442-1b8f-421a-9bdb-4d278b5e6802", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -650,16 +644,16 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Points", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "user10", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HFILINKOV9", "AQAAAAEAACcQAAAAEDaf1U80+6NOD8/pXa74MZjc/jJ1eLlPaHTZAgybugCt7DGBEFGkW2w6jLIMNnVfbw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hfilinkov9" },
-                    { "user9", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "KSEELY8", "AQAAAAEAACcQAAAAEPNBymyKI5yLbqZXQkCk3WV/vir2QATGon+oAvqRmpZYYbjVNM9OVNPdBrS2IaVX4Q==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "kseely8" },
-                    { "user8", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "ERYLETT7", "AQAAAAEAACcQAAAAEIpUKVIJKjLXQ0f0mEf9wCmearyROO2DCKOyonxlvS60GuueRxGgzzRKZsWH7mOoRQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "erylett7" },
-                    { "user1", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "SSTRAHAN0", "AQAAAAEAACcQAAAAEAX1vC4GExuCBwAUD/FIlHHREIYgom+dFMuMClmDzMNQBpYulzc1XhuRFRrcx+qI0w==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "sstrahan0" },
-                    { "user7", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "GBOSKELL6", "AQAAAAEAACcQAAAAEFyCCk9vZbsEw8jyjsFFn0vkvGUt3H7uaenYp+sEvxGly2MFwFiO4GQD7fuXeaCkNg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "gboskell6" },
-                    { "user6", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HCHEVERELL5", "AQAAAAEAACcQAAAAECFT3x7uJgz6d+h1iB0lS/M8kVY5nDwRLSbNkv0VSvUyZfFGv8RIXJSV2yfl/JAy4A==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hcheverell5" },
-                    { "user5", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "TMAXWORTHY4", "AQAAAAEAACcQAAAAEGLgm7FCOp9jrwEki4qlZ0wi06Av1KDyRSnrKsST7pgRjMoOcoSVk1Xh9KV/I10Tbw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "tmaxworthy4" },
-                    { "user4", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "JMELIOR3", "AQAAAAEAACcQAAAAED8nFTl9X9k+r/CuhXtqK2y6YNEcFVyGcKdT0Q0uhs6J9EVff+WzujfsTG6TbLvirQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "jmelior3" },
-                    { "user3", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "BLYPTRATT2", "AQAAAAEAACcQAAAAENOjzxVUgb/aEw4oiyVG9WDtpjHo7swXB0TEFY2hE/FwS9noy1nXZu/7AzK/9lHl7g==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "blyptratt2" },
-                    { "user2", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "LTIPPIN1", "AQAAAAEAACcQAAAAEHga3belKRRJekIXTzLqG50PR5fMr8RdMbk6plA55/2OpFQ9SnfdtKbIwZQgSzvvYA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "ltippin1" }
+                    { "user10", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HFILINKOV9", "AQAAAAEAACcQAAAAEBjA6Milq/SBfwwRnMy2tG5NNxFaMnuPQE7zA0nVMzjqd/Pt2YY3zFd0nWw2cnPbyA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hfilinkov9" },
+                    { "user9", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "KSEELY8", "AQAAAAEAACcQAAAAEELw13Flav1YX2m37f8angPXx+7NA1DrgLzI0qHmoHemnedaKXhoP7CRi3Zi+KP2VQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "kseely8" },
+                    { "user8", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "ERYLETT7", "AQAAAAEAACcQAAAAEAKmKWVVSu4SwK4/JvUMPtmcttfKmC6f4voWNMFntNbU7UWZqsAv2N14nJvMW9uXQQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "erylett7" },
+                    { "user1", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "SSTRAHAN0", "AQAAAAEAACcQAAAAEC1RPemaKERv6FguQC35o/JKafCAi4cbr8pcLFbFNEKRhaC2defX0Mg2Id6nfC7Q2g==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "sstrahan0" },
+                    { "user7", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "GBOSKELL6", "AQAAAAEAACcQAAAAEGsSkRsaBvpwk7++7AC+y150lPOgiPSS/d1R0th8ZpUiMB5u3QKE2nx8IjVnhW4bOw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "gboskell6" },
+                    { "user6", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HCHEVERELL5", "AQAAAAEAACcQAAAAEF69Hzq5rHiOF1aXN0t9GLlh+G0oHrm0KunVKaE9oWdTXwzMw++Q5zRdGmXSJhrSNA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hcheverell5" },
+                    { "user5", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "TMAXWORTHY4", "AQAAAAEAACcQAAAAEHtIlvGfPWHxtrncb6RUV5EiXkZVlFOTkADhzgx3O4FdvwGHT+Jp1d9aWjNk0aVRhQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "tmaxworthy4" },
+                    { "user4", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "JMELIOR3", "AQAAAAEAACcQAAAAEEUmZtZ8zLaJzqloAhQUFkKSUI+vF2UDGPziWbJqC6yrU5BYAIDn4Ni8PXEcXr8t1w==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "jmelior3" },
+                    { "user3", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "BLYPTRATT2", "AQAAAAEAACcQAAAAED0XjyOnAa9ufEzSNMPeI9V4cez8RxE0ljCKro5ER6mr9m+8qxRjMwmSWkE3Z9EdBw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "blyptratt2" },
+                    { "user2", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "LTIPPIN1", "AQAAAAEAACcQAAAAEGEwYFiEugDSINzPnXUcm2t+us3WYR0iTVr2taHJ+5WF5QNUkVjZJO899ZNXaSbXGw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "ltippin1" }
                 });
 
             migrationBuilder.InsertData(
@@ -757,19 +751,19 @@ namespace GalacticEmpire.Dal.Migrations
 
             migrationBuilder.InsertData(
                 table: "Empires",
-                columns: new[] { "Id", "MaxNumberOfPopulation", "MaxNumberOfUnits", "Name", "OwnedAllianceId", "OwnerId", "Population" },
+                columns: new[] { "Id", "MaxNumberOfPopulation", "MaxNumberOfUnits", "Name", "OwnerId", "Population" },
                 values: new object[,]
                 {
-                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 1000000, 100, "Center", null, "user1", 1000 },
-                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 1000000, 100, "Londonderry", null, "user9", 1000 },
-                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 1000000, 100, "Kipling", null, "user8", 1000 },
-                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 1000000, 100, "Melody", null, "user7", 1000 },
-                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 1000000, 100, "Norway Maple", null, "user6", 1000 },
-                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 1000000, 100, "Carioca", null, "user5", 1000 },
-                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 1000000, 100, "Algoma", null, "user4", 1000 },
-                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 1000000, 100, "Gale", null, "user3", 1000 },
-                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 1000000, 100, "Melrose", null, "user2", 1000 },
-                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 1000000, 100, "Arkansas", null, "user10", 1000 }
+                    { new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"), 1000000, 100, "Center", "user1", 1000 },
+                    { new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"), 1000000, 100, "Londonderry", "user9", 1000 },
+                    { new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"), 1000000, 100, "Kipling", "user8", 1000 },
+                    { new Guid("bf37d8cc-0744-4054-1111-603e6829799a"), 1000000, 100, "Melody", "user7", 1000 },
+                    { new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"), 1000000, 100, "Norway Maple", "user6", 1000 },
+                    { new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"), 1000000, 100, "Carioca", "user5", 1000 },
+                    { new Guid("c4393fff-8d3a-4508-1111-794916e9e997"), 1000000, 100, "Algoma", "user4", 1000 },
+                    { new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"), 1000000, 100, "Gale", "user3", 1000 },
+                    { new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"), 1000000, 100, "Melrose", "user2", 1000 },
+                    { new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"), 1000000, 100, "Arkansas", "user10", 1000 }
                 });
 
             migrationBuilder.InsertData(
@@ -1164,12 +1158,6 @@ namespace GalacticEmpire.Dal.Migrations
                 name: "IX_AllianceMembers_EmpireId",
                 table: "AllianceMembers",
                 column: "EmpireId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Alliances_LeaderEmpireId",
-                table: "Alliances",
-                column: "LeaderEmpireId",
                 unique: true);
 
             migrationBuilder.CreateIndex(

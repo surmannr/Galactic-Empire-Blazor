@@ -70,6 +70,7 @@ namespace GalacticEmpire.Application.Features.Empire.Queries
                     Materials = mapper.Map<List<MaterialDetailsDto>>(empire.EmpireMaterials),
                     AllianceName = empire.Alliance?.Alliance.Name ?? null,
                     AllianceInvitationRight = empire.Alliance?.InvitationRight,
+                    IsAllianceLeader = empire.Alliance?.IsLeader,
                     Population = empire.Population,
                     Units = mapper.Map<List<BattleUnitDto>>(empire.EmpireUnits)
                 };

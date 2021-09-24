@@ -11,9 +11,6 @@ namespace GalacticEmpire.Domain.Models.AllianceModel.Base
     {
         public string Name { get; set; }
 
-        public Guid LeaderEmpireId { get; set; }
-        public Empire LeaderEmpire { get; set; }
-
         public ICollection<AllianceMember> Members { get; set; }
         public ICollection<AllianceInvitation> AllianceInvitations { get; set; }
     }

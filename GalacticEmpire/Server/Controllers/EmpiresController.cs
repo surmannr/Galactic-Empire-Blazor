@@ -1,4 +1,5 @@
-﻿using GalacticEmpire.Application.Features.Empire.Queries;
+﻿using GalacticEmpire.Application.Features.Empire.Commands;
+using GalacticEmpire.Application.Features.Empire.Queries;
 using GalacticEmpire.Shared.Dto.Empire;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -29,6 +30,13 @@ namespace GalacticEmpire.Api.Controllers
         public async Task<EmpireDetailsDto> GetEmpireDetails([FromQuery] GetEmpireDetailsQuery.Query query)
         {
             return await mediator.Send(query);
+        }
+
+        [HttpPut]
+        [Route("change-empirename")]
+        public async Task<bool> ChangeEmpireName([FromQuery] ChangeEmpireNameCommand.Command command)
+        {
+            return await mediator.Send(command);
         }
     }
 }

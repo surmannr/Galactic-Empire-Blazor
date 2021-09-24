@@ -20,7 +20,7 @@ namespace GalacticEmpire.Api.ExtensionsAndServices.Identity
 
         public string GetCurrentUserId()
         {
-            return httpContext.User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value ?? throw new UnauthorizedAccessException("A műveletekhez be kell jelentkezni.");
+            return httpContext.User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value ?? throw new UnauthorizedAccessException("A művelethez be kell jelentkezni.");
         }
     }
 }
