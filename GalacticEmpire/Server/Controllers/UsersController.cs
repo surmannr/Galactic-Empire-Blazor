@@ -42,5 +42,18 @@ namespace GalacticEmpire.Api.Controllers
         {
             return await mediator.Send(command);
         }
+
+        [HttpGet]
+        [Route("attackable-users")]
+        public async Task<PagedResult<AttackableUserDto>> GetAttackableUsers([FromQuery] string filter, [FromQuery] PaginationData data)
+        {
+            var query = new GetAttackableUsersQuery.Query
+            {
+                Filter = filter,
+                PaginationData = data
+            };
+
+            return await mediator.Send(query);
+        }
     }
 }

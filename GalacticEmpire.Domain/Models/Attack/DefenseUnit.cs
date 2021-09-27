@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace GalacticEmpire.Domain.Models.AttackModel
 {
-    public class AttackUnit : BaseBattleModel<Unit, Attack>
+    public class DefenseUnit : BaseBattleModel<Unit, Attack>
     {
-        
     }
 }

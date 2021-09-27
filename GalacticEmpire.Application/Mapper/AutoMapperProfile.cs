@@ -248,6 +248,16 @@ namespace GalacticEmpire.Application.Mapper
                     aidto => aidto.MembersCount,
                     ai => ai.MapFrom(a => a.Members.Count())
                 );
+
+            CreateMap<User, AttackableUserDto>()
+                .ForMember(
+                    audto => audto.EmpireName,
+                    ai => ai.MapFrom(a => a.Empire.Name)
+                )
+                .ForMember(
+                    audto => audto.EmpireId,
+                    ai => ai.MapFrom(a => a.Empire.Id)
+                );
         }
     }
 }

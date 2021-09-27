@@ -93,6 +93,9 @@ namespace GalacticEmpire.Dal
             builder.Entity<AttackUnit>()
                 .AttackUnitConnection();
 
+            builder.Entity<DefenseUnit>()
+                .DefenseUnitConnection();
+
             builder.Entity<Empire>()
                 .EmpireConnection();
 
@@ -211,6 +214,10 @@ namespace GalacticEmpire.Dal
                 .WithOne(e => e.Attack)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasMany(e => e.DefenseUnits)
+                .WithOne(e => e.Attack)
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasOne(e => e.Attacker)
                 .WithMany(e => e.AttackerAttack)
                 .OnDelete(DeleteBehavior.NoAction);
@@ -245,6 +252,21 @@ namespace GalacticEmpire.Dal
 
             builder.HasOne(e => e.Attack)
                 .WithMany(e => e.AttackUnits)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            return builder;
+        }
+
+        public static EntityTypeBuilder<DefenseUnit> DefenseUnitConnection(this EntityTypeBuilder<DefenseUnit> builder)
+        {
+            builder.HasKey(e => new { e.UnitId, e.AttackId, e.Level });
+
+            builder.HasOne(e => e.Unit)
+                .WithMany(e => e.DefenseUnits)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(e => e.Attack)
+                .WithMany(e => e.DefenseUnits)
                 .OnDelete(DeleteBehavior.NoAction);
 
             return builder;

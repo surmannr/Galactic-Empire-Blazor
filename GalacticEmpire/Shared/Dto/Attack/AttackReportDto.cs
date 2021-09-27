@@ -9,8 +9,10 @@ namespace GalacticEmpire.Shared.Dto.Attack
 {
     public class AttackReportDto
     {
+        public DateTimeOffset Date { get; set; }
         public string AttackedEmpireName { get; set; }
-        public ICollection<BattleUnitDto> Units { get; set; }
+        public ICollection<BattleUnitDto> AttackUnits { get; set; }
+        public ICollection<BattleUnitDto> DefenseUnits { get; set; }
         public Guid? WinnerEmpireId { get; set; }
     }
 }
