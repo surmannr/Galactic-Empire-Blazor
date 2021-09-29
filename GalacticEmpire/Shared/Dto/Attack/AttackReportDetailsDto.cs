@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace GalacticEmpire.Shared.Dto.Attack
 {
-    public class AttackReportDto
+    public class AttackReportDetailsDto
     {
+        public Guid Id { get; set; }
         public DateTimeOffset Date { get; set; }
-        public string AttackedEmpireName { get; set; }
+        public string OpponentEmpireName { get; set; }
         public ICollection<BattleUnitDto> AttackUnits { get; set; }
         public ICollection<BattleUnitDto> DefenseUnits { get; set; }
         public Guid? WinnerEmpireId { get; set; }
+        public string WinnerEmpireName { get; set; }
     }
 }

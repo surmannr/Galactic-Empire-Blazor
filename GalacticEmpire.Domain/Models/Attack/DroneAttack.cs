@@ -10,7 +10,8 @@ namespace GalacticEmpire.Domain.Models.AttackModel
 {
     public class DroneAttack : BaseAttackModel<Guid, Empire>
     {
-        public int NumberOfDrones { get; set; }
+        public int NumberOfAttackerDrones { get; set; }
+        public int NumberOfDefenderDrones { get; set; }
         public int? DefenderDefensivePoints { get; set; }
     }
 }

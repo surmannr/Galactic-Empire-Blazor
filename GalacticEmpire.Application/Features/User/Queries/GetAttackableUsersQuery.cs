@@ -66,7 +66,7 @@ namespace GalacticEmpire.Application.Features.User.Queries
                         .Where(u => u.UserName.Contains(request.Filter) || u.EmpireName.Contains(request.Filter));
                 }
 
-                return attackableUsers.ToPagedList(request.PaginationData.PageSize, request.PaginationData.PageNumber); ;
+                return attackableUsers.ToPagedList(request.PaginationData.PageSize, request.PaginationData.PageNumber);
             }
         }
 
