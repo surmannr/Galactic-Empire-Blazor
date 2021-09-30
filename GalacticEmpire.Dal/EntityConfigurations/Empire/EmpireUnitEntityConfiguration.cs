@@ -101,7 +101,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Empire
                     {
                         EmpireUnitEmpireId = Guid.Parse(empireId),
                         EmpireUnitUnitId = 5,
-                        EmpireUnitLevel = 3,
+                        EmpireUnitLevel = 1,
                         AttackPointMultiplier = 1.0,
                         DefensePointMultiplier = 1.0,
                         AttackPointBonus = 0,

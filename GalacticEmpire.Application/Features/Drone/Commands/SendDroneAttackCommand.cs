@@ -93,11 +93,16 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
                     throw new Exception("Nincsen ilyen típusú egységed!");
                 }
 
+                if (empireDroneUnit.Amount < request.SendDrone.NumberOfDrones)
+                {
+                    throw new Exception("Nincs elegendő drónod a kémkedéshez.");
+                }
+
                 var droneAttack = new Domain.Models.AttackModel.DroneAttack()
                 {
                     AttackerId = empire.Id,
                     DefenderId = request.SendDrone.DronedEmpireId,
-                    NumberOfAttackerDrones = empireDroneUnit.Amount,
+                    NumberOfAttackerDrones = request.SendDrone.NumberOfDrones,
                     NumberOfDefenderDrones = dronedEmpireUnit?.Amount ?? 0,
                     Date = DateTimeOffset.Now,
                     WinnerId = CalculateWinner(empireDroneUnit, request, dronedEmpireUnit),
@@ -123,11 +128,23 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
                 if (attackPoints > defensePoints)
                 {
                     attackerDroneUnit.Amount -= (int)(request.SendDrone.NumberOfDrones * 0.2);
+
+                    if (attackerDroneUnit.Amount < 0)
+                    {
+                        attackerDroneUnit.Amount = 0;
+                    }
+
                     return attackerDroneUnit.EmpireId;
                 }
                 else
                 {
                     defenderDroneUnit.Amount -= (int)(request.SendDrone.NumberOfDrones * 0.1);
+
+                    if (defenderDroneUnit.Amount < 0)
+                    {
+                        defenderDroneUnit.Amount = 0;
+                    }
+
                     return defenderDroneUnit.EmpireId;
                 }
             }
@@ -138,7 +155,7 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
                 {
                     var defensePoints = 0;
 
-                    foreach (var unit in defenderUnits)
+                    foreach (var unit in defenderUnits.Where(d => d.Unit.Name != UnitEnum.ScoutDrone.GetDisplayName()))
                     {
                         var unitlevel = unit.Unit.UnitLevels.SingleOrDefault(ul => ul.Level == unit.Level && ul.UnitId == unit.UnitId);
 
