@@ -8,10 +8,13 @@ namespace GalacticEmpire.Shared.Constants.Time
 {
     public static class TimeConstants
     {
-        // Upgrade time
+        // Fejlesztési idő
         public static readonly TimeSpan UpgradeTime = new(0, 1, 0);
 
-        // Planet capturing time
+        // Bolygó elfoglalási idő
         public static readonly TimeSpan PlanetCaptureTime = new(0, 5, 0);
+
+        // Támadás és kémkedés idő
+        public static readonly TimeSpan AttackAndSpyingTime = new(0, 30, 0);
     }
 }

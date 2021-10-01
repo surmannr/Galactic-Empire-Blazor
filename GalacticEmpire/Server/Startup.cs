@@ -6,6 +6,7 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Event.Queries;
 using GalacticEmpire.Application.Mapper;
 using GalacticEmpire.Application.MediatorExtension;
+using GalacticEmpire.Application.Timing;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.UserModel.Base;
 using Hangfire;
@@ -31,6 +32,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace GalacticEmpire.Server
 {
@@ -172,6 +174,7 @@ namespace GalacticEmpire.Server
                 };
             });
 
+            services.AddTransient<TimingService>();
             services.AddMediatR(typeof(GetAllEventsQuery));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
@@ -189,7 +192,7 @@ namespace GalacticEmpire.Server
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, GalacticEmpireDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -212,6 +215,12 @@ namespace GalacticEmpire.Server
             {
                 Authorization = new[] { new HangfireAuthorizationFilter() }
             });
+
+            var manager = new RecurringJobManager();
+            manager.AddOrUpdate<TimingService>("payoffMaterials", (timingService) => timingService.PayoffMaterials(), Cron.Hourly);
+            manager.AddOrUpdate<TimingService>("payoffEmpireMercenariesAndFeedEveryone", (timingService) => timingService.PayoffEmpireMercenariesAndFeedEveryone(), Cron.Hourly);
+            manager.AddOrUpdate<TimingService>("calculatePoints", (timingService) => timingService.CalculatePoints() , Cron.Hourly);
+            manager.AddOrUpdate<TimingService>("addRandomEventToEmpires", (timingService) => timingService.AddRandomEventToEmpires(), Cron.Daily);
 
             app.UseOpenApi();
             app.UseSwaggerUi3(options =>
