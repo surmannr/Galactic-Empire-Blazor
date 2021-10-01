@@ -1,5 +1,6 @@
 using Autofac;
 using FluentValidation.AspNetCore;
+using GalacticEmpire.Api.ExtensionsAndServices.Hangfire;
 using GalacticEmpire.Api.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Event.Queries;
@@ -7,6 +8,8 @@ using GalacticEmpire.Application.Mapper;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.UserModel.Base;
+using Hangfire;
+using Hangfire.SqlServer;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.Configuration;
 using MediatR;
@@ -24,6 +27,7 @@ using Microsoft.Extensions.Hosting;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
@@ -52,6 +56,25 @@ namespace GalacticEmpire.Server
                         .AllowAnyHeader());
             });
 
+            // Add Hangfire services.
+            services.AddHangfire(configuration =>
+            {
+                configuration
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UseSqlServerStorage(Configuration.GetConnectionString("DefaultHangfireConnection"), new SqlServerStorageOptions
+                    {
+                        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                        QueuePollInterval = TimeSpan.Zero,
+                        UseRecommendedIsolationLevel = true,
+                        DisableGlobalLocks = true
+                    });
+            });
+
+            // Add the processing server as IHostedService
+            services.AddHangfireServer();
 
             services.AddDbContext<GalacticEmpireDbContext>(options =>
                 options.UseSqlServer(
@@ -184,6 +207,11 @@ namespace GalacticEmpire.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
+
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireAuthorizationFilter() }
+            });
 
             app.UseOpenApi();
             app.UseSwaggerUi3(options =>
