@@ -461,7 +461,8 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    NumberOfDrones = table.Column<int>(type: "int", nullable: false),
+                    NumberOfAttackerDrones = table.Column<int>(type: "int", nullable: false),
+                    NumberOfDefenderDrones = table.Column<int>(type: "int", nullable: false),
                     DefenderDefensivePoints = table.Column<int>(type: "int", nullable: true),
                     Date = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     AttackerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -588,10 +589,9 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: table => new
                 {
                     Level = table.Column<int>(type: "int", nullable: false),
-                    UnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UnitId = table.Column<int>(type: "int", nullable: false),
                     AttackId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    UnitId1 = table.Column<int>(type: "int", nullable: true)
+                    Amount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -602,8 +602,32 @@ namespace GalacticEmpire.Dal.Migrations
                         principalTable: "Attacks",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_AttackUnits_Units_UnitId1",
-                        column: x => x.UnitId1,
+                        name: "FK_AttackUnits_Units_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "Units",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DefenseUnit",
+                columns: table => new
+                {
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    UnitId = table.Column<int>(type: "int", nullable: false),
+                    AttackId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DefenseUnit", x => new { x.UnitId, x.AttackId, x.Level });
+                    table.ForeignKey(
+                        name: "FK_DefenseUnit_Attacks_AttackId",
+                        column: x => x.AttackId,
+                        principalTable: "Attacks",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_DefenseUnit_Units_UnitId",
+                        column: x => x.UnitId,
                         principalTable: "Units",
                         principalColumn: "Id");
                 });
@@ -635,8 +659,8 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "User", "5722d683-aa5f-44dd-b8c6-7d866db078be", "User", "USER" },
-                    { "Admin", "b5959442-1b8f-421a-9bdb-4d278b5e6802", "Admin", "ADMIN" }
+                    { "User", "b50b7806-988c-4ee4-829a-b48c78789859", "User", "USER" },
+                    { "Admin", "5e89d7e3-9ee3-4334-81c3-9734bf426cb6", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -644,16 +668,16 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Points", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "user10", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HFILINKOV9", "AQAAAAEAACcQAAAAEBjA6Milq/SBfwwRnMy2tG5NNxFaMnuPQE7zA0nVMzjqd/Pt2YY3zFd0nWw2cnPbyA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hfilinkov9" },
-                    { "user9", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "KSEELY8", "AQAAAAEAACcQAAAAEELw13Flav1YX2m37f8angPXx+7NA1DrgLzI0qHmoHemnedaKXhoP7CRi3Zi+KP2VQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "kseely8" },
-                    { "user8", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "ERYLETT7", "AQAAAAEAACcQAAAAEAKmKWVVSu4SwK4/JvUMPtmcttfKmC6f4voWNMFntNbU7UWZqsAv2N14nJvMW9uXQQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "erylett7" },
-                    { "user1", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "SSTRAHAN0", "AQAAAAEAACcQAAAAEC1RPemaKERv6FguQC35o/JKafCAi4cbr8pcLFbFNEKRhaC2defX0Mg2Id6nfC7Q2g==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "sstrahan0" },
-                    { "user7", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "GBOSKELL6", "AQAAAAEAACcQAAAAEGsSkRsaBvpwk7++7AC+y150lPOgiPSS/d1R0th8ZpUiMB5u3QKE2nx8IjVnhW4bOw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "gboskell6" },
-                    { "user6", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HCHEVERELL5", "AQAAAAEAACcQAAAAEF69Hzq5rHiOF1aXN0t9GLlh+G0oHrm0KunVKaE9oWdTXwzMw++Q5zRdGmXSJhrSNA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hcheverell5" },
-                    { "user5", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "TMAXWORTHY4", "AQAAAAEAACcQAAAAEHtIlvGfPWHxtrncb6RUV5EiXkZVlFOTkADhzgx3O4FdvwGHT+Jp1d9aWjNk0aVRhQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "tmaxworthy4" },
-                    { "user4", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "JMELIOR3", "AQAAAAEAACcQAAAAEEUmZtZ8zLaJzqloAhQUFkKSUI+vF2UDGPziWbJqC6yrU5BYAIDn4Ni8PXEcXr8t1w==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "jmelior3" },
-                    { "user3", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "BLYPTRATT2", "AQAAAAEAACcQAAAAED0XjyOnAa9ufEzSNMPeI9V4cez8RxE0ljCKro5ER6mr9m+8qxRjMwmSWkE3Z9EdBw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "blyptratt2" },
-                    { "user2", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "LTIPPIN1", "AQAAAAEAACcQAAAAEGEwYFiEugDSINzPnXUcm2t+us3WYR0iTVr2taHJ+5WF5QNUkVjZJO899ZNXaSbXGw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "ltippin1" }
+                    { "user10", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HFILINKOV9", "AQAAAAEAACcQAAAAEOVTm96GDe/1tO0j5v4bshg1prV8SEvFnwX7miJn29iUo0FTjU99rSfSOya0CiY6gg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hfilinkov9" },
+                    { "user9", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "KSEELY8", "AQAAAAEAACcQAAAAEB/E0PVjY4hMF8mQkXl63cp1GujOKRKSze59gT3PTszUROiuTq8L2Qi8h7EvCpSwXg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "kseely8" },
+                    { "user8", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "ERYLETT7", "AQAAAAEAACcQAAAAEEwaMdMFoj5OIwJsGwtg6yIW6CuUV49Epg/yM1rSew5DVhx3pgSNcxfpWfocqBbM1A==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "erylett7" },
+                    { "user1", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "SSTRAHAN0", "AQAAAAEAACcQAAAAEMOMl6rb6fVzZgo4UrFJUJcAr4SuyeyEJRz0BBK5R7qMsV9UzBkknxLDZMc9UCW3ww==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "sstrahan0" },
+                    { "user7", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "GBOSKELL6", "AQAAAAEAACcQAAAAEHnBcgv+G6mk+b41u5SzDxF20fDjsXdsLhdMztSXt099UEF75sgVxwsJ9bIUTI7knQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "gboskell6" },
+                    { "user6", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HCHEVERELL5", "AQAAAAEAACcQAAAAEARk8YwxRrjwdbNw7lXs0481m38N0H7eMHfjVGXEYPR8MIugB+ne3eYwmZ7t9Hjpkg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hcheverell5" },
+                    { "user5", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "TMAXWORTHY4", "AQAAAAEAACcQAAAAEA77G4LOr1QRCXmU61p96Db35XAYBd1Ew6AKkLhMPndeXQrW2VmuMq0HdJJZHz3ncg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "tmaxworthy4" },
+                    { "user4", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "JMELIOR3", "AQAAAAEAACcQAAAAEDhqL4V+5oyttI0xGIK8OhxUwX0yiluQ2w5S7GsCQA9NPcpPHXAwwee5q+UuVkEe+A==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "jmelior3" },
+                    { "user3", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "BLYPTRATT2", "AQAAAAEAACcQAAAAEBV0zJUR1zyM5ey1Uf9RpD8DVYL6jZW3ZjLgydlfzeLVHYMP0LW+XML+Q+FyjCcJcw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "blyptratt2" },
+                    { "user2", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "LTIPPIN1", "AQAAAAEAACcQAAAAEKjpoNO/0IULhR/kzsW94+LamRrWv3ERZDOHgLj67IfF147FzVOjpE6pbHegQfIl9Q==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "ltippin1" }
                 });
 
             migrationBuilder.InsertData(
@@ -1215,9 +1239,9 @@ namespace GalacticEmpire.Dal.Migrations
                 column: "AttackId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AttackUnits_UnitId1",
-                table: "AttackUnits",
-                column: "UnitId1");
+                name: "IX_DefenseUnit_AttackId",
+                table: "DefenseUnit",
+                column: "AttackId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DroneAttacks_AttackerId",
@@ -1312,6 +1336,9 @@ namespace GalacticEmpire.Dal.Migrations
 
             migrationBuilder.DropTable(
                 name: "AttackUnits");
+
+            migrationBuilder.DropTable(
+                name: "DefenseUnit");
 
             migrationBuilder.DropTable(
                 name: "DroneAttacks");

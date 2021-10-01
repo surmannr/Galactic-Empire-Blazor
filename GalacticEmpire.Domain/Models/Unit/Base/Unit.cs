@@ -20,5 +20,6 @@ namespace GalacticEmpire.Domain.Models.UnitModel.Base
         public ICollection<EmpireUnit> EmpireUnits { get; set; }
         public ICollection<UnitPriceMaterial> UnitPriceMaterials { get; set; }
         public ICollection<AttackUnit> AttackUnits { get; set; }
+        public ICollection<DefenseUnit> DefenseUnits { get; set; }
     }
 }

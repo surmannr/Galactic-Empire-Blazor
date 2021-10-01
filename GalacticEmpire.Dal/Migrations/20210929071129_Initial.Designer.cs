@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GalacticEmpire.Dal.Migrations
 {
     [DbContext(typeof(GalacticEmpireDbContext))]
-    [Migration("20210924165805_Initial")]
+    [Migration("20210929071129_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,8 +84,8 @@ namespace GalacticEmpire.Dal.Migrations
 
             modelBuilder.Entity("GalacticEmpire.Domain.Models.AttackModel.AttackUnit", b =>
                 {
-                    b.Property<Guid>("UnitId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UnitId")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("AttackId")
                         .HasColumnType("uniqueidentifier");
@@ -96,14 +96,9 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UnitId1")
-                        .HasColumnType("int");
-
                     b.HasKey("UnitId", "AttackId", "Level");
 
                     b.HasIndex("AttackId");
-
-                    b.HasIndex("UnitId1");
 
                     b.ToTable("AttackUnits");
                 });
@@ -135,6 +130,27 @@ namespace GalacticEmpire.Dal.Migrations
                     b.ToTable("Attacks");
                 });
 
+            modelBuilder.Entity("GalacticEmpire.Domain.Models.AttackModel.DefenseUnit", b =>
+                {
+                    b.Property<int>("UnitId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("AttackId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.HasKey("UnitId", "AttackId", "Level");
+
+                    b.HasIndex("AttackId");
+
+                    b.ToTable("DefenseUnit");
+                });
+
             modelBuilder.Entity("GalacticEmpire.Domain.Models.AttackModel.DroneAttack", b =>
                 {
                     b.Property<Guid>("Id")
@@ -153,7 +169,10 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Property<Guid>("DefenderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("NumberOfDrones")
+                    b.Property<int>("NumberOfAttackerDrones")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfDefenderDrones")
                         .HasColumnType("int");
 
                     b.Property<Guid?>("WinnerId")
@@ -2279,7 +2298,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "SSTRAHAN0",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC1RPemaKERv6FguQC35o/JKafCAi4cbr8pcLFbFNEKRhaC2defX0Mg2Id6nfC7Q2g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMOMl6rb6fVzZgo4UrFJUJcAr4SuyeyEJRz0BBK5R7qMsV9UzBkknxLDZMc9UCW3ww==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2294,7 +2313,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "LTIPPIN1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGEwYFiEugDSINzPnXUcm2t+us3WYR0iTVr2taHJ+5WF5QNUkVjZJO899ZNXaSbXGw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKjpoNO/0IULhR/kzsW94+LamRrWv3ERZDOHgLj67IfF147FzVOjpE6pbHegQfIl9Q==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2309,7 +2328,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "BLYPTRATT2",
-                            PasswordHash = "AQAAAAEAACcQAAAAED0XjyOnAa9ufEzSNMPeI9V4cez8RxE0ljCKro5ER6mr9m+8qxRjMwmSWkE3Z9EdBw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBV0zJUR1zyM5ey1Uf9RpD8DVYL6jZW3ZjLgydlfzeLVHYMP0LW+XML+Q+FyjCcJcw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2324,7 +2343,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "JMELIOR3",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEUmZtZ8zLaJzqloAhQUFkKSUI+vF2UDGPziWbJqC6yrU5BYAIDn4Ni8PXEcXr8t1w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDhqL4V+5oyttI0xGIK8OhxUwX0yiluQ2w5S7GsCQA9NPcpPHXAwwee5q+UuVkEe+A==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2339,7 +2358,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "TMAXWORTHY4",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHtIlvGfPWHxtrncb6RUV5EiXkZVlFOTkADhzgx3O4FdvwGHT+Jp1d9aWjNk0aVRhQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA77G4LOr1QRCXmU61p96Db35XAYBd1Ew6AKkLhMPndeXQrW2VmuMq0HdJJZHz3ncg==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2354,7 +2373,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "HCHEVERELL5",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF69Hzq5rHiOF1aXN0t9GLlh+G0oHrm0KunVKaE9oWdTXwzMw++Q5zRdGmXSJhrSNA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEARk8YwxRrjwdbNw7lXs0481m38N0H7eMHfjVGXEYPR8MIugB+ne3eYwmZ7t9Hjpkg==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2369,7 +2388,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "GBOSKELL6",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGsSkRsaBvpwk7++7AC+y150lPOgiPSS/d1R0th8ZpUiMB5u3QKE2nx8IjVnhW4bOw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHnBcgv+G6mk+b41u5SzDxF20fDjsXdsLhdMztSXt099UEF75sgVxwsJ9bIUTI7knQ==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2384,7 +2403,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ERYLETT7",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAKmKWVVSu4SwK4/JvUMPtmcttfKmC6f4voWNMFntNbU7UWZqsAv2N14nJvMW9uXQQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEwaMdMFoj5OIwJsGwtg6yIW6CuUV49Epg/yM1rSew5DVhx3pgSNcxfpWfocqBbM1A==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2399,7 +2418,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "KSEELY8",
-                            PasswordHash = "AQAAAAEAACcQAAAAEELw13Flav1YX2m37f8angPXx+7NA1DrgLzI0qHmoHemnedaKXhoP7CRi3Zi+KP2VQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEB/E0PVjY4hMF8mQkXl63cp1GujOKRKSze59gT3PTszUROiuTq8L2Qi8h7EvCpSwXg==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2414,7 +2433,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "HFILINKOV9",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBjA6Milq/SBfwwRnMy2tG5NNxFaMnuPQE7zA0nVMzjqd/Pt2YY3zFd0nWw2cnPbyA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOVTm96GDe/1tO0j5v4bshg1prV8SEvFnwX7miJn29iUo0FTjU99rSfSOya0CiY6gg==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2453,14 +2472,14 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = "Admin",
-                            ConcurrencyStamp = "b5959442-1b8f-421a-9bdb-4d278b5e6802",
+                            ConcurrencyStamp = "5e89d7e3-9ee3-4334-81c3-9734bf426cb6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "User",
-                            ConcurrencyStamp = "5722d683-aa5f-44dd-b8c6-7d866db078be",
+                            ConcurrencyStamp = "b50b7806-988c-4ee4-829a-b48c78789859",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -3117,8 +3136,9 @@ namespace GalacticEmpire.Dal.Migrations
 
                     b.HasOne("GalacticEmpire.Domain.Models.UnitModel.Base.Unit", "Unit")
                         .WithMany("AttackUnits")
-                        .HasForeignKey("UnitId1")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Attack");
 
@@ -3142,6 +3162,25 @@ namespace GalacticEmpire.Dal.Migrations
                     b.Navigation("Attacker");
 
                     b.Navigation("Defender");
+                });
+
+            modelBuilder.Entity("GalacticEmpire.Domain.Models.AttackModel.DefenseUnit", b =>
+                {
+                    b.HasOne("GalacticEmpire.Domain.Models.AttackModel.Base.Attack", "Attack")
+                        .WithMany("DefenseUnits")
+                        .HasForeignKey("AttackId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("GalacticEmpire.Domain.Models.UnitModel.Base.Unit", "Unit")
+                        .WithMany("DefenseUnits")
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Attack");
+
+                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("GalacticEmpire.Domain.Models.AttackModel.DroneAttack", b =>
@@ -4743,6 +4782,8 @@ namespace GalacticEmpire.Dal.Migrations
             modelBuilder.Entity("GalacticEmpire.Domain.Models.AttackModel.Base.Attack", b =>
                 {
                     b.Navigation("AttackUnits");
+
+                    b.Navigation("DefenseUnits");
                 });
 
             modelBuilder.Entity("GalacticEmpire.Domain.Models.EmpireModel.Base.Empire", b =>
@@ -4803,6 +4844,8 @@ namespace GalacticEmpire.Dal.Migrations
             modelBuilder.Entity("GalacticEmpire.Domain.Models.UnitModel.Base.Unit", b =>
                 {
                     b.Navigation("AttackUnits");
+
+                    b.Navigation("DefenseUnits");
 
                     b.Navigation("EmpireUnits");
 

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using GalacticEmpire.Domain.Models.AllianceModel;
 using GalacticEmpire.Domain.Models.AllianceModel.Base;
+using GalacticEmpire.Domain.Models.AttackModel;
+using GalacticEmpire.Domain.Models.AttackModel.Base;
 using GalacticEmpire.Domain.Models.EmpireModel;
 using GalacticEmpire.Domain.Models.EmpireModel.Base;
 using GalacticEmpire.Domain.Models.EventModel.Base;
@@ -13,6 +15,7 @@ using GalacticEmpire.Domain.Models.UpgradeModel;
 using GalacticEmpire.Domain.Models.UpgradeModel.Base;
 using GalacticEmpire.Domain.Models.UserModel.Base;
 using GalacticEmpire.Shared.Dto.Alliance;
+using GalacticEmpire.Shared.Dto.Attack;
 using GalacticEmpire.Shared.Dto.Empire;
 using GalacticEmpire.Shared.Dto.Event;
 using GalacticEmpire.Shared.Dto.Material;
@@ -247,6 +250,52 @@ namespace GalacticEmpire.Application.Mapper
                 .ForMember(
                     aidto => aidto.MembersCount,
                     ai => ai.MapFrom(a => a.Members.Count())
+                );
+
+            CreateMap<User, AttackableUserDto>()
+                .ForMember(
+                    audto => audto.EmpireName,
+                    ai => ai.MapFrom(a => a.Empire.Name)
+                )
+                .ForMember(
+                    audto => audto.EmpireId,
+                    ai => ai.MapFrom(a => a.Empire.Id)
+                );
+
+            CreateMap<AttackUnit, BattleUnitDto>()
+                .ForMember(
+                    budto => budto.Id,
+                    au => au.MapFrom(a => a.Unit.Id)
+                )
+                .ForMember(
+                    budto => budto.Name,
+                    au => au.MapFrom(a => a.Unit.Name)
+                )
+                .ForMember(
+                    budto => budto.Count,
+                    au => au.MapFrom(a => a.Amount)
+                )
+                .ForMember(
+                    budto => budto.ImageUrl,
+                    au => au.MapFrom(a => a.Unit.ImageUrl)
+                );
+
+            CreateMap<DefenseUnit, BattleUnitDto>()
+                .ForMember(
+                    budto => budto.Id,
+                    au => au.MapFrom(a => a.Unit.Id)
+                )
+                .ForMember(
+                    budto => budto.Name,
+                    au => au.MapFrom(a => a.Unit.Name)
+                )
+                .ForMember(
+                    budto => budto.Count,
+                    au => au.MapFrom(a => a.Amount)
+                )
+                .ForMember(
+                    budto => budto.ImageUrl,
+                    au => au.MapFrom(a => a.Unit.ImageUrl)
                 );
         }
     }

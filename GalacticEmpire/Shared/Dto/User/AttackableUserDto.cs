@@ -10,6 +10,7 @@ namespace GalacticEmpire.Shared.Dto.User
     {
         public string Id { get; set; }
         public string UserName { get; set; }
+        public string EmpireName { get; set; }
         public Guid EmpireId { get; set; }
     }
 }
