@@ -1,5 +1,6 @@
 using Autofac;
 using FluentValidation.AspNetCore;
+using GalacticEmpire.Api.Areas.Identity;
 using GalacticEmpire.Api.ExtensionsAndServices.Hangfire;
 using GalacticEmpire.Api.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
@@ -20,6 +21,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -108,7 +110,12 @@ namespace GalacticEmpire.Server
 
             services.AddHttpContextAccessor();
 
+            // IdentityService beregisztrálása
             services.AddScoped<IIdentityService, IdentityService>();
+
+            // EmailSender beregisztrálása
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddIdentityServer(options =>
             {
