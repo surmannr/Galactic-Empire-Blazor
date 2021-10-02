@@ -1,8 +1,10 @@
 ﻿using FluentValidation;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
+using GalacticEmpire.Application.Features.Drone.Events;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.EmpireModel;
+using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Drone;
 using GalacticEmpire.Shared.Enums.Unit;
 using GalacticEmpire.Shared.Extensions.EnumExtensions;
@@ -28,11 +30,13 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
         {
             private readonly GalacticEmpireDbContext dbContext;
             private readonly IIdentityService identityService;
+            private readonly IMediator mediator;
 
-            public Handler(GalacticEmpireDbContext dbContext, IIdentityService identityService)
+            public Handler(GalacticEmpireDbContext dbContext, IIdentityService identityService, IMediator mediator)
             {
                 this.dbContext = dbContext;
                 this.identityService = identityService;
+                this.mediator = mediator;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
@@ -73,12 +77,12 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
                     throw new Exception("Nincs ilyen birodalom, amit kémkedhetnél.");
                 }
 
-                await DroneLogic(empire, request, attackedEmpire, drone);
+                DroneLogic(empire, request, attackedEmpire, drone);
 
                 return true;
             }
 
-            public async Task DroneLogic(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire dronedEmpire, Domain.Models.UnitModel.Base.Unit drone)
+            public void DroneLogic(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire dronedEmpire, Domain.Models.UnitModel.Base.Unit drone)
             {
                 var empireDroneUnit = empire.EmpireUnits
                     .Where(eu => eu.Level == 1 && eu.UnitId == drone.Id)
@@ -109,10 +113,8 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
                 };
 
                 droneAttack.DefenderDefensivePoints = CalculateOpponentDefensivePoints(empire, droneAttack.WinnerId, dronedEmpire.EmpireUnits);
-                
-                dbContext.DroneAttacks.Add(droneAttack);
 
-                await dbContext.SaveChangesAsync();
+                mediator.Schedule(new DroneTimingEvent() { DroneAttack = droneAttack }, TimeConstants.AttackAndSpyingTime);
             }
 
             public Guid? CalculateWinner(EmpireUnit attackerDroneUnit, Command request, EmpireUnit? defenderDroneUnit)

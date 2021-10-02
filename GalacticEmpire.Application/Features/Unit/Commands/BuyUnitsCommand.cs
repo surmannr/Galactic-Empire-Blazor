@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
+using GalacticEmpire.Application.Features.Unit.Events;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Shared.Dto.Unit;
@@ -23,11 +24,13 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
         {
             private readonly GalacticEmpireDbContext dbContext;
             private readonly IIdentityService identityService;
+            private readonly IMediator mediator;
 
-            public Handler(GalacticEmpireDbContext dbContext, IIdentityService identityService)
+            public Handler(GalacticEmpireDbContext dbContext, IIdentityService identityService, IMediator mediator)
             {
                 this.dbContext = dbContext;
                 this.identityService = identityService;
+                this.mediator = mediator;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
@@ -55,6 +58,8 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
                     throw new Exception("A megvételre szánt egység mennyisége túl lépi a birodalom korlátját.");
                 }
 
+                var time = new TimeSpan(0, 0, 0);
+
                 foreach (var buyUnit in unitBuyCollection)
                 {
                     var empireUnit = empire.EmpireUnits
@@ -80,11 +85,19 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
                             }
                         }
                     }
+                    var trainingTime = empireUnit.Unit.UnitLevels.SingleOrDefault(u => u.UnitId == buyUnit.UnitId && u.Level == buyUnit.Level);
+
+                    if (trainingTime == null)
+                    {
+                        throw new Exception("Nem tartozik hozzá kiképzési idő.");
+                    }
+
+                    time = time.Add(trainingTime.TrainingTime.Multiply(buyUnit.Count));
 
                     empireUnit.Amount += buyUnit.Count;
                 }
 
-                await dbContext.SaveChangesAsync();
+                mediator.Schedule(new UnitTrainingTimeEvent() { UnitsCollection = request.UnitsCollection, EmpireId = empire.Id }, time);
 
                 return true;
             }

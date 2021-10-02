@@ -2,8 +2,10 @@
 using FluentValidation;
 using FluentValidation.Validators;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
+using GalacticEmpire.Application.Features.Planet.Event;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Planet;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,11 +29,13 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
         {
             private readonly GalacticEmpireDbContext dbContext;
             private readonly IIdentityService identityService;
+            private readonly IMediator mediator;
 
-            public Handler(GalacticEmpireDbContext dbContext, IIdentityService identityService)
+            public Handler(GalacticEmpireDbContext dbContext, IIdentityService identityService, IMediator mediator)
             {
                 this.dbContext = dbContext;
                 this.identityService = identityService;
+                this.mediator = mediator;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
@@ -78,17 +82,7 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
                     }
                 }
 
-                empire.EmpirePlanets.Add(
-                    new Domain.Models.EmpireModel.EmpirePlanet()
-                    {
-                        EmpireId = empire.Id,
-                        PlanetId = planet.Id
-                    }    
-                );
-
-                planet.ApplyEffect(empire);
-
-                await dbContext.SaveChangesAsync();
+                mediator.Schedule(new BuyPlanetTimingEvent { EmpireId = empire.Id, PlanetId = planet.Id }, planet.CapturingTime);
 
                 return true;
             }

@@ -29,6 +29,7 @@ using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
@@ -76,7 +77,15 @@ namespace GalacticEmpire.Server
             });
 
             // Add the processing server as IHostedService
-            services.AddHangfireServer();
+            services.AddHangfireServer(options =>
+            {
+                options.Queues = new[] {
+                    "payoff_materials",
+                    "payoff_empire_mercenaries_and_feed_everyone",
+                    "calculate_points",
+                    "add_random_event_to_empires",
+                    "default" };
+            });
 
             services.AddDbContext<GalacticEmpireDbContext>(options =>
                 options.UseSqlServer(
@@ -192,7 +201,7 @@ namespace GalacticEmpire.Server
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, GalacticEmpireDbContext dbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -216,11 +225,10 @@ namespace GalacticEmpire.Server
                 Authorization = new[] { new HangfireAuthorizationFilter() }
             });
 
-            var manager = new RecurringJobManager();
-            manager.AddOrUpdate<TimingService>("payoffMaterials", (timingService) => timingService.PayoffMaterials(), Cron.Hourly);
-            manager.AddOrUpdate<TimingService>("payoffEmpireMercenariesAndFeedEveryone", (timingService) => timingService.PayoffEmpireMercenariesAndFeedEveryone(), Cron.Hourly);
-            manager.AddOrUpdate<TimingService>("calculatePoints", (timingService) => timingService.CalculatePoints() , Cron.Hourly);
-            manager.AddOrUpdate<TimingService>("addRandomEventToEmpires", (timingService) => timingService.AddRandomEventToEmpires(), Cron.Daily);
+            RecurringJob.AddOrUpdate<TimingService>("payoffMaterials", (timingService) => timingService.PayoffMaterials(), Cron.Hourly, queue: "payoff_materials");
+            RecurringJob.AddOrUpdate<TimingService>("payoffEmpireMercenariesAndFeedEveryone", (timingService) => timingService.PayoffEmpireMercenariesAndFeedEveryone(), Cron.Hourly, queue: "payoff_empire_mercenaries_and_feed_everyone");
+            RecurringJob.AddOrUpdate<TimingService>("calculatePoints", (timingService) => timingService.CalculatePoints() , Cron.Hourly, queue: "calculate_points");
+            RecurringJob.AddOrUpdate<TimingService>("addRandomEventToEmpires", (timingService) => timingService.AddRandomEventToEmpires(), Cron.Daily, queue: "add_random_event_to_empires");
 
             app.UseOpenApi();
             app.UseSwaggerUi3(options =>
