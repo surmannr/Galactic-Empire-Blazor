@@ -1,0 +1,42 @@
+﻿@inherits LayoutComponentBase
+
+<AuthorizeView>
+    <Authorized>
+        <MudLayout>
+            <MudAppBar Elevation="1" Style="background-color: rgba(0,0,0,0.7)">
+                <MudIconButton  Variant="Variant.Filled" Icon="@Icons.Material.Filled.Menu" Size="Size.Large" Class="bg-light" Edge="Edge.Start" OnClick="@ToggleDrawerLeft" />
+                <MudSpacer />
+                <MudIconButton  Variant="Variant.Filled" Icon="@Icons.Material.Filled.Menu" Size="Size.Large" Class="bg-light" Edge="Edge.End" OnClick="@ToggleDrawerRight" />
+            </MudAppBar>
+
+            <LeftSideBar open="openLeft"></LeftSideBar>
+            <RightSideBar open="openRight"></RightSideBar>
+
+            <MudMainContent Class="pt-16 px-16">
+                <MudContainer Class="mt-6">
+                    @Body
+                </MudContainer>
+            </MudMainContent>
+        </MudLayout>
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToLogin></RedirectToLogin>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code{
+
+    bool openLeft = false;
+
+    void ToggleDrawerLeft()
+    {
+        openLeft = !openLeft;
+    }
+
+    bool openRight = false;
+
+    void ToggleDrawerRight()
+    {
+        openRight = !openRight;
+    }
+}

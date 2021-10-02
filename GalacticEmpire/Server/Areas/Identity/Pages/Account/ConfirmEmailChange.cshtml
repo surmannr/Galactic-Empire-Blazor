@@ -1,8 +1,11 @@
-﻿@page
+﻿@page "/confirm-email-change"
+@using GalacticEmpire.Api.Areas.Identity.Pages.Account
 @model ConfirmEmailChangeModel
 @{
-    ViewData["Title"] = "Confirm email change";
+    ViewData["Title"] = "Email változtatás megerősítése";
 }
 
-<h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="login-box p-5" style="background-color: rgba(0,0,0,0.7); color: white; border-radius: 50px;">
+    <h1>@ViewData["Title"]</h1>
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
+</div>

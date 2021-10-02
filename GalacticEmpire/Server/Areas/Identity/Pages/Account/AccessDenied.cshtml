@@ -1,10 +1,12 @@
-﻿@page
+﻿@page "/access-denied"
+@using GalacticEmpire.Api.Areas.Identity.Pages.Account
 @model AccessDeniedModel
+
 @{
-    ViewData["Title"] = "Access denied";
+    ViewData["Title"] = "Hozzáférés megtagadva";
 }
 
-<header>
+<div class="login-box p-5" style="background-color: rgba(0,0,0,0.7); color: white; border-radius: 50px;">
     <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">You do not have access to this resource.</p>
-</header>
+    <p class="text-danger">Nincs jogosultságod a továbblépéshez.</p>
+</div>

@@ -1,0 +1,23 @@
+﻿<MudDrawer @bind-Open="@open" Elevation="1" Anchor="Anchor.Right" Style="background-color: rgba(0,0,0,0.7)">
+
+    <MudDrawerHeader Class="d-flex flex-column align-items-center">
+        <MudText Typo="Typo.h5" Style="color: rgb(255,255,255)" Class="mb-3">Profil</MudText>
+        <MudAvatar Image="https://via.placeholder.com/340x255" Style="height:100px; width:100px;"  Class="d-flex align-items-center mb-3"/>
+        <MudText Typo="Typo.h5" Style="color: rgb(255,255,255); font-weight: bold">Empire name</MudText>
+        <MudText Typo="Typo.h6" Style="color: rgb(255,255,255)">User name</MudText>
+    </MudDrawerHeader>
+    
+    <MudNavMenu>
+        <MudNavGroup Style="color: rgb(255,255,255)" Title="Beállítások" Expanded="false">
+            <MudNavLink Href="/my-planets-upgrades">Felhasználónév átnevezése</MudNavLink>
+            <MudNavLink Href="/my-planets-upgrades">Jelszó megváltoztatása</MudNavLink>
+            <MudNavLink Href="/upgrade-planet">Email megváltoztatása</MudNavLink>
+            <MudNavLink Href="/upgrade-planet">Birodalom átnevezése</MudNavLink>
+        </MudNavGroup>
+        <MudNavLink Style="color: rgb(255,255,255)" Href="/logout">Kijelentkezés</MudNavLink>
+    </MudNavMenu>
+</MudDrawer>
+
+@code { [Parameter]
+    public bool open { get; set; } = false;
+}

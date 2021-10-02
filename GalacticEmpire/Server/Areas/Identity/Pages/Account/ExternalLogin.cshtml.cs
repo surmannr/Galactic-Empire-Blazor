@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using MediatR;
+using GalacticEmpire.Application.Features.User.Commands;
+using GalacticEmpire.Application.Features.User.Queries;
 
 namespace GalacticEmpire.Api.Areas.Identity.Pages.Account
 {
@@ -23,18 +26,21 @@ namespace GalacticEmpire.Api.Areas.Identity.Pages.Account
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly IMediator mediator;
         private readonly ILogger<ExternalLoginModel> _logger;
 
         public ExternalLoginModel(
             SignInManager<User> signInManager,
             UserManager<User> userManager,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IMediator mediator)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
             _emailSender = emailSender;
+            this.mediator = mediator;
         }
 
         [BindProperty]
@@ -52,6 +58,9 @@ namespace GalacticEmpire.Api.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            public string EmpireName { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -72,13 +81,13 @@ namespace GalacticEmpire.Api.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (remoteError != null)
             {
-                ErrorMessage = $"Error from external provider: {remoteError}";
+                ErrorMessage = $"Hiba a külső szolgáltatónál: {remoteError}";
                 return RedirectToPage("./Login", new {ReturnUrl = returnUrl });
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                ErrorMessage = "Error loading external login information.";
+                ErrorMessage = "Hiba a bejelentkezési adatok betöltésekor.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
@@ -86,7 +95,7 @@ namespace GalacticEmpire.Api.Areas.Identity.Pages.Account
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
             if (result.Succeeded)
             {
-                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                _logger.LogInformation("{Name} bejelentkezett a {LoginProvider} szolgáltatás segítségével.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
             if (result.IsLockedOut)
@@ -116,21 +125,29 @@ namespace GalacticEmpire.Api.Areas.Identity.Pages.Account
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                ErrorMessage = "Error loading external login information during confirmation.";
+                ErrorMessage = "Hiba a külső szolgáltató bejelentkezésénél.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email };
+                var result = await mediator.Send(new RegisterUserCommand.Command {
+                    RegisterDto = new Shared.Dto.User.RegisterDto {
+                        UserName = Input.Email,
+                        Email = Input.Email,
+                        EmpireName = Input.EmpireName,
+                        Password = "asd123ASD?",
+                        ConfirmPassword = "asd123ASD?"
+                    }
+                });
 
-                var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    var user = await mediator.Send(new GetUserByEmailAndUsernameQuery.Query { Email = Input.Email, UserName = Input.Email });
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                        _logger.LogInformation("Felhasználó létrehozva a {Name} szolgáltatás segítségével.", info.LoginProvider);
 
                         var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -141,8 +158,8 @@ namespace GalacticEmpire.Api.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        await _emailSender.SendEmailAsync(Input.Email, "Email cím megerősítése",
+                            $"Kérlek erősítsd meg az email címedet. <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Kattints ide</a>.");
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)

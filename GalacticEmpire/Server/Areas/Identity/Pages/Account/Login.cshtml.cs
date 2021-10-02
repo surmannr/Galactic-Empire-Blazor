@@ -44,13 +44,15 @@ namespace GalacticEmpire.Api.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [Display(Name = "Felhasználónév:")]
             public string UserName { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "Jelszó:")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Emlékezz rám")]
             public bool RememberMe { get; set; }
         }
 

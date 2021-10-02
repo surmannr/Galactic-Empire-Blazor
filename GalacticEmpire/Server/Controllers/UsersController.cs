@@ -40,7 +40,8 @@ namespace GalacticEmpire.Api.Controllers
         [Route("register")]
         public async Task<bool> Register([FromBody] RegisterUserCommand.Command command)
         {
-            return await mediator.Send(command);
+            var result = await mediator.Send(command);
+            return result.Succeeded;
         }
 
         [HttpGet]

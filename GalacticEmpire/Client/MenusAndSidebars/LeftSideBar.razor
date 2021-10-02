@@ -1,0 +1,28 @@
+﻿<MudDrawer @bind-Open="@open" Elevation="1" Style="background-color: rgba(0,0,0,0.7)">
+    <MudDrawerHeader Class="mt-3">
+        <MudText Align="Align.Center" Typo="Typo.h4" Style="color: rgb(255,255,255)">Galactic Empire</MudText>
+    </MudDrawerHeader>
+    <MudDivider Class="mb-3" DividerType="DividerType.Middle" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+    <MudNavMenu Style="color: rgb(255,255,255); text-decoration:none">
+        <MudNavGroup Style="color: rgb(255,255,255)" Title="Bolygók" Expanded="true">
+            <MudNavLink Href="/my-planets">Bolygóim</MudNavLink>
+            <MudNavLink Href="/capture-planet">Bolygó elfoglalása</MudNavLink>
+        </MudNavGroup>
+        <MudNavGroup Style="color: rgb(255,255,255)" Title="Fejlesztések" Expanded="true">
+            <MudNavLink Href="/my-planets-upgrades">Bolygóim fejlesztései</MudNavLink>
+            <MudNavLink Href="/upgrade-planet">Bolygó fejlesztése</MudNavLink>
+        </MudNavGroup>
+        <MudNavGroup Style="color: rgb(255,255,255)" Title="Egységek" Expanded="true">
+            <MudNavLink Href="/my-units">Egységeim</MudNavLink>
+            <MudNavLink Href="/train-units">Egységek képzése</MudNavLink>
+        </MudNavGroup>
+        <MudNavLink Style="color: rgb(255,255,255)" Href="/attack">Támadás</MudNavLink>
+        <MudNavLink Style="color: rgb(255,255,255)" Href="/drone">Kémkedés</MudNavLink>
+        <MudNavLink Style="color: rgb(255,255,255)" Href="/reports">Jelentések</MudNavLink>
+        <MudNavLink Style="color: rgb(255,255,255)" Href="/rank-list">Ranglista</MudNavLink>
+    </MudNavMenu>
+</MudDrawer>
+
+@code { [Parameter]
+    public bool open { get; set; } = false;
+}

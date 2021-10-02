@@ -2,10 +2,9 @@
 @using GalacticEmpire.Api.Areas.Identity.Pages.Account
 @model LogoutModel
 @{
-    ViewData["Title"] = "Log out";
+    ViewData["Title"] = "Kijelentkezés";
 }
-
-<header>
+<div class="login-box p-5" style="background-color: rgba(0,0,0,0.7); color: white; border-radius: 50px;">
     <h1>@ViewData["Title"]</h1>
     @{
         if (User.Identity.IsAuthenticated)
@@ -16,7 +15,7 @@
         }
         else
         {
-            <p>You have successfully logged out of the application.</p>
+            <p>Sikeresen kijelentkeztél a felhasználódból. További szép napot! &#128516;</p>
         }
     }
-</header>
+</div>
