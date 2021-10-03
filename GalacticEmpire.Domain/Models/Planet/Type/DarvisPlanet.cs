@@ -31,6 +31,7 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             Description = PlanetDescriptionConstants.Darvis_Description;
             PlanetType = PlanetTypeConstants.DarvisType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/planetimages/Darvis.png";
         }
     }
 }

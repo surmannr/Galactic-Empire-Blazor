@@ -41,6 +41,7 @@ namespace GalacticEmpire.Domain.Models.UpgradeModel.Types
             Description = UpgradeDescriptionConstants.VideocardExpansion_Description;
             UpgradeType = UpgradeTypeConstants.VideocardExpansionType;
             UpgradeTime = TimeConstants.UpgradeTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/upgradeimages/videocard_expansion.jpg";
         }
     }
 }

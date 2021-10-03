@@ -5,17 +5,11 @@
     ViewData["Title"] = "Kijelentkezés";
 }
 <div class="login-box p-5" style="background-color: rgba(0,0,0,0.7); color: white; border-radius: 50px;">
-    <h1>@ViewData["Title"]</h1>
-    @{
-        if (User.Identity.IsAuthenticated)
-        {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
-            </form>
-        }
-        else
-        {
-            <p>Sikeresen kijelentkeztél a felhasználódból. További szép napot! &#128516;</p>
-        }
-    }
+    <h1 class="text-center">@ViewData["Title"]</h1>
+       
+    <form class="form-inline d-flex flex-column" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/login", new { area = "" })" method="post">
+        <button type="submit" class="btn btn-block mt-3 mb-3" style="background-color: #B33771">Kattints ide a kijelentkezéshez</button>
+        <p>További szép napot! &#128516;</p>
+    </form>
+        
 </div>

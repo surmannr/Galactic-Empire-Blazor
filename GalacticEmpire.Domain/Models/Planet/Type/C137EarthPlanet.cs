@@ -31,6 +31,7 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             Description = PlanetDescriptionConstants.C137Earth_Description;
             PlanetType = PlanetTypeConstants.C137EarthType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/planetimages/C137_Earth.png";
         }
     }
 }

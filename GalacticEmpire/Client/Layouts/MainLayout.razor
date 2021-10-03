@@ -1,4 +1,10 @@
-﻿@inherits LayoutComponentBase
+﻿@using GalacticEmpire.Shared.Dto.Empire
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inherits LayoutComponentBase
+@inject EmpireState State
+@attribute [Authorize]
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
 
 <AuthorizeView>
     <Authorized>
@@ -12,11 +18,18 @@
             <LeftSideBar open="openLeft"></LeftSideBar>
             <RightSideBar open="openRight"></RightSideBar>
 
-            <MudMainContent Class="pt-16 px-16">
-                <MudContainer Class="mt-6">
+            <MudMainContent Class="row">
+                <MudContainer Class="d-flex flex-column align-items-center justify-content-center" Style="height: 90vh;">
                     @Body
                 </MudContainer>
             </MudMainContent>
+
+            <MudAppBar Bottom="true" Fixed="true" Style="background-color: rgba(0,0,0,0.7)" Elevation="1">
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" />
+                <MudSpacer />
+                <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" Edge="Edge.End" />
+                <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+            </MudAppBar>
         </MudLayout>
     </Authorized>
     <NotAuthorized>
@@ -25,6 +38,13 @@
 </AuthorizeView>
 
 @code{
+
+    public EmpireDetailsDto Empire { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await State.InitializeAsync(uriHelper, HttpClientFactory);
+    }
 
     bool openLeft = false;
 

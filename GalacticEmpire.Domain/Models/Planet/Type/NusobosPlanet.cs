@@ -31,6 +31,7 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             Description = PlanetDescriptionConstants.Nusobos_Description;
             PlanetType = PlanetTypeConstants.NusobosType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/planetimages/Nusobos.png";
         }
     }
 }

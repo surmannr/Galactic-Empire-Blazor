@@ -40,6 +40,7 @@ namespace GalacticEmpire.Domain.Models.UpgradeModel.Types
             Description = UpgradeDescriptionConstants.LaserWeapons_Description;
             UpgradeType = UpgradeTypeConstants.LaserWeaponsType;
             UpgradeTime = TimeConstants.UpgradeTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/upgradeimages/laser_weapon.jpg";
         }
     }
 }

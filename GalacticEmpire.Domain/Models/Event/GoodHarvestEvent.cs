@@ -38,6 +38,7 @@ namespace GalacticEmpire.Domain.Models.EventModel
             Name = EventEnum.GoodHarvest.GetDisplayName();
             Description = EventDescriptionConstants.GoodHarvest_Description;
             EventType = EventTypeConstants.GoodHarvestType;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/eventimages/good_harvest.jpg";
         }
     }
 }

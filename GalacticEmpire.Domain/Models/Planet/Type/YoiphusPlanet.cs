@@ -31,6 +31,7 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             Description = PlanetDescriptionConstants.Yoiphus_Description;
             PlanetType = PlanetTypeConstants.YoiphusType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/planetimages/Yoiphus.png";
         }
     }
 }

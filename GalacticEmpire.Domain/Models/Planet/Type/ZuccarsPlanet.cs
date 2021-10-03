@@ -31,6 +31,7 @@ namespace GalacticEmpire.Domain.Models.PlanetModel.Type
             Description = PlanetDescriptionConstants.Zuccars_Description;
             PlanetType = PlanetTypeConstants.ZuccarsType;
             CapturingTime = TimeConstants.PlanetCaptureTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/planetimages/Zuccars.png";
         }
     }
 }

@@ -1,3 +1,4 @@
+using GalacticEmpire.Client.States;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +38,8 @@ namespace GalacticEmpire.Client
             });
 
             builder.Services.AddApiAuthorization();
+
+            builder.Services.AddScoped<EmpireState>();
 
             await builder.Build().RunAsync();
         }

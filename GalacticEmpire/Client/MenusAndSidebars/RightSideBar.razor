@@ -1,10 +1,15 @@
-﻿<MudDrawer @bind-Open="@open" Elevation="1" Anchor="Anchor.Right" Style="background-color: rgba(0,0,0,0.7)">
+﻿@using GalacticEmpire.Shared.Dto.Empire
+@inject EmpireState State
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+
+<MudDrawer @bind-Open="@open" Elevation="1" Anchor="Anchor.Right" Style="background-color: rgba(0,0,0,0.7)">
 
     <MudDrawerHeader Class="d-flex flex-column align-items-center">
         <MudText Typo="Typo.h5" Style="color: rgb(255,255,255)" Class="mb-3">Profil</MudText>
         <MudAvatar Image="https://via.placeholder.com/340x255" Style="height:100px; width:100px;"  Class="d-flex align-items-center mb-3"/>
-        <MudText Typo="Typo.h5" Style="color: rgb(255,255,255); font-weight: bold">Empire name</MudText>
-        <MudText Typo="Typo.h6" Style="color: rgb(255,255,255)">User name</MudText>
+        <MudText Typo="Typo.h5" Style="color: rgb(255,255,255); font-weight: bold">@if (State is not null && State.Empire is not null) {@State.Empire.Name }</MudText>
+            <MudText Typo="Typo.h6" Style="color: rgb(255,255,255)">@if (State is not null && State.Empire is not null) {@State.Empire.UserName }</MudText>
     </MudDrawerHeader>
     
     <MudNavMenu>
@@ -18,6 +23,12 @@
     </MudNavMenu>
 </MudDrawer>
 
-@code { [Parameter]
+@code {
+    [Parameter]
     public bool open { get; set; } = false;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await State.InitializeAsync(uriHelper, HttpClientFactory);
+    }
 }

@@ -46,6 +46,7 @@ namespace GalacticEmpire.Domain.Models.UpgradeModel.Types
             Description = UpgradeDescriptionConstants.FuturisticResidentialArea_Description;
             UpgradeType = UpgradeTypeConstants.FuturisticResidentialAreaType;
             UpgradeTime = TimeConstants.UpgradeTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/upgradeimages/futuristic_residential_area.jpg";
         }
     }
 }
