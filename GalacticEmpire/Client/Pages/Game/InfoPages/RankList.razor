@@ -1,0 +1,81 @@
+﻿@page "/rank-list-logged"
+@using GalacticEmpire.Shared.Dto.User
+@layout MainLayout
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+
+@if (!Loading)
+{
+        <MudText Align="Align.Center" Typo="Typo.h3" Style="color: white; margin-bottom:20px">Ranglista</MudText>
+        <MudTable Height="590px" Class="glass w-100" Style="background-color: rgba(0,0,0,0.7); color: white" Items="@Ranklist.Results" FixedHeader="true" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@Loading" LoadingProgressColor="Color.Info">
+            <ToolBarContent>
+                <MudIconButton OnClick="Back" Icon="@Icons.Material.Filled.ArrowLeft" Variant="Variant.Filled" Color="Color.Info" Class="mr-3"></MudIconButton>
+                <MudSpacer />
+                <MudTextField @bind-Value="Filter" Placeholder="Szűrés..." Style="color: white" Adornment="Adornment.End" AdornmentColor="Color.Info" AdornmentIcon="@Icons.Material.Filled.Clear" OnAdornmentClick="ClearFilter" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                <MudSpacer />
+                <MudIconButton Icon="@Icons.Material.Filled.Search" OnClick="Filtering" Variant="Variant.Filled" Color="Color.Info" Class="ml-3 mr-3"></MudIconButton>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh Style="text-align:center; background-color: black; color:aliceblue">Helyezés</MudTh>
+                <MudTh Style="background-color: black; color:aliceblue">Felhasználónév</MudTh>
+                <MudTh Style="background-color: black; color:aliceblue">Birodalomnév</MudTh>
+                <MudTh Style="text-align:center; background-color: black; color:aliceblue">Pontszám</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd Style="text-align:center; color: white" DataLabel="Helyezés">@context.Placement</MudTd>
+                <MudTd Style="color: white" DataLabel="Felhasználónév">@context.UserName</MudTd>
+                <MudTd Style="color: white" DataLabel="Birodalomnév">@context.EmpireName</MudTd>
+                <MudTd Style="text-align:center; color: white" DataLabel="Pontszám">@context.Points</MudTd>
+            </RowTemplate>
+        </MudTable>
+        <Paging
+            AllResultsCount="Ranklist.AllResultsCount"
+            CurrentResultsCount="Ranklist.Results.Count()"
+            PageNumber="Ranklist.PageNumber"
+            PageSize="Ranklist.PageSize"
+            PageChanged="PageChanged"
+        ></Paging>
+}
+
+
+@code {
+
+    public PagedResult<UserRankDto> Ranklist { get; set; }
+    public bool Loading { get; set; } = true;
+
+    public string Filter { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var http = HttpClientFactory.CreateClient("PublicGalacticServerAPI");
+        Ranklist = await http.GetFromJsonAsync<PagedResult<UserRankDto>>($"api/Users/ranklist");
+        Loading = false;
+    }
+
+    public void Back()
+    {
+        uriHelper.NavigateTo("/");
+    }
+
+    public async Task ClearFilter()
+    {
+        Filter = "";
+        Ranklist.PageNumber = 1;
+        await PageChanged(Ranklist.PageNumber);
+    }
+
+    public async Task Filtering()
+    {
+        Ranklist.PageNumber = 1;
+        await PageChanged(Ranklist.PageNumber);
+    }
+
+    public async Task PageChanged(int diff)
+    {
+        Loading = true;
+        Ranklist.PageNumber += diff;
+        var http = HttpClientFactory.CreateClient("PublicGalacticServerAPI");
+        Ranklist = await http.GetFromJsonAsync<PagedResult<UserRankDto>>($"api/Users/ranklist?filter={Filter}&PageSize={Ranklist.PageSize}&PageNumber={Ranklist.PageNumber}");
+        Loading = false;
+    }
+}

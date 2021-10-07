@@ -23,6 +23,8 @@ namespace GalacticEmpire.Client
             builder.Services.AddHttpClient("blazorWASM", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
                 .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
+            builder.Services.AddHttpClient("PublicGalacticServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+
             // Supply HttpClient instances that include access tokens when making requests to the server project
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("blazorWASM"));
             builder.Services.AddMudServices();

@@ -11,3 +11,7 @@
         font-size: 30px;
     }
 }
+
+::-webkit-scrollbar{
+    width: 0px;
+}
