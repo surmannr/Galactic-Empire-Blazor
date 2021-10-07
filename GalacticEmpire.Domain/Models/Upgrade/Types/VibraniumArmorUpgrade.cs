@@ -42,6 +42,7 @@ namespace GalacticEmpire.Domain.Models.UpgradeModel.Types
             Description = UpgradeDescriptionConstants.VibraniumArmor_Description;
             UpgradeType = UpgradeTypeConstants.VibraniumArmorType;
             UpgradeTime = TimeConstants.UpgradeTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/upgradeimages/vibranium_shield.jpg";
         }
     }
 }

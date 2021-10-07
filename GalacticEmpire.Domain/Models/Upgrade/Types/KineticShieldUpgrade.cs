@@ -40,6 +40,7 @@ namespace GalacticEmpire.Domain.Models.UpgradeModel.Types
             Description = UpgradeDescriptionConstants.KineticShield_Description;
             UpgradeType = UpgradeTypeConstants.KineticShieldType;
             UpgradeTime = TimeConstants.UpgradeTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/upgradeimages/kinetic_shield.png";
         }
     }
 }

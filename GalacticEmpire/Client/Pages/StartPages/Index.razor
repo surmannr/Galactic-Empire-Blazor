@@ -1,0 +1,20 @@
+﻿@page "/"
+@layout EmptyLayout
+
+<div class="login-box p-5 d-flex flex-column" style="background-color: rgba(0,0,0,0.7); color: white; border-radius: 50px;">
+    <h1 class="text-center responsivefontheader">Galactic Empire</h1>
+     <AuthorizeView>
+         <Authorized>
+              <MudButton Variant="Variant.Filled" Class="mt-5 mb-5" Style="background-color: #B33771; color:white; " Link="/mainpage" FullWidth="true">Bejelentkezés</MudButton>
+         </Authorized>
+         <NotAuthorized>
+              <MudButton Variant="Variant.Filled" Class="mt-5 mb-5" Style="background-color: #B33771; color:white; " Link="/login" FullWidth="true">Bejelentkezés</MudButton>
+         </NotAuthorized>
+     </AuthorizeView>
+     <MudButton Variant="Variant.Filled" Class="mt-5 mb-5" Style="background-color: #B33771; color:white;" Link="/register" FullWidth="true">Regisztráció</MudButton>
+     <MudButton Variant="Variant.Filled" Class="mt-5 mb-5" Style="background-color: #B33771; color:white;" Link="/rank-list" FullWidth="true">Ranglista</MudButton>
+</div>
+
+@code {
+
+}

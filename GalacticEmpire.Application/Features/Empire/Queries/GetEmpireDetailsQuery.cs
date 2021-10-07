@@ -55,6 +55,7 @@ namespace GalacticEmpire.Application.Features.Empire.Queries
                             .ThenInclude(e => e.PlanetProperty)
                     .Include(e => e.EmpireEvents)
                         .ThenInclude(e => e.Event)
+                    .Include(e => e.Owner)
                     .FirstOrDefaultAsync();
 
                 var empireEvent = empire.EmpireEvents.LastOrDefault();
@@ -63,6 +64,7 @@ namespace GalacticEmpire.Application.Features.Empire.Queries
                 {
                     Id = empire.Id,
                     Name = empire.Name,
+                    UserName = empire.Owner.UserName,
                     MaxNumberOfUnits = empire.MaxNumberOfUnits,
                     MaxNumberOfPopulation = empire.MaxNumberOfPopulation,
                     Event = mapper.Map<EventDto>(empireEvent),

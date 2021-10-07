@@ -1,12 +1,15 @@
 ﻿using FluentValidation;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
+using GalacticEmpire.Application.Features.Attack.Events;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.AttackModel;
+using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Attack;
 using GalacticEmpire.Shared.Dto.Unit;
 using GalacticEmpire.Shared.Enums.Unit;
 using GalacticEmpire.Shared.Extensions.EnumExtensions;
+using Hangfire;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -29,11 +32,13 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
         {
             private readonly GalacticEmpireDbContext dbContext;
             private readonly IIdentityService identityService;
+            private readonly IMediator mediator;
 
-            public Handler(GalacticEmpireDbContext dbContext, IIdentityService identityService)
+            public Handler(GalacticEmpireDbContext dbContext, IIdentityService identityService, IMediator mediator)
             {
                 this.dbContext = dbContext;
                 this.identityService = identityService;
+                this.mediator = mediator;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
@@ -79,12 +84,12 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
                     throw new Exception("Nincs ilyen birodalom, amit megtámadnál.");
                 }
 
-                await AttackLogic(empire, request, attackedEmpire);
+                AttackLogic(empire, request, attackedEmpire);
 
                 return true;
             }
 
-            public async Task AttackLogic(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire attackedEmpire)
+            public void AttackLogic(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire attackedEmpire)
             {
                 var attack = new Domain.Models.AttackModel.Base.Attack()
                 {
@@ -134,9 +139,7 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
                     WinnerId = CalculateWinner(empire,request,attackedEmpire)
                 };
 
-                dbContext.Attacks.Add(attack);
-
-                await dbContext.SaveChangesAsync();
+                mediator.Schedule(new AttackTimingEvent() { Attack = attack }, TimeConstants.AttackAndSpyingTime);
             }
 
             public Guid? CalculateWinner(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire attackedEmpire)

@@ -28,7 +28,7 @@ namespace GalacticEmpire.Api.Areas.Identity
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("rudithepro@gmail.com", Options.SendGridUser),
+                From = new EmailAddress("rudithepro@gmail.com", "info_galacticempire"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message

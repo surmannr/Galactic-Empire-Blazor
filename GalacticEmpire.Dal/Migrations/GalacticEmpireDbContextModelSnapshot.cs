@@ -1900,7 +1900,7 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = 1,
-                            ImageUrl = "later",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/unitimages/solar_sail.png",
                             MercenaryPerHour = 2,
                             Name = "Napvitorlás",
                             RankPoint = 2,
@@ -1909,7 +1909,7 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = 2,
-                            ImageUrl = "later",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/unitimages/space_cruiser.png",
                             MercenaryPerHour = 3,
                             Name = "Űrcirkáló",
                             RankPoint = 3,
@@ -1918,7 +1918,7 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = 3,
-                            ImageUrl = "later",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/unitimages/ironman.png",
                             MercenaryPerHour = 5,
                             Name = "Vasember",
                             RankPoint = 5,
@@ -1927,7 +1927,7 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = 4,
-                            ImageUrl = "later",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/unitimages/millenium_falcon.png",
                             MercenaryPerHour = 8,
                             Name = "Ezeréves sólyom",
                             RankPoint = 8,
@@ -1936,7 +1936,7 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = 5,
-                            ImageUrl = "later",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/unitimages/scout_drone.png",
                             MercenaryPerHour = 2,
                             Name = "Felderítő drón",
                             RankPoint = 1,
@@ -2296,7 +2296,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "SSTRAHAN0",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMOMl6rb6fVzZgo4UrFJUJcAr4SuyeyEJRz0BBK5R7qMsV9UzBkknxLDZMc9UCW3ww==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ58+L/1bMHiX8VBRfCxR4n2s1Hw5/5breCQ+UZQQ/p4LXKdLAsS0iuv101fzH3MFw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2311,7 +2311,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "LTIPPIN1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKjpoNO/0IULhR/kzsW94+LamRrWv3ERZDOHgLj67IfF147FzVOjpE6pbHegQfIl9Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP+AM0MZcZmUE4rpjMaTyXHsSnGsAB8cExdpxnKRnnXSCdcwV4hHRiuszR06U4R0YA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2326,7 +2326,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "BLYPTRATT2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBV0zJUR1zyM5ey1Uf9RpD8DVYL6jZW3ZjLgydlfzeLVHYMP0LW+XML+Q+FyjCcJcw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMiwzLiVXQfDQzWJ3B+QaS352oOvTVpthmFutz5Za61HQFEDcj4nnyIzyWK+sgq+ag==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2341,7 +2341,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "JMELIOR3",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDhqL4V+5oyttI0xGIK8OhxUwX0yiluQ2w5S7GsCQA9NPcpPHXAwwee5q+UuVkEe+A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPbc9Lt7s4TgfvIe0vDoCWYHEROh99aVu8r4pjIMas1WPr0R8fHREQcjQ/K1CeYfVA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2356,7 +2356,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "TMAXWORTHY4",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA77G4LOr1QRCXmU61p96Db35XAYBd1Ew6AKkLhMPndeXQrW2VmuMq0HdJJZHz3ncg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC0Ik0XxKkZcalGtmxRCZodumJVk9JyCGLt8RHvGTK3l9iK57eqZRA39E97mArQnoA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2371,7 +2371,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "HCHEVERELL5",
-                            PasswordHash = "AQAAAAEAACcQAAAAEARk8YwxRrjwdbNw7lXs0481m38N0H7eMHfjVGXEYPR8MIugB+ne3eYwmZ7t9Hjpkg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG3ZwLRLtltsG3EM5jXd7u11ZhZG2bN7lOwO7WDa3dPQdN0T+gP0XOpTHB/k15qaQA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2386,7 +2386,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "GBOSKELL6",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHnBcgv+G6mk+b41u5SzDxF20fDjsXdsLhdMztSXt099UEF75sgVxwsJ9bIUTI7knQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJZP5zhfZ026A++u6wUnqmJ9Dvq7e3Ua5knWgy1P6G1meWRgE0FEk74JDRtZ6VDhJA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2401,7 +2401,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ERYLETT7",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEwaMdMFoj5OIwJsGwtg6yIW6CuUV49Epg/yM1rSew5DVhx3pgSNcxfpWfocqBbM1A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIwXrHsgF6RXZJel8aNuj9gYxhdTUebcsBlsLbIxgvbG3RQ6YIV1gwVBQ8X1qeq3Yw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2416,7 +2416,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "KSEELY8",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB/E0PVjY4hMF8mQkXl63cp1GujOKRKSze59gT3PTszUROiuTq8L2Qi8h7EvCpSwXg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMLw0H1+ncCjP0jVEuj/behHU5p3wn0JZxDqrsl/iRU9Nv9uOtfoakBcMA0vZs8brA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2431,7 +2431,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "HFILINKOV9",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOVTm96GDe/1tO0j5v4bshg1prV8SEvFnwX7miJn29iUo0FTjU99rSfSOya0CiY6gg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIaQDrcKTfxP0PTlEIeccq+hLd3e1/WkPMcqqEyF1TRWst7UVY8zLiTT/95YZWJtyw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2470,14 +2470,14 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = "Admin",
-                            ConcurrencyStamp = "5e89d7e3-9ee3-4334-81c3-9734bf426cb6",
+                            ConcurrencyStamp = "71ebeace-5daf-41fd-ad7e-26af43b8938b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "User",
-                            ConcurrencyStamp = "b50b7806-988c-4ee4-829a-b48c78789859",
+                            ConcurrencyStamp = "7379b3de-11f2-4d7f-a547-93af930b1b4f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -2655,6 +2655,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 1,
                             Description = "A termelés csökken -15%-kal a rossz termelés miatt.",
                             EventType = "event_badharvest",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/eventimages/bad_harvest.jpg",
                             Name = "Rossz termés"
                         });
                 });
@@ -2671,6 +2672,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 2,
                             Description = "A termelés nő 15%-kal a jó termelés miatt.",
                             EventType = "event_goodharvest",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/eventimages/good_harvest.jpg",
                             Name = "Jó termés"
                         });
                 });
@@ -2687,6 +2689,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 3,
                             Description = "Találtál egy elhagyott rakományt, amivel találtál nyersanyagokat! Mindeből 10000 db jóváírva a birodalomhoz.",
                             EventType = "event_jackpot",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/eventimages/jackpot.jpg",
                             Name = "Jackpot"
                         });
                 });
@@ -2703,6 +2706,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 4,
                             Description = "A lakosság nő 100 fővel, mert az emberek jól érzik magukat a birodalomban.",
                             EventType = "event_satisfiedpeople",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/eventimages/satisfied_people.jpg",
                             Name = "Elégedett emberek"
                         });
                 });
@@ -2719,6 +2723,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 6,
                             Description = "Katonáid elégedettek, ezért 20%-kal nagyobb a támadó és védekező erejük.",
                             EventType = "event_satisfiedunits",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/eventimages/satisfied_units.jpg",
                             Name = "Elégedett katonák"
                         });
                 });
@@ -2735,6 +2740,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 5,
                             Description = "A lakosság csökken -100 fővel, mert az emberek nem érzik jól magukat a birodalomban.",
                             EventType = "event_unsatisfiedpeople",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/eventimages/unsatisfied_people.jpg",
                             Name = "Elégedetlen emberek"
                         });
                 });
@@ -2751,6 +2757,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 7,
                             Description = "Katonáid elégedetlenek, ezért 20%-kal kevesebb a támadó és védekező erejük.",
                             EventType = "event_unsatisfiedunits",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/eventimages/unsatisfied_units.jpg",
                             Name = "Elégedetlen katonák"
                         });
                 });
@@ -2767,6 +2774,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 1,
                             CapturingTime = new TimeSpan(0, 0, 5, 0, 0),
                             Description = "Főleg katonai létesítményeket üzemeltetnek a bolygón. Ha háborúzni szeretnél, ezt a bolygót csatold a birodalmadba!",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/planetimages/Avypso.png",
                             Name = "Avypso",
                             PlanetType = "planet_avypso"
                         });
@@ -2784,6 +2792,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 2,
                             CapturingTime = new TimeSpan(0, 0, 5, 0, 0),
                             Description = "Egy bolygó, amin nagyon sok ember él és elég jól áll nyersanyaggal. Viszont azt mondják lakik erre egy őrült tudós...",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/planetimages/C137_Earth.png",
                             Name = "Föld C-137",
                             PlanetType = "planet_c137earth"
                         });
@@ -2801,6 +2810,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 3,
                             CapturingTime = new TimeSpan(0, 0, 5, 0, 0),
                             Description = "Rendkívűli bitcoin bányászat folyik ezen a bolygón, ami kiteszi annak gazdaságát.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/planetimages/Cribatune.png",
                             Name = "Cribatune",
                             PlanetType = "planet_cribatune"
                         });
@@ -2818,6 +2828,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 4,
                             CapturingTime = new TimeSpan(0, 0, 5, 0, 0),
                             Description = "Ez egy olyan bolygó, ahol főként csak a bányászok élnek, mert rendkívűl sok kvarc található a felszín alatt.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/planetimages/Darvis.png",
                             Name = "Darvis",
                             PlanetType = "planet_darvis"
                         });
@@ -2835,6 +2846,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 5,
                             CapturingTime = new TimeSpan(0, 0, 5, 0, 0),
                             Description = "Ez egy teljesen egyszerű bolygó, ami mindent kitermel magának és nincs szüksége export cikkek vételére.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/planetimages/Dillon.png",
                             Name = "Dillon",
                             PlanetType = "planet_dillon"
                         });
@@ -2852,6 +2864,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 6,
                             CapturingTime = new TimeSpan(0, 0, 5, 0, 0),
                             Description = "Egy átlagos bolygó az X-12Z Naprendszerben. Vajon tényleg átlagos?",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/planetimages/Gingeria.png",
                             Name = "Gingeria",
                             PlanetType = "planet_gingeria"
                         });
@@ -2869,6 +2882,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 7,
                             CapturingTime = new TimeSpan(0, 0, 5, 0, 0),
                             Description = "Kereskedőbolygó, aminek a kvarc a fő export cikke. A kvarc ami gazdaggá tette ezt a bolygót.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/planetimages/Heolara.png",
                             Name = "Heolara",
                             PlanetType = "planet_heolara"
                         });
@@ -2886,6 +2900,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 8,
                             CapturingTime = new TimeSpan(0, 0, 5, 0, 0),
                             Description = "Kevés népességszámához képest egy rendkívűl gazdag bolygóról beszélünk. Rengeteg kvarcot és bitcoint bányásznak.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/planetimages/Nusobos.png",
                             Name = "Nusobos",
                             PlanetType = "planet_nusobos"
                         });
@@ -2903,6 +2918,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 9,
                             CapturingTime = new TimeSpan(0, 0, 5, 0, 0),
                             Description = "A 224. galaktikus űrcsatában vesztes oldalon állt, aminek következtében elszegényedett. Vedd be a birodalomba és lendítsd fel a gazdaságát!",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/planetimages/Sidatania.png",
                             Name = "Sidatania",
                             PlanetType = "planet_sidatania"
                         });
@@ -2920,6 +2936,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 10,
                             CapturingTime = new TimeSpan(0, 0, 5, 0, 0),
                             Description = "A kozmikus háborúk miatt néhány bolygón továbbra is felkészültek a következő háborúra. Ezen a bolygón főleg hadegységek szoktak szállásolni.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/planetimages/Yoiphus.png",
                             Name = "Yoiphus",
                             PlanetType = "planet_yoiphus"
                         });
@@ -2937,6 +2954,7 @@ namespace GalacticEmpire.Dal.Migrations
                             Id = 11,
                             CapturingTime = new TimeSpan(0, 0, 5, 0, 0),
                             Description = "Nem egy nagy bolygó, de bitcoinban gazdagodik rendesen. Itt lehet kapni RX 3080 videókártyát az biztos.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/planetimages/Zuccars.png",
                             Name = "Zuccars",
                             PlanetType = "planet_zuccars"
                         });
@@ -2953,6 +2971,7 @@ namespace GalacticEmpire.Dal.Migrations
                         {
                             Id = 1,
                             Description = "A birodalomban lévő maximális populáció emelkedik 1000000 fővel és az új lakóhelyeknek köszönhetően a jelenlegi populáció 20%-kal nő.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/upgradeimages/futuristic_residential_area.jpg",
                             Name = "Futurisztikus lakónegyed",
                             UpgradeTime = new TimeSpan(0, 0, 1, 0, 0),
                             UpgradeType = "upgrade_futuristicresidentialarea"
@@ -2970,6 +2989,7 @@ namespace GalacticEmpire.Dal.Migrations
                         {
                             Id = 2,
                             Description = "A bolygó további 20%-kal több ételt termel a birodalom számára.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/upgradeimages/interdimensional_garden.jpg",
                             Name = "Interdimenzionális gasztrokert",
                             UpgradeTime = new TimeSpan(0, 0, 1, 0, 0),
                             UpgradeType = "upgrade_interdimensionalgastrogarden"
@@ -2987,6 +3007,7 @@ namespace GalacticEmpire.Dal.Migrations
                         {
                             Id = 3,
                             Description = "A birodalomban lévő egységek védelme 30%-kal nő.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/upgradeimages/kinetic_shield.png",
                             Name = "Kinetikus pajzs",
                             UpgradeTime = new TimeSpan(0, 0, 1, 0, 0),
                             UpgradeType = "upgrade_kineticshield"
@@ -3004,6 +3025,7 @@ namespace GalacticEmpire.Dal.Migrations
                         {
                             Id = 4,
                             Description = "A birodalomban lévő egységek támadása 30%-kal nő.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/upgradeimages/laser_weapon.jpg",
                             Name = "Lézerfegyverek",
                             UpgradeTime = new TimeSpan(0, 0, 1, 0, 0),
                             UpgradeType = "upgrade_laserweapon"
@@ -3021,6 +3043,7 @@ namespace GalacticEmpire.Dal.Migrations
                         {
                             Id = 5,
                             Description = "A bolygó további 20%-kal több kvarcot termel a birodalom számára.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/upgradeimages/quartz_mine.jpg",
                             Name = "Kvarcbánya",
                             UpgradeTime = new TimeSpan(0, 0, 1, 0, 0),
                             UpgradeType = "upgrade_quartzmine"
@@ -3038,6 +3061,7 @@ namespace GalacticEmpire.Dal.Migrations
                         {
                             Id = 6,
                             Description = "A birodalom maximális egységszáma 10000 fővel nő.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/upgradeimages/secret_military_base.png",
                             Name = "Titkos katonai bázis",
                             UpgradeTime = new TimeSpan(0, 0, 1, 0, 0),
                             UpgradeType = "upgrade_secretmilitarybase"
@@ -3055,6 +3079,7 @@ namespace GalacticEmpire.Dal.Migrations
                         {
                             Id = 7,
                             Description = "A birodalomban lévő egységek támadása és védelme 20%-kal nő.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/upgradeimages/vibranium_shield.jpg",
                             Name = "Vibránium páncél",
                             UpgradeTime = new TimeSpan(0, 0, 1, 0, 0),
                             UpgradeType = "upgrade_vibraniumarmor"
@@ -3072,6 +3097,7 @@ namespace GalacticEmpire.Dal.Migrations
                         {
                             Id = 8,
                             Description = "A bolygó további 20%-kal több bitcoint termel a birodalom számára.",
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/upgradeimages/videocard_expansion.jpg",
                             Name = "Videókártya bővítés",
                             UpgradeTime = new TimeSpan(0, 0, 1, 0, 0),
                             UpgradeType = "upgrade_videocardexpension"
@@ -3455,7 +3481,7 @@ namespace GalacticEmpire.Dal.Migrations
                                 {
                                     EmpireUnitEmpireId = new Guid("af378505-14cb-4f49-1111-ba2c8fdef77d"),
                                     EmpireUnitUnitId = 5,
-                                    EmpireUnitLevel = 3,
+                                    EmpireUnitLevel = 1,
                                     AttackPointBonus = 0,
                                     AttackPointMultiplier = 1.0,
                                     DefensePointBonus = 0,
@@ -3585,7 +3611,7 @@ namespace GalacticEmpire.Dal.Migrations
                                 {
                                     EmpireUnitEmpireId = new Guid("72ff37e8-5888-47c6-1111-15844a6449b1"),
                                     EmpireUnitUnitId = 5,
-                                    EmpireUnitLevel = 3,
+                                    EmpireUnitLevel = 1,
                                     AttackPointBonus = 0,
                                     AttackPointMultiplier = 1.0,
                                     DefensePointBonus = 0,
@@ -3715,7 +3741,7 @@ namespace GalacticEmpire.Dal.Migrations
                                 {
                                     EmpireUnitEmpireId = new Guid("a63a97aa-4ae8-4185-1111-be02286b1542"),
                                     EmpireUnitUnitId = 5,
-                                    EmpireUnitLevel = 3,
+                                    EmpireUnitLevel = 1,
                                     AttackPointBonus = 0,
                                     AttackPointMultiplier = 1.0,
                                     DefensePointBonus = 0,
@@ -3845,7 +3871,7 @@ namespace GalacticEmpire.Dal.Migrations
                                 {
                                     EmpireUnitEmpireId = new Guid("c4393fff-8d3a-4508-1111-794916e9e997"),
                                     EmpireUnitUnitId = 5,
-                                    EmpireUnitLevel = 3,
+                                    EmpireUnitLevel = 1,
                                     AttackPointBonus = 0,
                                     AttackPointMultiplier = 1.0,
                                     DefensePointBonus = 0,
@@ -3975,7 +4001,7 @@ namespace GalacticEmpire.Dal.Migrations
                                 {
                                     EmpireUnitEmpireId = new Guid("cbbd70fb-06cd-4368-1111-93c237980d8c"),
                                     EmpireUnitUnitId = 5,
-                                    EmpireUnitLevel = 3,
+                                    EmpireUnitLevel = 1,
                                     AttackPointBonus = 0,
                                     AttackPointMultiplier = 1.0,
                                     DefensePointBonus = 0,
@@ -4105,7 +4131,7 @@ namespace GalacticEmpire.Dal.Migrations
                                 {
                                     EmpireUnitEmpireId = new Guid("392a9574-11a7-4f01-1111-4980933cc7a6"),
                                     EmpireUnitUnitId = 5,
-                                    EmpireUnitLevel = 3,
+                                    EmpireUnitLevel = 1,
                                     AttackPointBonus = 0,
                                     AttackPointMultiplier = 1.0,
                                     DefensePointBonus = 0,
@@ -4235,7 +4261,7 @@ namespace GalacticEmpire.Dal.Migrations
                                 {
                                     EmpireUnitEmpireId = new Guid("bf37d8cc-0744-4054-1111-603e6829799a"),
                                     EmpireUnitUnitId = 5,
-                                    EmpireUnitLevel = 3,
+                                    EmpireUnitLevel = 1,
                                     AttackPointBonus = 0,
                                     AttackPointMultiplier = 1.0,
                                     DefensePointBonus = 0,
@@ -4365,7 +4391,7 @@ namespace GalacticEmpire.Dal.Migrations
                                 {
                                     EmpireUnitEmpireId = new Guid("488d40fe-e2c5-41e3-1111-dea16b7c2897"),
                                     EmpireUnitUnitId = 5,
-                                    EmpireUnitLevel = 3,
+                                    EmpireUnitLevel = 1,
                                     AttackPointBonus = 0,
                                     AttackPointMultiplier = 1.0,
                                     DefensePointBonus = 0,
@@ -4495,7 +4521,7 @@ namespace GalacticEmpire.Dal.Migrations
                                 {
                                     EmpireUnitEmpireId = new Guid("0b62f843-4357-423b-1111-a2506ac91d5c"),
                                     EmpireUnitUnitId = 5,
-                                    EmpireUnitLevel = 3,
+                                    EmpireUnitLevel = 1,
                                     AttackPointBonus = 0,
                                     AttackPointMultiplier = 1.0,
                                     DefensePointBonus = 0,
@@ -4625,7 +4651,7 @@ namespace GalacticEmpire.Dal.Migrations
                                 {
                                     EmpireUnitEmpireId = new Guid("c0b59d8d-58cc-4a54-a045-bf2a9341c658"),
                                     EmpireUnitUnitId = 5,
-                                    EmpireUnitLevel = 3,
+                                    EmpireUnitLevel = 1,
                                     AttackPointBonus = 0,
                                     AttackPointMultiplier = 1.0,
                                     DefensePointBonus = 0,

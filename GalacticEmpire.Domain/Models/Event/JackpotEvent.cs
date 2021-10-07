@@ -39,6 +39,7 @@ namespace GalacticEmpire.Domain.Models.EventModel
             Name = EventEnum.Jackpot.GetDisplayName();
             Description = EventDescriptionConstants.Jackpot_Description;
             EventType = EventTypeConstants.JackpotType;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/eventimages/jackpot.jpg";
         }
     }
 }

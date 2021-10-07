@@ -31,20 +31,20 @@ namespace GalacticEmpire.Api.Areas.Identity.Pages.Account
         {
             if (userId == null || email == null || code == null)
             {
-                return RedirectToPage("/Index");
+                return Redirect("/");
             }
 
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{userId}'.");
+                return NotFound($"Nem lehet betölteni a következő azonosítóval rendelkező felhasználót: '{userId}'.");
             }
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ChangeEmailAsync(user, email, code);
             if (!result.Succeeded)
             {
-                StatusMessage = "Error changing email.";
+                StatusMessage = "Nem sikerült megváltoztatni az emailt.";
                 return Page();
             }
 
@@ -53,12 +53,12 @@ namespace GalacticEmpire.Api.Areas.Identity.Pages.Account
             var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
             if (!setUserNameResult.Succeeded)
             {
-                StatusMessage = "Error changing user name.";
+                StatusMessage = "Nem sikerült megváltoztatni a felhasználónevet.";
                 return Page();
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Thank you for confirming your email change.";
+            StatusMessage = "Köszönjük, hogy megerősítetted az email cím megváltozását.";
             return Page();
         }
     }

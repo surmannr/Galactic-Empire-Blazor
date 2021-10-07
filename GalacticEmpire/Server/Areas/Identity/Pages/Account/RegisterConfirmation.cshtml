@@ -1,22 +1,24 @@
-﻿@page
+﻿@page "/register-confirmation"
+@using GalacticEmpire.Api.Areas.Identity.Pages.Account
 @model RegisterConfirmationModel
 @{
-    ViewData["Title"] = "Register confirmation";
+    ViewData["Title"] = "Regisztráció megerősítése.";
 }
-
-<h1>@ViewData["Title"]</h1>
-@{
-    if (@Model.DisplayConfirmAccountLink)
-    {
-<p>
-    This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-    Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
-</p>
+<div class="login-box p-5" style="background-color: rgba(0,0,0,0.7); color: white; border-radius: 50px;">
+    <h1>@ViewData["Title"]</h1>
+    @{
+        if (@Model.DisplayConfirmAccountLink)
+        {
+    <p>
+        Nincs email küldő szolgáltatás implementálva.
+        <a id="confirm-link" href="@Model.EmailConfirmationUrl">Kattintsd ide, hogy megerősítsd a jelszavad.</a>
+    </p>
+        }
+        else
+        {
+    <p>
+            Nézd meg az emaileidet, hogy megerősítsd a regisztrációd.
+    </p>
+        }
     }
-    else
-    {
-<p>
-        Please check your email to confirm your account.
-</p>
-    }
-}
+</div>

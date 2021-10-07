@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
+using GalacticEmpire.Application.Features.Upgrade.Events;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Upgrade;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -26,11 +28,13 @@ namespace GalacticEmpire.Application.Features.Upgrade.Commands
         {
             private readonly GalacticEmpireDbContext dbContext;
             private readonly IIdentityService identityService;
+            private readonly IMediator mediator;
 
-            public Handler(GalacticEmpireDbContext dbContext, IIdentityService identityService)
+            public Handler(GalacticEmpireDbContext dbContext, IIdentityService identityService, IMediator mediator)
             {
                 this.dbContext = dbContext;
                 this.identityService = identityService;
+                this.mediator = mediator;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
@@ -44,10 +48,6 @@ namespace GalacticEmpire.Application.Features.Upgrade.Commands
                     .Include(e => e.EmpirePlanets)
                         .ThenInclude(e => e.EmpirePlanetUpgrades)
                             .ThenInclude(e => e.Upgrade)
-                    .Include(e => e.EmpireUnits)
-                        .ThenInclude(e => e.FightPoint)
-                    .Include(e => e.EmpireUnits)
-                        .ThenInclude(e => e.Unit)
                     .SingleAsync();
 
                 if (!empire.EmpirePlanets.Any(e => e.Id == request.BuyUpgrade.EmpirePlanetId))
@@ -88,17 +88,11 @@ namespace GalacticEmpire.Application.Features.Upgrade.Commands
                     }
                 }
 
-                empirePlanet.EmpirePlanetUpgrades.Add(
-                    new Domain.Models.EmpireModel.EmpirePlanetUpgrade()
-                    {
-                        EmpirePlanetId = request.BuyUpgrade.EmpirePlanetId,
-                        UpgradeId = request.BuyUpgrade.UpgradeId
-                    }
+                mediator.Schedule(new UpgradeTimingEvent { 
+                    EmpireId = empire.Id,
+                    EmpirePlanetId = request.BuyUpgrade.EmpirePlanetId,
+                    UpgradeId = request.BuyUpgrade.UpgradeId }, upgrade.UpgradeTime
                 );
-
-                upgrade.ApplyEffect(empire);
-
-                await dbContext.SaveChangesAsync();
 
                 return true;
             }

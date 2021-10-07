@@ -1,12 +1,17 @@
 using Autofac;
 using FluentValidation.AspNetCore;
+using GalacticEmpire.Api.Areas.Identity;
+using GalacticEmpire.Api.ExtensionsAndServices.Hangfire;
 using GalacticEmpire.Api.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Event.Queries;
 using GalacticEmpire.Application.Mapper;
 using GalacticEmpire.Application.MediatorExtension;
+using GalacticEmpire.Application.Timing;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.UserModel.Base;
+using Hangfire;
+using Hangfire.SqlServer;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.Configuration;
 using MediatR;
@@ -16,6 +21,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,9 +30,12 @@ using Microsoft.Extensions.Hosting;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace GalacticEmpire.Server
 {
@@ -52,6 +61,33 @@ namespace GalacticEmpire.Server
                         .AllowAnyHeader());
             });
 
+            // Add Hangfire services.
+            services.AddHangfire(configuration =>
+            {
+                configuration
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UseSqlServerStorage(Configuration.GetConnectionString("DefaultHangfireConnection"), new SqlServerStorageOptions
+                    {
+                        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                        QueuePollInterval = TimeSpan.Zero,
+                        UseRecommendedIsolationLevel = true,
+                        DisableGlobalLocks = true
+                    });
+            });
+
+            // Add the processing server as IHostedService
+            services.AddHangfireServer(options =>
+            {
+                options.Queues = new[] {
+                    "payoff_materials",
+                    "payoff_empire_mercenaries_and_feed_everyone",
+                    "calculate_points",
+                    "add_random_event_to_empires",
+                    "default" };
+            });
 
             services.AddDbContext<GalacticEmpireDbContext>(options =>
                 options.UseSqlServer(
@@ -74,7 +110,12 @@ namespace GalacticEmpire.Server
 
             services.AddHttpContextAccessor();
 
+            // IdentityService beregisztrálása
             services.AddScoped<IIdentityService, IdentityService>();
+
+            // EmailSender beregisztrálása
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddIdentityServer(options =>
             {
@@ -149,6 +190,7 @@ namespace GalacticEmpire.Server
                 };
             });
 
+            services.AddTransient<TimingService>();
             services.AddMediatR(typeof(GetAllEventsQuery));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
@@ -184,6 +226,16 @@ namespace GalacticEmpire.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
+
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireAuthorizationFilter() }
+            });
+
+            RecurringJob.AddOrUpdate<TimingService>("payoffMaterials", (timingService) => timingService.PayoffMaterials(), Cron.Hourly, queue: "payoff_materials");
+            RecurringJob.AddOrUpdate<TimingService>("payoffEmpireMercenariesAndFeedEveryone", (timingService) => timingService.PayoffEmpireMercenariesAndFeedEveryone(), Cron.Hourly, queue: "payoff_empire_mercenaries_and_feed_everyone");
+            RecurringJob.AddOrUpdate<TimingService>("calculatePoints", (timingService) => timingService.CalculatePoints() , Cron.Hourly, queue: "calculate_points");
+            RecurringJob.AddOrUpdate<TimingService>("addRandomEventToEmpires", (timingService) => timingService.AddRandomEventToEmpires(), Cron.Daily, queue: "add_random_event_to_empires");
 
             app.UseOpenApi();
             app.UseSwaggerUi3(options =>

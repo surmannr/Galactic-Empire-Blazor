@@ -34,6 +34,7 @@ namespace GalacticEmpire.Domain.Models.UpgradeModel.Types
             Description = UpgradeDescriptionConstants.SecretMilitaryBase_Description;
             UpgradeType = UpgradeTypeConstants.SecretMilitaryBaseType;
             UpgradeTime = TimeConstants.UpgradeTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/upgradeimages/secret_military_base.png";
         }
     }
 }

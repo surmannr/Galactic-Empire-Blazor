@@ -25,12 +25,12 @@ namespace GalacticEmpire.Application.Features.User.Commands
 {
     public static class RegisterUserCommand
     {
-        public class Command : ICommand<bool>
+        public class Command : ICommand<IdentityResult>
         {
             public RegisterDto RegisterDto { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, bool>
+        public class Handler : IRequestHandler<Command, IdentityResult>
         {
             private readonly GalacticEmpireDbContext dbContext;
             private readonly UserManager<Domain.Models.UserModel.Base.User> userManager;
@@ -41,7 +41,7 @@ namespace GalacticEmpire.Application.Features.User.Commands
                 this.userManager = userManager;
             }
 
-            public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<IdentityResult> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = new Domain.Models.UserModel.Base.User() { 
                     UserName = request.RegisterDto.UserName,
@@ -111,7 +111,7 @@ namespace GalacticEmpire.Application.Features.User.Commands
 
                 await dbContext.SaveChangesAsync();
 
-                return result.Succeeded;
+                return result;
             }
 
             private MaterialProduction GetMaterialProduction(Domain.Models.MaterialModel.Base.Material material)

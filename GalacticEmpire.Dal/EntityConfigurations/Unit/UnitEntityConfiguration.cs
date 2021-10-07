@@ -23,7 +23,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Unit
                     MercenaryPerHour = UnitsConstants.SolarSail_MercenaryPerHour,
                     SupplyPerHour = UnitsConstants.SolarSail_SupplyPerHour,
                     RankPoint = UnitsConstants.SolarSail_RankPoint,
-                    ImageUrl = @"later"
+                    ImageUrl = @"https://galacticempire.blob.core.windows.net/unitimages/solar_sail.png"
                 },
                 new Domain.Models.UnitModel.Base.Unit()
                 {
@@ -32,7 +32,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Unit
                     MercenaryPerHour = UnitsConstants.SpaceCruiser_MercenaryPerHour,
                     SupplyPerHour = UnitsConstants.SpaceCruiser_SupplyPerHour,
                     RankPoint = UnitsConstants.SpaceCruiser_RankPoint,
-                    ImageUrl = @"later"
+                    ImageUrl = @"https://galacticempire.blob.core.windows.net/unitimages/space_cruiser.png"
                 },
                 new Domain.Models.UnitModel.Base.Unit()
                 {
@@ -41,7 +41,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Unit
                     MercenaryPerHour = UnitsConstants.IronMan_MercenaryPerHour,
                     SupplyPerHour = UnitsConstants.IronMan_SupplyPerHour,
                     RankPoint = UnitsConstants.IronMan_RankPoint,
-                    ImageUrl = @"later"
+                    ImageUrl = @"https://galacticempire.blob.core.windows.net/unitimages/ironman.png"
                 },
                 new Domain.Models.UnitModel.Base.Unit()
                 {
@@ -50,7 +50,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Unit
                     MercenaryPerHour = UnitsConstants.MilleniumFalcon_MercenaryPerHour,
                     SupplyPerHour = UnitsConstants.MilleniumFalcon_SupplyPerHour,
                     RankPoint = UnitsConstants.MilleniumFalcon_RankPoint,
-                    ImageUrl = @"later"
+                    ImageUrl = @"https://galacticempire.blob.core.windows.net/unitimages/millenium_falcon.png"
                 },
                 new Domain.Models.UnitModel.Base.Unit()
                 {
@@ -59,7 +59,7 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Unit
                     MercenaryPerHour = UnitsConstants.ScoutDrone_MercenaryPerHour,
                     SupplyPerHour = UnitsConstants.ScoutDrone_SupplyPerHour,
                     RankPoint = UnitsConstants.ScoutDrone_RankPoint,
-                    ImageUrl = @"later"
+                    ImageUrl = @"https://galacticempire.blob.core.windows.net/unitimages/scout_drone.png"
                 }
             );
         }

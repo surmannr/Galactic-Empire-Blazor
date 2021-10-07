@@ -41,6 +41,7 @@ namespace GalacticEmpire.Domain.Models.UpgradeModel.Types
             Description = UpgradeDescriptionConstants.InterdimensionalGastrogarden_Description;
             UpgradeType = UpgradeTypeConstants.InterdimensionalGastrogardenType;
             UpgradeTime = TimeConstants.UpgradeTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/upgradeimages/interdimensional_garden.jpg";
         }
     }
 }

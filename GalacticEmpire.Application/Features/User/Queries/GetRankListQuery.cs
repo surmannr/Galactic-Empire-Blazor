@@ -52,9 +52,11 @@ namespace GalacticEmpire.Application.Features.User.Queries
                 var pagedList = await GetPagedResultWithCheck(users,request);
 
                 // Helyezés számítás, ugyanannyi ponttal rendelkező emberek ugyanazon a helyen szerepelnek
-                foreach (var user in pagedList.Results)
+                int placement = 1 + pagedList.PageSize * (pagedList.PageNumber - 1);
+                foreach (var user in pagedList.Results.OrderByDescending(e => e.Points))
                 {
-                    user.Placement = (await dbContext.Users.OrderByDescending(u => u.Points).Where(u => u.Points > user.Points).CountAsync()) + 1;
+                    user.Placement = placement;
+                    placement++;
                 }
 
                 return pagedList;

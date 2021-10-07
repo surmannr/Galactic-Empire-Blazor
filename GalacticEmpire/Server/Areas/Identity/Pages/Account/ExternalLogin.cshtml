@@ -1,33 +1,38 @@
-﻿@page
+﻿@page "/external-login"
+@using GalacticEmpire.Api.Areas.Identity.Pages.Account
 @model ExternalLoginModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Regisztráció";
 }
+<div class="login-box p-5" style="background-color: rgba(0,0,0,0.7); color: white; border-radius: 50px;">
+    <h1>@ViewData["Title"]</h1>
+    <h4 id="external-login-title">Kapcsold össze fiókodat: @Model.ProviderDisplayName account.</h4>
+    <hr />
 
-<h1>@ViewData["Title"]</h1>
-<h4 id="external-login-title">Associate your @Model.ProviderDisplayName account.</h4>
-<hr />
+    <p id="external-login-description" class="text-info">
+        Sikeresen bejelentkeztél ezzel a fiókoddal: <strong>@Model.ProviderDisplayName</strong>.
+        Kérjük add meg az email címedet, hogy bejelentkezhess.
+    </p>
 
-<p id="external-login-description" class="text-info">
-    You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
-</p>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Email">Email cím:</label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                 <div class="form-group">
+                    <label asp-for="Input.EmpireName">Birodalom neve:</label>
+                    <input asp-for="Input.EmpireName" class="form-control" />
+                    <span asp-validation-for="Input.EmpireName" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Regisztráció</button>
+            </form>
+        </div>
     </div>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

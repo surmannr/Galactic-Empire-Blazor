@@ -41,6 +41,7 @@ namespace GalacticEmpire.Domain.Models.UpgradeModel.Types
             Description = UpgradeDescriptionConstants.QuartzMine_Description;
             UpgradeType = UpgradeTypeConstants.QuartzMineType;
             UpgradeTime = TimeConstants.UpgradeTime;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/upgradeimages/quartz_mine.jpg";
         }
     }
 }

@@ -33,6 +33,7 @@ namespace GalacticEmpire.Domain.Models.EventModel
             Name = EventEnum.SatisfiedPeople.GetDisplayName();
             Description = EventDescriptionConstants.SatisfiedPeople_Description;
             EventType = EventTypeConstants.SatisfiedPeopleType;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/eventimages/satisfied_people.jpg";
         }
     }
 }

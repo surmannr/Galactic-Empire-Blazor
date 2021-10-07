@@ -38,6 +38,7 @@ namespace GalacticEmpire.Domain.Models.EventModel
             Name = EventEnum.UnsatisfiedUnits.GetDisplayName();
             Description = EventDescriptionConstants.UnsatisfiedUnits_Description;
             EventType = EventTypeConstants.UnsatisfiedUnitsType;
+            ImageUrl = @"https://galacticempire.blob.core.windows.net/eventimages/unsatisfied_units.jpg";
         }
     }
 }

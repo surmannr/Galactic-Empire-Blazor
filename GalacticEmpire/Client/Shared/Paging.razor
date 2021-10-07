@@ -1,0 +1,46 @@
+﻿<div class="d-flex justify-content-around mt-4 w-100">
+            @if(PageNumber == 1)
+            {
+                 <MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" Variant="Variant.Filled" Color="Color.Secondary" Disabled="true"></MudIconButton>
+            }
+            else
+            {
+                <MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" Variant="Variant.Filled" Color="Color.Secondary" OnClick="PageLeft"></MudIconButton>
+            }
+            @if(CurrentResultsCount < PageSize || PageSize * PageNumber == AllResultsCount)
+            {
+                <MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Variant="Variant.Filled"  Color="Color.Secondary" Disabled="true"></MudIconButton>
+            }
+            else
+            {
+                 <MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Variant="Variant.Filled"  Color="Color.Secondary" OnClick="PageRight"></MudIconButton>
+            } 
+        </div>
+
+@code {
+    [Parameter]
+    public int PageNumber { get; set; }
+
+    [Parameter]
+    public int PageSize { get; set; }
+
+    [Parameter]
+    public int CurrentResultsCount { get; set; }
+
+    [Parameter]
+    public int AllResultsCount { get; set; }
+
+    [Parameter]
+    public EventCallback<int> PageChanged { get; set; }
+
+    public async Task PageLeft()
+    {
+        await PageChanged.InvokeAsync(-1);
+    }
+
+    public async Task PageRight()
+    {
+        await PageChanged.InvokeAsync(1);
+    }
+
+}
