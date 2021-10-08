@@ -20,6 +20,7 @@ using GalacticEmpire.Shared.Dto.Empire;
 using GalacticEmpire.Shared.Dto.Event;
 using GalacticEmpire.Shared.Dto.Material;
 using GalacticEmpire.Shared.Dto.Planet;
+using GalacticEmpire.Shared.Dto.Time;
 using GalacticEmpire.Shared.Dto.Unit;
 using GalacticEmpire.Shared.Dto.Upgrade;
 using GalacticEmpire.Shared.Dto.User;
@@ -38,6 +39,17 @@ namespace GalacticEmpire.Application.Mapper
             CreateMap<Event, EventDto>();
 
             CreateMap<Material, MaterialDto>();
+
+            CreateMap<TimeSpan, TimeDto>()
+                .ForMember(
+                    tdto => tdto.Hour, time => time.MapFrom(t => t.Hours)
+                )
+                .ForMember(
+                    tdto => tdto.Minute, time => time.MapFrom(t => t.Minutes)
+                )
+                .ForMember(
+                    tdto => tdto.Second, time => time.MapFrom(t => t.Seconds)
+                );
 
             CreateMap<PlanetProperty, PlanetPropertyDto>();
 
@@ -78,6 +90,10 @@ namespace GalacticEmpire.Application.Mapper
                 .ForMember(
                     planetDto => planetDto.RequiredMaterials,
                     planet => planet.MapFrom(u => u.PlanetPriceMaterials)
+                )
+                .ForMember(
+                    planetDto => planetDto.CapturingTime,
+                    planet => planet.MapFrom(u => u.CapturingTime)
                 );
 
             CreateMap<Upgrade, UpgradeDto>()

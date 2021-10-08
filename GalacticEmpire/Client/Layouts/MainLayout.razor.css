@@ -12,6 +12,10 @@
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
 
+.mobil-marign {
+    padding-top: 10px !important;
+}
+
 .top-row {
     background-color: #f7f7f7;
     border-bottom: 1px solid #d6d5d5;
@@ -43,6 +47,10 @@
     .top-row a, .top-row .btn-link {
         margin-left: 0;
     }
+
+    .mobil-marign {
+        padding-top: 50px !important;
+    }
 }
 
 @media (min-width: 641px) {
@@ -70,6 +78,10 @@
 }
 
 ::-webkit-scrollbar {
-    width: 0; /* Remove scrollbar space */
+    width: 0 !important; /* Remove scrollbar space */
     background: transparent; /* Optional: just make scrollbar invisible */
+}
+
+::-webkit-scrollbar {
+    width: 0px;
 }

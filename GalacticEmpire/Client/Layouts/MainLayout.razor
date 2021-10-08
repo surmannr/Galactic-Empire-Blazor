@@ -18,18 +18,11 @@
             <LeftSideBar open="openLeft"></LeftSideBar>
             <RightSideBar open="openRight"></RightSideBar>
 
-            <MudMainContent Class="row m-auto" Style="padding-bottom:200px; padding-top:-10px; margin-bottom: 200px">
-                <MudContainer Class="d-flex flex-column align-items-center justify-content-center" Style="padding-top:20px; padding-bottom: 100px; height: 100vh">
+            <MudMainContent Class="row" Style="overflow-y:auto;">
+                <MudContainer Class="mobil-marign d-flex flex-column align-items-center justify-content-center" Style="height: 95vh;padding-top:30px; padding-bottom:30px; overflow-y:auto; margin-bottom:100px">
                     @Body
                 </MudContainer>
             </MudMainContent>
-
-            <MudAppBar Bottom="true" Fixed="true" Style="background-color: rgba(0,0,0,0.7)" Elevation="1">
-                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" />
-                <MudSpacer />
-                <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" Edge="Edge.End" />
-                <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
-            </MudAppBar>
         </MudLayout>
     </Authorized>
     <NotAuthorized>

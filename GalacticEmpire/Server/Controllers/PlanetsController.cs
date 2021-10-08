@@ -29,6 +29,13 @@ namespace GalacticEmpire.Api.Controllers
             return await mediator.Send(query);
         }
 
+        [HttpGet]
+        [Route("capturable-all")]
+        public async Task<List<PlanetDetailsDto>> GetAllCapturablePlanets([FromQuery] GetAllCapturablePlanetsQuery.Query query)
+        {
+            return await mediator.Send(query);
+        }
+
         [HttpPost]
         [Route("buy-planet/{planetid}")]
         public async Task<bool> BuyPlanet(int planetid)

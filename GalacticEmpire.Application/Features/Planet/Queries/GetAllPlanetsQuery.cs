@@ -32,6 +32,7 @@ namespace GalacticEmpire.Application.Features.Planet.Queries
             public async Task<List<PlanetDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var planets = await dbContext.Planets
+                    .Include(planet => planet.PlanetProperty)
                     .Include(planet => planet.PlanetPriceMaterials)
                         .ThenInclude(ppm => ppm.Material)
                     .ProjectTo<PlanetDto>(mapper.ConfigurationProvider)

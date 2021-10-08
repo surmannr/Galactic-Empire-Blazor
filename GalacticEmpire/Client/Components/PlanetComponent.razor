@@ -1,0 +1,43 @@
+﻿@using GalacticEmpire.Shared.Dto.Planet
+
+@if(Planet != null)
+{
+    <div class="col-md-3 col-sm-12 mb-5">
+        <MudCard Class="glass h-100">
+            <MudCardMedia Image="@Planet.ImageUrl" Class="mb-5"/>
+            <MudCardContent Style="height:320px">
+                <div class="d-flex flex-column justify-content-between h-100">
+                    <div>
+                        <MudText Typo="Typo.h4" Style="color: aliceblue" Class="mb-2">@Planet.Name</MudText>
+                        <MudText Typo="Typo.body2" Style="color: aliceblue" Class="mb-5">@Planet.Description</MudText>
+                    </div>
+                    <div>
+                        <MudText Typo="Typo.subtitle2" Style="color: aliceblue" Align="Align.Center" Color="Color.Error">@Planet.CapturingTime.Minute perc @Planet.CapturingTime.Second másodperc</MudText>
+                        <MudButton Variant="Variant.Filled" Color="Color.Surface" FullWidth="true" Style="color: aliceblue; margin-bottom:10px">Elfoglalás</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue">Részletek</MudButton>
+                    </div>
+                </div>
+            </MudCardContent>
+        </MudCard>
+    </div>
+}
+
+<style>
+    .glass
+    {
+        box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        border-radius: 15px;
+        background: rgba(0,0,0,0.43);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    [class*="col-"] {
+      margin-bottom: 30px;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public PlanetDetailsDto Planet { get; set; }
+}
