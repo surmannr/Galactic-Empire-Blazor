@@ -659,8 +659,8 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "User", "7379b3de-11f2-4d7f-a547-93af930b1b4f", "User", "USER" },
-                    { "Admin", "71ebeace-5daf-41fd-ad7e-26af43b8938b", "Admin", "ADMIN" }
+                    { "User", "8b663862-b0bd-423f-bae8-070cb49cf729", "User", "USER" },
+                    { "Admin", "f2e01f3d-c25a-403b-b503-37b89d2788dc", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -668,16 +668,16 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Points", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "user10", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HFILINKOV9", "AQAAAAEAACcQAAAAEIaQDrcKTfxP0PTlEIeccq+hLd3e1/WkPMcqqEyF1TRWst7UVY8zLiTT/95YZWJtyw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hfilinkov9" },
-                    { "user9", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "KSEELY8", "AQAAAAEAACcQAAAAEMLw0H1+ncCjP0jVEuj/behHU5p3wn0JZxDqrsl/iRU9Nv9uOtfoakBcMA0vZs8brA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "kseely8" },
-                    { "user8", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "ERYLETT7", "AQAAAAEAACcQAAAAEIwXrHsgF6RXZJel8aNuj9gYxhdTUebcsBlsLbIxgvbG3RQ6YIV1gwVBQ8X1qeq3Yw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "erylett7" },
-                    { "user7", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "GBOSKELL6", "AQAAAAEAACcQAAAAEJZP5zhfZ026A++u6wUnqmJ9Dvq7e3Ua5knWgy1P6G1meWRgE0FEk74JDRtZ6VDhJA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "gboskell6" },
-                    { "user6", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HCHEVERELL5", "AQAAAAEAACcQAAAAEG3ZwLRLtltsG3EM5jXd7u11ZhZG2bN7lOwO7WDa3dPQdN0T+gP0XOpTHB/k15qaQA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hcheverell5" },
-                    { "user5", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "TMAXWORTHY4", "AQAAAAEAACcQAAAAEC0Ik0XxKkZcalGtmxRCZodumJVk9JyCGLt8RHvGTK3l9iK57eqZRA39E97mArQnoA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "tmaxworthy4" },
-                    { "user4", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "JMELIOR3", "AQAAAAEAACcQAAAAEPbc9Lt7s4TgfvIe0vDoCWYHEROh99aVu8r4pjIMas1WPr0R8fHREQcjQ/K1CeYfVA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "jmelior3" },
-                    { "user3", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "BLYPTRATT2", "AQAAAAEAACcQAAAAEMiwzLiVXQfDQzWJ3B+QaS352oOvTVpthmFutz5Za61HQFEDcj4nnyIzyWK+sgq+ag==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "blyptratt2" },
-                    { "user2", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "LTIPPIN1", "AQAAAAEAACcQAAAAEP+AM0MZcZmUE4rpjMaTyXHsSnGsAB8cExdpxnKRnnXSCdcwV4hHRiuszR06U4R0YA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "ltippin1" },
-                    { "user1", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "SSTRAHAN0", "AQAAAAEAACcQAAAAEJ58+L/1bMHiX8VBRfCxR4n2s1Hw5/5breCQ+UZQQ/p4LXKdLAsS0iuv101fzH3MFw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "sstrahan0" }
+                    { "user10", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HFILINKOV9", "AQAAAAEAACcQAAAAEJGeSKcXK22oCr1kuOgm5AKlpIw+HS1/DWOG5uRrXYnhkpVW9PIPpSrtqJWyu84TQA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hfilinkov9" },
+                    { "user9", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "KSEELY8", "AQAAAAEAACcQAAAAEDS6rRtjqF5Qw/Bgw9kv5J2oAcTZdkDtLTvulY83dWZ1a8nlfz2ALMnxS6xnnPgbsA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "kseely8" },
+                    { "user8", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "ERYLETT7", "AQAAAAEAACcQAAAAEGlIA2CpJ3EliUAY4BLPnfCC8QrsUWHCbSzuvCrBY7kmF99rPW45g8RDdAGFuBSVfA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "erylett7" },
+                    { "user7", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "GBOSKELL6", "AQAAAAEAACcQAAAAEAWZ0EkaXW/BXqC3axxo07ftU+1VGix0DJCgEBap4tlJtcUezeG/xKZADExgQ82dzw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "gboskell6" },
+                    { "user6", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "HCHEVERELL5", "AQAAAAEAACcQAAAAEPr3YAQg1kiVTZPl1jr5W01F3tC9HjPavRzc+rap0NxVdCCNa/yexzQddSbkqPzKmw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "hcheverell5" },
+                    { "user5", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "TMAXWORTHY4", "AQAAAAEAACcQAAAAEAoFSJNr8/5HPnUdyogu9fnSOdMRLMeoFw7j4Q4SlFiAnA1AjK6uucHzhq/tD/JPDQ==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "tmaxworthy4" },
+                    { "user4", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "JMELIOR3", "AQAAAAEAACcQAAAAEMfUm89ZDWTpBUWIhC/Sua3Ftv4e5/o6u8cedniYHKMiNu6QZ63TNe3LOZktq5IxGw==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "jmelior3" },
+                    { "user3", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "BLYPTRATT2", "AQAAAAEAACcQAAAAEPyyU7gXq7swHcTNor/OAMPMpRvPo1Dcf1alaDcTt2BSv/ojDiMy13O4D9zsZpQTyg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "blyptratt2" },
+                    { "user2", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "LTIPPIN1", "AQAAAAEAACcQAAAAEF6bv9nzY4e5GAcIBWaAMImvMg7zl4fzm6qwQLwG0kRNRCVFPFNir8efBKd+tsVWlg==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "ltippin1" },
+                    { "user1", 0, "cfc830af-302f-44b7-a973-805e6439b2ad", null, true, false, null, null, "SSTRAHAN0", "AQAAAAEAACcQAAAAEGA1VaffAKzMnSRYX4sTXSa8gC+LpQLdW4cTLxah7U2J7jFfUUDhOeVoKm3cw/ZhqA==", null, false, 0, "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2", false, "sstrahan0" }
                 });
 
             migrationBuilder.InsertData(
@@ -699,9 +699,9 @@ namespace GalacticEmpire.Dal.Migrations
                 columns: new[] { "Id", "ImageUrl", "Name" },
                 values: new object[,]
                 {
-                    { 2, null, "Élelem" },
-                    { 1, null, "Kvarc" },
-                    { 3, null, "Bitcoin" }
+                    { 2, "https://galacticempire.blob.core.windows.net/materialimages/food.png", "Élelem" },
+                    { 1, "https://galacticempire.blob.core.windows.net/materialimages/quartz.png", "Kvarc" },
+                    { 3, "https://galacticempire.blob.core.windows.net/materialimages/bitcoin.png", "Bitcoin" }
                 });
 
             migrationBuilder.InsertData(

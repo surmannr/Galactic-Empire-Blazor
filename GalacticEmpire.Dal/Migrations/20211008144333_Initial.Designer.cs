@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GalacticEmpire.Dal.Migrations
 {
     [DbContext(typeof(GalacticEmpireDbContext))]
-    [Migration("20211003093524_Initial")]
+    [Migration("20211008144333_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1616,16 +1616,19 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = 1,
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/materialimages/quartz.png",
                             Name = "Kvarc"
                         },
                         new
                         {
                             Id = 2,
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/materialimages/food.png",
                             Name = "Élelem"
                         },
                         new
                         {
                             Id = 3,
+                            ImageUrl = "https://galacticempire.blob.core.windows.net/materialimages/bitcoin.png",
                             Name = "Bitcoin"
                         });
                 });
@@ -2298,7 +2301,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "SSTRAHAN0",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ58+L/1bMHiX8VBRfCxR4n2s1Hw5/5breCQ+UZQQ/p4LXKdLAsS0iuv101fzH3MFw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGA1VaffAKzMnSRYX4sTXSa8gC+LpQLdW4cTLxah7U2J7jFfUUDhOeVoKm3cw/ZhqA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2313,7 +2316,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "LTIPPIN1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP+AM0MZcZmUE4rpjMaTyXHsSnGsAB8cExdpxnKRnnXSCdcwV4hHRiuszR06U4R0YA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF6bv9nzY4e5GAcIBWaAMImvMg7zl4fzm6qwQLwG0kRNRCVFPFNir8efBKd+tsVWlg==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2328,7 +2331,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "BLYPTRATT2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMiwzLiVXQfDQzWJ3B+QaS352oOvTVpthmFutz5Za61HQFEDcj4nnyIzyWK+sgq+ag==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPyyU7gXq7swHcTNor/OAMPMpRvPo1Dcf1alaDcTt2BSv/ojDiMy13O4D9zsZpQTyg==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2343,7 +2346,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "JMELIOR3",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPbc9Lt7s4TgfvIe0vDoCWYHEROh99aVu8r4pjIMas1WPr0R8fHREQcjQ/K1CeYfVA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMfUm89ZDWTpBUWIhC/Sua3Ftv4e5/o6u8cedniYHKMiNu6QZ63TNe3LOZktq5IxGw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2358,7 +2361,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "TMAXWORTHY4",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC0Ik0XxKkZcalGtmxRCZodumJVk9JyCGLt8RHvGTK3l9iK57eqZRA39E97mArQnoA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAoFSJNr8/5HPnUdyogu9fnSOdMRLMeoFw7j4Q4SlFiAnA1AjK6uucHzhq/tD/JPDQ==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2373,7 +2376,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "HCHEVERELL5",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG3ZwLRLtltsG3EM5jXd7u11ZhZG2bN7lOwO7WDa3dPQdN0T+gP0XOpTHB/k15qaQA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPr3YAQg1kiVTZPl1jr5W01F3tC9HjPavRzc+rap0NxVdCCNa/yexzQddSbkqPzKmw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2388,7 +2391,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "GBOSKELL6",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJZP5zhfZ026A++u6wUnqmJ9Dvq7e3Ua5knWgy1P6G1meWRgE0FEk74JDRtZ6VDhJA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAWZ0EkaXW/BXqC3axxo07ftU+1VGix0DJCgEBap4tlJtcUezeG/xKZADExgQ82dzw==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2403,7 +2406,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ERYLETT7",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIwXrHsgF6RXZJel8aNuj9gYxhdTUebcsBlsLbIxgvbG3RQ6YIV1gwVBQ8X1qeq3Yw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGlIA2CpJ3EliUAY4BLPnfCC8QrsUWHCbSzuvCrBY7kmF99rPW45g8RDdAGFuBSVfA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2418,7 +2421,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "KSEELY8",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMLw0H1+ncCjP0jVEuj/behHU5p3wn0JZxDqrsl/iRU9Nv9uOtfoakBcMA0vZs8brA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDS6rRtjqF5Qw/Bgw9kv5J2oAcTZdkDtLTvulY83dWZ1a8nlfz2ALMnxS6xnnPgbsA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2433,7 +2436,7 @@ namespace GalacticEmpire.Dal.Migrations
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "HFILINKOV9",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIaQDrcKTfxP0PTlEIeccq+hLd3e1/WkPMcqqEyF1TRWst7UVY8zLiTT/95YZWJtyw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJGeSKcXK22oCr1kuOgm5AKlpIw+HS1/DWOG5uRrXYnhkpVW9PIPpSrtqJWyu84TQA==",
                             PhoneNumberConfirmed = false,
                             Points = 0,
                             SecurityStamp = "RD6YLKPIHDS7MMSLGQ3O7DF5ZNR73XJ2",
@@ -2472,14 +2475,14 @@ namespace GalacticEmpire.Dal.Migrations
                         new
                         {
                             Id = "Admin",
-                            ConcurrencyStamp = "71ebeace-5daf-41fd-ad7e-26af43b8938b",
+                            ConcurrencyStamp = "f2e01f3d-c25a-403b-b503-37b89d2788dc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "User",
-                            ConcurrencyStamp = "7379b3de-11f2-4d7f-a547-93af930b1b4f",
+                            ConcurrencyStamp = "8b663862-b0bd-423f-bae8-070cb49cf729",
                             Name = "User",
                             NormalizedName = "USER"
                         });

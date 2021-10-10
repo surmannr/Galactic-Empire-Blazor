@@ -124,10 +124,6 @@ namespace GalacticEmpire.Application.Mapper
                 .ForMember(
                     epudto => epudto.UpgradeDescription,
                     epu => epu.MapFrom(e => e.Upgrade.Description)
-                )
-                .ForMember(
-                    epudto => epudto.RemainingTime,
-                    epu => epu.MapFrom(e => e.Upgrade.UpgradeTime)
                 );
 
             CreateMap<EmpireEvent, EventDto>()

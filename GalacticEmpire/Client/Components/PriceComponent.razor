@@ -1,0 +1,18 @@
+﻿@using GalacticEmpire.Shared.Dto.Material
+
+<div class="d-flex justify-content-center m-auto">
+    <MudText Typo="Typo.body1" Style="color: aliceblue" Class="mr-1">@Price.Amount.ToString("N0")</MudText>
+     <MudTooltip Text="@Price.Name"><img src="@Price.ImageUrl" class="m-auto img-responsive invert-img" height="18"/></MudTooltip>
+</div>
+
+<style>
+   .invert-img {
+       -webkit-filter: invert(1);
+       filter: invert(1);
+   }
+</style>
+
+@code {
+    [Parameter]
+    public PriceMaterialDto Price { get; set; }
+}
