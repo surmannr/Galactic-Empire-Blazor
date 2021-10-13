@@ -5,6 +5,7 @@ using GalacticEmpire.Dal.EntityConfigurations.Unit;
 using GalacticEmpire.Dal.EntityConfigurations.Upgrade;
 using GalacticEmpire.Dal.EntityConfigurations.User;
 using GalacticEmpire.Dal.EntityConfigurations.UserConfig;
+using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Domain.Models.AllianceModel;
 using GalacticEmpire.Domain.Models.AllianceModel.Base;
 using GalacticEmpire.Domain.Models.AttackModel;
@@ -70,10 +71,31 @@ namespace GalacticEmpire.Dal
         public DbSet<Upgrade> Upgrades { get; set; }
         public DbSet<UpgradePriceMaterial> UpgradePriceMaterials { get; set; }
 
+        public DbSet<ActiveUpgrading> ActiveUpgradings { get; set; }
+        public DbSet<ActiveAttacking> ActiveAttackings { get; set; }
+        public DbSet<ActiveCapturing> ActiveCapturings { get; set; }
+        public DbSet<ActiveSpying> ActiveSpyings { get; set; }
+        public DbSet<ActiveTraining> ActiveTrainings { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<ActiveAttacking>()
+                .HasKey(e => e.EmpireId);
+
+            builder.Entity<ActiveSpying>()
+                .HasKey(e => e.EmpireId);
+
+            builder.Entity<ActiveTraining>()
+                .HasKey(e => new { e.EmpireId, e.UnitName, e.UnitLevel });
+
+            builder.Entity<ActiveCapturing>()
+                .HasKey(e => e.EmpireId);
+
+            builder.Entity<ActiveUpgrading>()
+                .HasKey(e => e.EmpireId);
 
             builder.Entity<Alliance>()
                 .AllianceConnection();

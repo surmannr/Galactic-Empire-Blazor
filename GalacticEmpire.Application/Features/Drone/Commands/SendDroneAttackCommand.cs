@@ -3,6 +3,7 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Drone.Events;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Domain.Models.EmpireModel;
 using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Drone;
@@ -53,6 +54,13 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
                     .Where(e => e.OwnerId == userId)
                     .FirstOrDefaultAsync();
 
+                var active = await dbContext.ActiveSpyings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+
+                if (active != null)
+                {
+                    throw new Exception("Folyamatban van egy kémkedés.");
+                }
+
                 var drone = await dbContext.Units
                     .Where(e => e.Name == UnitEnum.ScoutDrone.GetDisplayName())
                     .SingleOrDefaultAsync();
@@ -77,12 +85,12 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
                     throw new Exception("Nincs ilyen birodalom, amit kémkedhetnél.");
                 }
 
-                DroneLogic(empire, request, attackedEmpire, drone);
+                await DroneLogic(empire, request, attackedEmpire, drone);
 
                 return true;
             }
 
-            public void DroneLogic(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire dronedEmpire, Domain.Models.UnitModel.Base.Unit drone)
+            public async Task DroneLogic(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire dronedEmpire, Domain.Models.UnitModel.Base.Unit drone)
             {
                 var empireDroneUnit = empire.EmpireUnits
                     .Where(eu => eu.Level == 1 && eu.UnitId == drone.Id)
@@ -113,6 +121,17 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
                 };
 
                 droneAttack.DefenderDefensivePoints = CalculateOpponentDefensivePoints(empire, droneAttack.WinnerId, dronedEmpire.EmpireUnits);
+
+                var activeSpying = new ActiveSpying
+                {
+                    EmpireId = empire.Id,
+                    EndDate = DateTimeOffset.Now.Add(TimeConstants.AttackAndSpyingTime),
+                    DefenderEmpireName = dronedEmpire.Name
+                };
+
+                dbContext.ActiveSpyings.Add(activeSpying);
+
+                await dbContext.SaveChangesAsync();
 
                 mediator.Schedule(new DroneTimingEvent() { DroneAttack = droneAttack }, TimeConstants.AttackAndSpyingTime);
             }

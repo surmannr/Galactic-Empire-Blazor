@@ -1,9 +1,20 @@
 ﻿@using GalacticEmpire.Shared.Dto.Material
 
-<div class="d-flex justify-content-center m-auto">
-    <MudText Typo="Typo.body1" Style="color: aliceblue" Class="mr-1">@Price.Amount.ToString("N0")</MudText>
-     <MudTooltip Text="@Price.Name"><img src="@Price.ImageUrl" class="m-auto img-responsive invert-img" height="18"/></MudTooltip>
-</div>
+@if (IsInverted)
+{
+    <div class="d-flex justify-content-center m-auto">
+        <MudText Typo="Typo.body1" Style="color: aliceblue" Class="mr-1">@Price.Amount.ToString("N0")</MudText>
+        <MudTooltip Text="@Price.Name"><img src="@Price.ImageUrl" class="m-auto img-responsive invert-img" height="18"/></MudTooltip>
+    </div>
+}
+else
+{
+    <div class="d-flex justify-content-center m-auto">
+        <MudText Typo="Typo.body1" Style="color: black" Class="mr-1">@Price.Amount.ToString("N0")</MudText>
+        <MudTooltip Text="@Price.Name"><img src="@Price.ImageUrl" class="m-auto img-responsive" height="18"/></MudTooltip>
+    </div>
+}
+
 
 <style>
    .invert-img {
@@ -15,4 +26,7 @@
 @code {
     [Parameter]
     public PriceMaterialDto Price { get; set; }
+
+    [Parameter]
+    public bool IsInverted { get; set; } = true;
 }

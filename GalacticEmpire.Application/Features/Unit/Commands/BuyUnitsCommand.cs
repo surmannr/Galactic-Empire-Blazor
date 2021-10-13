@@ -3,10 +3,12 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Unit.Events;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Shared.Dto.Unit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,6 +51,13 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
                     .Where(e => e.OwnerId == userId)
                     .SingleOrDefaultAsync();
 
+                var active = await dbContext.ActiveTrainings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+
+                if (active != null)
+                {
+                    throw new Exception("Folyamatban van egy egységképzés.");
+                }
+
                 var unitBuyCollection = request.UnitsCollection.Units;
 
                 int maxCountOfUnits = unitBuyCollection.Max(e => e.Count) + empire.EmpireUnits.Max(e => e.Amount);
@@ -59,6 +68,7 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
                 }
 
                 var time = new TimeSpan(0, 0, 0);
+                var activeTrainings = new List<ActiveTraining>();
 
                 foreach (var buyUnit in unitBuyCollection)
                 {
@@ -92,10 +102,25 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
                         throw new Exception("Nem tartozik hozzá kiképzési idő.");
                     }
 
-                    time = time.Add(trainingTime.TrainingTime.Multiply(buyUnit.Count));
+                    activeTrainings.Add(new ActiveTraining
+                    {
+                        EmpireId = empire.Id,
+                        UnitName = empireUnit.Unit.Name,
+                        UnitAmount = buyUnit.Count,
+                        UnitLevel = buyUnit.Level,
+                    });
 
-                    empireUnit.Amount += buyUnit.Count;
+                    time = time.Add(trainingTime.TrainingTime.Multiply(buyUnit.Count));
                 }
+
+                foreach(var activeTraining in activeTrainings)
+                {
+                    activeTraining.EndDate = DateTimeOffset.Now.Add(time);
+                }
+
+                dbContext.ActiveTrainings.AddRange(activeTrainings);
+
+                await dbContext.SaveChangesAsync();
 
                 mediator.Schedule(new UnitTrainingTimeEvent() { UnitsCollection = request.UnitsCollection, EmpireId = empire.Id }, time);
 

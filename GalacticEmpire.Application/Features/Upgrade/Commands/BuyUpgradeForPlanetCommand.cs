@@ -4,6 +4,7 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Upgrade.Events;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Upgrade;
 using MediatR;
@@ -50,6 +51,13 @@ namespace GalacticEmpire.Application.Features.Upgrade.Commands
                             .ThenInclude(e => e.Upgrade)
                     .SingleAsync();
 
+                var active = await dbContext.ActiveUpgradings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+
+                if (active != null)
+                {
+                    throw new Exception("Folyamatban van egy fejlesztés.");
+                }
+
                 if (!empire.EmpirePlanets.Any(e => e.Id == request.BuyUpgrade.EmpirePlanetId))
                 {
                     throw new Exception("Ez a bolygó, amihez a fejlesztést vásárolnád nincsen a birodalmadban.");
@@ -87,6 +95,17 @@ namespace GalacticEmpire.Application.Features.Upgrade.Commands
                         }
                     }
                 }
+
+                var activeUpgrading = new ActiveUpgrading
+                {
+                    EmpireId = empire.Id,
+                    EndDate = DateTimeOffset.Now.Add(upgrade.UpgradeTime),
+                    UpgradeName = upgrade.Name
+                };
+
+                dbContext.ActiveUpgradings.Add(activeUpgrading);
+
+                await dbContext.SaveChangesAsync();
 
                 mediator.Schedule(new UpgradeTimingEvent { 
                     EmpireId = empire.Id,

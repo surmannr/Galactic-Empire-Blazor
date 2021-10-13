@@ -6,7 +6,7 @@
 
 @if(State != null && State.Empire != null && State.Empire.Planets != null)
 {
-    <div class="row container marginmobile" style="padding-bottom:100px">
+    <div class="row">
         @foreach(var planet in State.Empire.Planets)
         {
             <div class="col-md-6 col-sm-12 mb-5">
@@ -106,18 +106,6 @@
 
     [class*="col-"] {
       margin-bottom: 30px;
-    }
-
-    @@media screen and (max-width: 768px) {
-      .marginmobile {
-         margin-top: 600px;
-      }
-    }
-
-    @@media screen and (min-width: 769px) {
-      .marginmobile {
-         margin-top: 200px;
-      }
     }
 
     .mud-tooltip-root{

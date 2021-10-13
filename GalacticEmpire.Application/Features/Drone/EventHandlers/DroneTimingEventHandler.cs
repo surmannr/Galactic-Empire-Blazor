@@ -1,6 +1,7 @@
 ﻿using GalacticEmpire.Application.Features.Drone.Events;
 using GalacticEmpire.Dal;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,13 @@ namespace GalacticEmpire.Application.Features.Drone.EventHandlers
         public async Task Handle(DroneTimingEvent notification, CancellationToken cancellationToken)
         {
             dbContext.DroneAttacks.Add(notification.DroneAttack);
+
+            var activeSpying = await dbContext.ActiveSpyings.FirstOrDefaultAsync(a => a.EmpireId == notification.DroneAttack.AttackerId);
+
+            if (activeSpying != null)
+            {
+                dbContext.ActiveSpyings.Remove(activeSpying);
+            }
 
             await dbContext.SaveChangesAsync();
         }

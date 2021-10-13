@@ -29,6 +29,13 @@ namespace GalacticEmpire.Api.Controllers
             return await mediator.Send(query);
         }
 
+        [HttpGet]
+        [Route("all-available")]
+        public async Task<List<UpgradeDto>> GetAllAvailableUpgrades([FromQuery] GetAvailableUpgradesForPlanet.Query query)
+        {
+            return await mediator.Send(query);
+        }
+
         [HttpPost]
         [Route("{empirePlanetId}/add-upgrade/{upgradeId}")]
         public async Task<bool> BuyPlanetUpgrade(Guid empirePlanetId, int upgradeId)

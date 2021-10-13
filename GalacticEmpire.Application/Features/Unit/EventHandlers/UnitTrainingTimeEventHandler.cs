@@ -40,6 +40,13 @@ namespace GalacticEmpire.Application.Features.Unit.EventHandlers
                 empireUnit.Amount += buyUnit.Count;
             }
 
+            var activeTrainings = await dbContext.ActiveTrainings.Where(a => a.EmpireId == notification.EmpireId).ToListAsync();
+
+            if (activeTrainings != null)
+            {
+                dbContext.ActiveTrainings.RemoveRange(activeTrainings);
+            }
+
             await dbContext.SaveChangesAsync();
         }
     }

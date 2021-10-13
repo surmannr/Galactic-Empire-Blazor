@@ -8,7 +8,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <MudLayout>
+        <MudLayout Style="overflow-y:auto;">
             <MudAppBar Elevation="1" Fixed="true" Style="background-color: rgba(0,0,0,0.7); margin-bottom:20px">
                 <MudIconButton  Variant="Variant.Filled" Icon="@Icons.Material.Filled.Menu" Size="Size.Large" Class="bg-light" Edge="Edge.Start" OnClick="@ToggleDrawerLeft" />
                 <MudSpacer />
@@ -18,8 +18,8 @@
             <LeftSideBar open="openLeft"></LeftSideBar>
             <RightSideBar open="openRight"></RightSideBar>
 
-            <MudMainContent Class="row" Style="overflow-y:auto;">
-                <MudContainer Class="mobil-marign d-flex flex-column align-items-center justify-content-center" Style="height: 95vh;padding-top:30px; padding-bottom:30px; overflow-y:auto; margin-bottom:100px">
+            <MudMainContent Style="overflow-y:scroll; height:100vh">
+                <MudContainer Class="mobil-marign d-flex flex-column align-items-center justify-content-center" Style="padding-top:30px; padding-bottom:30px; overflow-y:auto; margin-bottom:100px">
                     @Body
                 </MudContainer>
             </MudMainContent>

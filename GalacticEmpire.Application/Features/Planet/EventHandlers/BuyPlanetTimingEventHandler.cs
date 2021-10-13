@@ -47,6 +47,13 @@ namespace GalacticEmpire.Application.Features.Planet.EventHandlers
 
             planet.ApplyEffect(empire);
 
+            var activeCapturing = await dbContext.ActiveCapturings.FirstOrDefaultAsync(a => a.EmpireId == notification.EmpireId);
+
+            if(activeCapturing != null)
+            {
+                dbContext.ActiveCapturings.Remove(activeCapturing);
+            }
+
             await dbContext.SaveChangesAsync();
         }
     }

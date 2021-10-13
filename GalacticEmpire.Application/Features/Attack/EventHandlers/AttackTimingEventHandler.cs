@@ -1,6 +1,7 @@
 ﻿using GalacticEmpire.Application.Features.Attack.Events;
 using GalacticEmpire.Dal;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,13 @@ namespace GalacticEmpire.Application.Features.Attack.EventHandlers
         public async Task Handle(AttackTimingEvent notification, CancellationToken cancellationToken)
         {
             dbContext.Attacks.Add(notification.Attack);
+
+            var activeAttacking = await dbContext.ActiveAttackings.FirstOrDefaultAsync(a => a.EmpireId == notification.Attack.AttackerId);
+
+            if (activeAttacking != null)
+            {
+                dbContext.ActiveAttackings.Remove(activeAttacking);
+            }
 
             await dbContext.SaveChangesAsync();
         }

@@ -3,6 +3,7 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Attack.Events;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Domain.Models.AttackModel;
 using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Attack;
@@ -55,6 +56,13 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
                     .Where(e => e.OwnerId == userId)
                     .FirstOrDefaultAsync();
 
+                var active = await dbContext.ActiveAttackings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+
+                if (active != null)
+                {
+                    throw new Exception("Folyamatban van egy támadás.");
+                }
+
                 var drone = await dbContext.Units
                     .Where(e => e.Name == UnitEnum.ScoutDrone.GetDisplayName())
                     .SingleOrDefaultAsync();
@@ -84,12 +92,12 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
                     throw new Exception("Nincs ilyen birodalom, amit megtámadnál.");
                 }
 
-                AttackLogic(empire, request, attackedEmpire);
+                await AttackLogic(empire, request, attackedEmpire);
 
                 return true;
             }
 
-            public void AttackLogic(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire attackedEmpire)
+            public async Task AttackLogic(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire attackedEmpire)
             {
                 var attack = new Domain.Models.AttackModel.Base.Attack()
                 {
@@ -138,6 +146,17 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
                     }).ToList(),
                     WinnerId = CalculateWinner(empire,request,attackedEmpire)
                 };
+
+                var activeAttacking = new ActiveAttacking
+                {
+                    EmpireId = empire.Id,
+                    EndDate = DateTimeOffset.Now.Add(TimeConstants.AttackAndSpyingTime),
+                    DefenderEmpireName = attackedEmpire.Name
+                };
+
+                dbContext.ActiveAttackings.Add(activeAttacking);
+
+                await dbContext.SaveChangesAsync();
 
                 mediator.Schedule(new AttackTimingEvent() { Attack = attack }, TimeConstants.AttackAndSpyingTime);
             }

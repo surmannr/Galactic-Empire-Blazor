@@ -52,6 +52,13 @@ namespace GalacticEmpire.Application.Features.Upgrade.EventHandlers
 
             upgrade.ApplyEffect(empire);
 
+            var activeUpgrading = await dbContext.ActiveUpgradings.FirstOrDefaultAsync(a => a.EmpireId == notification.EmpireId);
+
+            if (activeUpgrading != null)
+            {
+                dbContext.ActiveUpgradings.Remove(activeUpgrading);
+            }
+
             await dbContext.SaveChangesAsync();
         }
     }

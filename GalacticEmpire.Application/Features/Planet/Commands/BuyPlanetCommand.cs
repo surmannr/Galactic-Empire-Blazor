@@ -5,6 +5,7 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Planet.Event;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Planet;
 using MediatR;
@@ -51,6 +52,13 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
                             .ThenInclude(e => e.PlanetPriceMaterials)
                     .SingleAsync();
 
+                var active = await dbContext.ActiveCapturings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+
+                if(active != null)
+                {
+                    throw new Exception("Folyamatban van egy bolygófoglalás.");
+                }
+
                 if (empire.EmpirePlanets.Any(e => e.Planet.Id == request.BuyPlanet.PlanetId))
                 {
                     throw new Exception("Már van ilyen bolygód.");
@@ -81,6 +89,17 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
                         }
                     }
                 }
+
+                var activeCapturing = new ActiveCapturing
+                {
+                    EmpireId = empire.Id,
+                    EndDate = DateTimeOffset.Now.Add(planet.CapturingTime),
+                    PlanetName = planet.Name
+                };
+
+                dbContext.ActiveCapturings.Add(activeCapturing);
+
+                await dbContext.SaveChangesAsync();
 
                 mediator.Schedule(new BuyPlanetTimingEvent { EmpireId = empire.Id, PlanetId = planet.Id }, planet.CapturingTime);
 

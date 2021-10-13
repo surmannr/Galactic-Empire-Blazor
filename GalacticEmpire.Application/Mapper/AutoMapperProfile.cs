@@ -100,6 +100,10 @@ namespace GalacticEmpire.Application.Mapper
                 .ForMember(
                     upgradeDto => upgradeDto.RequiredMaterials,
                     upgrade => upgrade.MapFrom(u => u.UpgradePriceMaterials)
+                )
+                .ForMember(
+                    upgradeDto => upgradeDto.UpgradeTime,
+                    upgrade => upgrade.MapFrom(u => u.UpgradeTime)
                 );
 
             CreateMap<UnitLevel, UnitLevelDto>();
@@ -120,6 +124,14 @@ namespace GalacticEmpire.Application.Mapper
                 .ForMember(
                     epudto => epudto.UpgradeName,
                     epu => epu.MapFrom(e => e.Upgrade.Name)
+                )
+                .ForMember(
+                    epudto => epudto.UpgradeId,
+                    epu => epu.MapFrom(e => e.Upgrade.Id)
+                )
+                .ForMember(
+                    epudto => epudto.ImageUrl,
+                    epu => epu.MapFrom(e => e.Upgrade.ImageUrl)
                 )
                 .ForMember(
                     epudto => epudto.UpgradeDescription,
