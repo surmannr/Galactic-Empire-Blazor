@@ -1,20 +1,31 @@
 ﻿@using GalacticEmpire.Shared.Dto.Planet
+@inject EmpireState State
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+@implements IDisposable
 
 @if(Planet != null)
 {
     <div class="col-md-3 col-sm-12 mb-5">
         <MudCard Class="glass h-100">
             <MudCardMedia Image="@Planet.ImageUrl" Class="mb-5"/>
-            <MudCardContent Style="height:320px">
+            <MudCardContent Style="height:350px">
                 <div class="d-flex flex-column justify-content-between h-100">
                     <div>
                         <MudText Typo="Typo.h4" Style="color: aliceblue" Class="mb-2">@Planet.Name</MudText>
                         <MudText Typo="Typo.body2" Style="color: aliceblue" Class="mb-5">@Planet.Description</MudText>
                     </div>
                     <div>
-                        <MudText Typo="Typo.subtitle2" Style="color: aliceblue" Align="Align.Center" Color="Color.Error">@Planet.CapturingTime.Minute perc @Planet.CapturingTime.Second másodperc</MudText>
-                        <MudButton Variant="Variant.Filled" Color="Color.Surface" FullWidth="true" Style="color: aliceblue; margin-bottom:10px">Elfoglalás</MudButton>
-                        <a href="/planet/@Planet.Id"><MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue">Részletek</MudButton></a>
+                        <MudText Typo="Typo.subtitle2" Style="color: aliceblue; margin-bottom:10px" Align="Align.Center" Color="Color.Error">@Planet.CapturingTime.Minute perc @Planet.CapturingTime.Second másodperc</MudText>
+                        @if(State.Empire.Activities.ActiveCapturingDate == null)
+                        {
+                            <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue; margin-bottom:10px" OnClick="BuyPlanet">Elfoglalás</MudButton>
+                        }
+                        else
+                        {
+                            <MudButton Variant="Variant.Filled" Color="Color.Surface" FullWidth="true"  Style="color: aliceblue; margin-bottom:10px" Disabled>Jelenleg folyamatban van egy elfogalalás</MudButton>
+                        }
+                        <a href="/planet/@Planet.Id"><MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue; margin-bottom:10px">Részletek</MudButton></a>
                     </div>
                 </div>
             </MudCardContent>
@@ -40,4 +51,19 @@
 @code {
     [Parameter]
     public PlanetDetailsDto Planet { get; set; }
+
+    protected override void OnInitialized()
+    {
+        State.OnChange += StateHasChanged;
+    }
+
+    public async Task BuyPlanet()
+    {
+        await State.BuyPlanet(Planet.Id, HttpClientFactory, uriHelper);
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= StateHasChanged;
+    }
 }

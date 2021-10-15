@@ -8,6 +8,7 @@ using GalacticEmpire.Domain.Models.EmpireModel;
 using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Drone;
 using GalacticEmpire.Shared.Enums.Unit;
+using GalacticEmpire.Shared.Exceptions;
 using GalacticEmpire.Shared.Extensions.EnumExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -58,7 +59,7 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
 
                 if (active != null)
                 {
-                    throw new Exception("Folyamatban van egy kémkedés.");
+                    throw new InProcessException("Folyamatban van egy kémkedés.");
                 }
 
                 var drone = await dbContext.Units
@@ -67,7 +68,7 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
 
                 if (request.SendDrone.DronedEmpireId == empire.Id)
                 {
-                    throw new Exception("Nem kémkedheted meg magadat!");
+                    throw new InvalidActionException("Nem kémkedheted meg magadat!");
                 }
 
                 var attackedEmpire = await dbContext.Empires
@@ -82,7 +83,7 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
 
                 if (attackedEmpire is null)
                 {
-                    throw new Exception("Nincs ilyen birodalom, amit kémkedhetnél.");
+                    throw new NotFoundException("Nincs ilyen birodalom, amit kémkedhetnél.");
                 }
 
                 await DroneLogic(empire, request, attackedEmpire, drone);
@@ -102,12 +103,12 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
 
                 if (empireDroneUnit is null)
                 {
-                    throw new Exception("Nincsen ilyen típusú egységed!");
+                    throw new NotFoundException("Nincsen ilyen típusú egységed!");
                 }
 
                 if (empireDroneUnit.Amount < request.SendDrone.NumberOfDrones)
                 {
-                    throw new Exception("Nincs elegendő drónod a kémkedéshez.");
+                    throw new NotFoundException("Nincs elegendő drónod a kémkedéshez.");
                 }
 
                 var droneAttack = new Domain.Models.AttackModel.DroneAttack()
@@ -182,7 +183,7 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
 
                         if (unitlevel is null)
                         {
-                            throw new Exception("Nincs ilyen szintje az egységnek.");
+                            throw new NotFoundException("Nincs ilyen szintje az egységnek.");
                         }
 
                         defensePoints += (int)(((unitlevel.DefensePoint + unit.FightPoint.DefensePointBonus) * unit.Amount) * unit.FightPoint.DefensePointMultiplier);

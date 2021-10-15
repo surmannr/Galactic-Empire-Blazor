@@ -4,6 +4,7 @@ using GalacticEmpire.Dal;
 using GalacticEmpire.Shared.Dto.Material;
 using GalacticEmpire.Shared.Dto.Time;
 using GalacticEmpire.Shared.Dto.Upgrade;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -44,7 +45,7 @@ namespace GalacticEmpire.Application.Features.Upgrade.Queries
 
                 if (empirePlanet == null)
                 {
-                    throw new Exception("Nincs ilyen bolygója a birodalomnak.");
+                    throw new NotFoundException("Nincs ilyen bolygója a birodalomnak.");
                 }
 
                 var empirePlanetUpgrades = empirePlanet.EmpirePlanetUpgrades.Select(e => e.Upgrade).ToList();

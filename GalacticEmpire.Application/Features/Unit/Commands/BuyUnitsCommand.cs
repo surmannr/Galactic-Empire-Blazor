@@ -5,6 +5,7 @@ using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Shared.Dto.Unit;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -55,7 +56,7 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
 
                 if (active != null)
                 {
-                    throw new Exception("Folyamatban van egy egységképzés.");
+                    throw new InProcessException("Folyamatban van egy egységképzés.");
                 }
 
                 var unitBuyCollection = request.UnitsCollection.Units;
@@ -64,7 +65,7 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
 
                 if(empire.MaxNumberOfUnits -  maxCountOfUnits < 0)
                 {
-                    throw new Exception("A megvételre szánt egység mennyisége túl lépi a birodalom korlátját.");
+                    throw new InvalidActionException("A megvételre szánt egység mennyisége túl lépi a birodalom korlátját.");
                 }
 
                 var time = new TimeSpan(0, 0, 0);
@@ -78,7 +79,7 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
 
                     if(empireUnit == null)
                     {
-                        throw new Exception("Nem létezik ilyen egység!");
+                        throw new NotFoundException("Nem létezik ilyen egység!");
                     }
 
                     foreach (var material in empireUnit.Unit.UnitPriceMaterials)
@@ -87,11 +88,11 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
 
                         if (empireMaterial != null)
                         {
-                            empireMaterial.Amount -= material.Amount;
+                            empireMaterial.Amount -= material.Amount * buyUnit.Level;
 
                             if (empireMaterial.Amount < 0)
                             {
-                                throw new Exception("Nincs elegendő nyersanyag!");
+                                throw new InvalidActionException("Nincs elegendő nyersanyag!");
                             }
                         }
                     }
@@ -99,7 +100,7 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
 
                     if (trainingTime == null)
                     {
-                        throw new Exception("Nem tartozik hozzá kiképzési idő.");
+                        throw new NotFoundException("Nem tartozik hozzá kiképzési idő.");
                     }
 
                     activeTrainings.Add(new ActiveTraining

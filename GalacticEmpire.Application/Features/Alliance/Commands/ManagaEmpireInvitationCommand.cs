@@ -3,6 +3,7 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.AllianceModel;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -47,7 +48,7 @@ namespace GalacticEmpire.Application.Features.Alliance.Commands
 
                 if (empireInvitation == null)
                 {
-                    throw new Exception("Nem létezik ilyen szövetségi meghívás.");
+                    throw new NotFoundException("Nem létezik ilyen szövetségi meghívás.");
                 }
 
                 if (request.Accept)

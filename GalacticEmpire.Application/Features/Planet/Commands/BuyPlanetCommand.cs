@@ -8,6 +8,7 @@ using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Planet;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -56,12 +57,12 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
 
                 if(active != null)
                 {
-                    throw new Exception("Folyamatban van egy bolygófoglalás.");
+                    throw new InProcessException("Folyamatban van egy bolygófoglalás.");
                 }
 
                 if (empire.EmpirePlanets.Any(e => e.Planet.Id == request.BuyPlanet.PlanetId))
                 {
-                    throw new Exception("Már van ilyen bolygód.");
+                    throw new InvalidActionException("Már van ilyen bolygód.");
                 }
 
                 var planet = await dbContext.Planets
@@ -72,7 +73,7 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
 
                 if(planet == null)
                 {
-                    throw new Exception("Nem létezik ilyen bolygó.");
+                    throw new NotFoundException("Nem létezik ilyen bolygó.");
                 }
 
                 foreach(var material in planet.PlanetPriceMaterials)
@@ -85,7 +86,7 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
 
                         if(empireMaterial.Amount < 0)
                         {
-                            throw new Exception("Nincs elegendő nyersanyag!");
+                            throw new InvalidActionException("Nincs elegendő nyersanyag!");
                         }
                     }
                 }

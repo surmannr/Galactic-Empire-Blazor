@@ -48,6 +48,7 @@ namespace GalacticEmpire.Application.Features.Planet.Queries
                     .Include(e => e.EmpirePlanets)
                     .Include(planet => planet.PlanetPriceMaterials)
                         .ThenInclude(ppm => ppm.Material)
+                    .Where(e => !e.EmpirePlanets.Any(s => s.EmpireId == empire.Id))
                     .Select(p => new PlanetDetailsDto { 
                         Id = p.Id,
                         CapturingTime = mapper.Map<TimeDto>(p.CapturingTime),

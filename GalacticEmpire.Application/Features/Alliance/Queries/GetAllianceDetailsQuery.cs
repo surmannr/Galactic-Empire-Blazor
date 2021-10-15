@@ -4,6 +4,7 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Shared.Dto.Alliance;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -46,7 +47,7 @@ namespace GalacticEmpire.Application.Features.Alliance.Queries
 
                 if (alliance == null)
                 {
-                    throw new Exception("Nem létezik ilyen szövetség.");
+                    throw new NotFoundException("Nem létezik ilyen szövetség.");
                 }
 
                 return mapper.Map<AllianceDetailsDto>(alliance);

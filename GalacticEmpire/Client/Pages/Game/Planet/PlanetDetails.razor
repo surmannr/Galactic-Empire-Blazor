@@ -3,10 +3,12 @@
 @layout MainLayout
 @inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager uriHelper
+@implements IDisposable
+@inject EmpireState State
 
 @if(Planet != null)
 {
-    <div class="row container glass p-4 marginmobile">
+    <div class="row glass pt-4">
         <div class="col-md-4 col-sm-12">
            <img src="@Planet.ImageUrl" class="mb-5 img-responsive img-fluid"/>
         </div>
@@ -20,7 +22,14 @@
             }
             else
             {
-                 <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue">Elfogalalás</MudButton>
+                @if(State.Empire.Activities.ActiveCapturingDate == null)
+                {
+                     <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue" OnClick="BuyPlanet">Elfogalalás</MudButton>
+                }
+                else
+                {
+                     <MudText Typo="Typo.body1" Align="Align.Center" Color="Color.Error">Jelenleg folyamatban van egy foglalás</MudText>
+                }
             }
             <MudText Typo="Typo.h6" Align="Align.Center" Class="pr-md-5 mb-2" Style="color: aliceblue; margin-top:30px; margin-bottom:20px">A bolygó ára:</MudText>
             @if (Planet.RequiredMaterials != null)
@@ -104,5 +113,20 @@
     {
         var http = HttpClientFactory.CreateClient("blazorWASM");
         Planet = await http.GetFromJsonAsync<PlanetDetailsDto>($"api/Planets/{Id}");
+    }
+
+    protected override void OnInitialized()
+    {
+        State.OnChange += StateHasChanged;
+    }
+
+    public async Task BuyPlanet()
+    {
+        await State.BuyPlanet(Planet.Id, HttpClientFactory, uriHelper);
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= StateHasChanged;
     }
 }

@@ -4,6 +4,7 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Shared.Dto.Attack;
 using GalacticEmpire.Shared.Dto.Unit;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -65,7 +66,7 @@ namespace GalacticEmpire.Application.Features.Attack.Queries
 
                 if (attack == null)
                 {
-                    throw new Exception("Nem létezik ilyen azonosítójú támadás.");
+                    throw new NotFoundException("Nem létezik ilyen azonosítójú támadás.");
                 }
 
                 return attack;

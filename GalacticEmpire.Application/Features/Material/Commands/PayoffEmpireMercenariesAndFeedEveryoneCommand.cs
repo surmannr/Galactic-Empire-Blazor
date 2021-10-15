@@ -2,6 +2,7 @@
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Shared.Enums.Material;
+using GalacticEmpire.Shared.Exceptions;
 using GalacticEmpire.Shared.Extensions.EnumExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +50,7 @@ namespace GalacticEmpire.Application.Features.Material.Commands
 
                         if(foodUnitMaterial is null || mercenaryUnitMaterial is null)
                         {
-                            throw new Exception("Nincsen ilyen nyersanyagod.");
+                            throw new NotFoundException("Nincsen ilyen nyersanyagod.");
                         }
 
                         if (requiredFood <= foodUnitMaterial.Amount && requiredMercenary <= mercenaryUnitMaterial.Amount)

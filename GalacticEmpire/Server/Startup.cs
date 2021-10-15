@@ -1,4 +1,4 @@
-using Autofac;
+Ôªøusing Autofac;
 using FluentValidation.AspNetCore;
 using GalacticEmpire.Api.Areas.Identity;
 using GalacticEmpire.Api.ExtensionsAndServices.Hangfire;
@@ -10,8 +10,10 @@ using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Application.Timing;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.UserModel.Base;
+using GalacticEmpire.Shared.Exceptions;
 using Hangfire;
 using Hangfire.SqlServer;
+using Hellang.Middleware.ProblemDetails;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.Configuration;
 using MediatR;
@@ -19,6 +21,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -110,10 +113,10 @@ namespace GalacticEmpire.Server
 
             services.AddHttpContextAccessor();
 
-            // IdentityService beregisztr·l·sa
+            // IdentityService beregisztr√°l√°sa
             services.AddScoped<IIdentityService, IdentityService>();
 
-            // EmailSender beregisztr·l·sa
+            // EmailSender beregisztr√°l√°sa
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
@@ -194,6 +197,8 @@ namespace GalacticEmpire.Server
             services.AddMediatR(typeof(GetAllEventsQuery));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
+            services.AddProblemDetails(ConfigureProblemDetails);
+
             services.AddControllers().AddFluentValidation();
 
             services.AddRazorPages();
@@ -255,12 +260,25 @@ namespace GalacticEmpire.Server
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseProblemDetails();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });
+        }
+
+        private void ConfigureProblemDetails(ProblemDetailsOptions options)
+        {
+            options.MapToStatusCode<NotFoundException>(StatusCodes.Status404NotFound);
+            
+            options.MapToStatusCode<InvalidActionException>(StatusCodes.Status400BadRequest);
+
+            options.MapToStatusCode<InProcessException>(StatusCodes.Status409Conflict);
+
+            options.MapToStatusCode<Exception>(StatusCodes.Status500InternalServerError);
         }
     }
 }

@@ -3,6 +3,7 @@ using FluentValidation;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Shared.Dto.Drone;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -62,7 +63,7 @@ namespace GalacticEmpire.Application.Features.Drone.Queries
 
                 if (droneAttack == null)
                 {
-                    throw new Exception("Nem létezik ilyen azonosítójú kémkedés.");
+                    throw new NotFoundException("Nem létezik ilyen azonosítójú kémkedés.");
                 }
 
                 return droneAttack;
