@@ -5,6 +5,7 @@
 @inject NavigationManager uriHelper
 @implements IDisposable
 @inject EmpireState State
+@inject ISnackbar Snackbar
 
 <div class="row h-100 glass justify-content-center pt-5 p-md-5">
     @if(Units != null)
@@ -116,7 +117,7 @@
             }
         }
 
-        await State.BuyUnits(trainingUnits, HttpClientFactory, uriHelper);
+        await State.BuyUnits(trainingUnits, HttpClientFactory, uriHelper, Snackbar);
     }
 
     public void Dispose()

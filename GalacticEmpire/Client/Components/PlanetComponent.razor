@@ -3,6 +3,7 @@
 @inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager uriHelper
 @implements IDisposable
+@inject ISnackbar Snackbar
 
 @if(Planet != null)
 {
@@ -59,7 +60,7 @@
 
     public async Task BuyPlanet()
     {
-        await State.BuyPlanet(Planet.Id, HttpClientFactory, uriHelper);
+        await State.BuyPlanet(Planet.Id, HttpClientFactory, uriHelper, Snackbar);
     }
 
     public void Dispose()

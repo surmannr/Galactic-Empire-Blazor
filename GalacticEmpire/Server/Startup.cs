@@ -272,13 +272,39 @@ namespace GalacticEmpire.Server
 
         private void ConfigureProblemDetails(ProblemDetailsOptions options)
         {
-            options.MapToStatusCode<NotFoundException>(StatusCodes.Status404NotFound);
-            
-            options.MapToStatusCode<InvalidActionException>(StatusCodes.Status400BadRequest);
+            options.IncludeExceptionDetails = (ctx, ex) => false;
 
-            options.MapToStatusCode<InProcessException>(StatusCodes.Status409Conflict);
+            options.Map<NotFoundException>(
+              (ctx, ex) =>
+              {
+                  var pd = StatusCodeProblemDetails.Create(StatusCodes.Status404NotFound);
+                  pd.Title = ex.Message;
+                  return pd;
+              });
 
-            options.MapToStatusCode<Exception>(StatusCodes.Status500InternalServerError);
+            options.Map<InvalidActionException>(
+              (ctx, ex) =>
+              {
+                  var pd = StatusCodeProblemDetails.Create(StatusCodes.Status400BadRequest);
+                  pd.Title = ex.Message;
+                  return pd;
+              });
+
+            options.Map<InProcessException>(
+              (ctx, ex) =>
+              {
+                  var pd = StatusCodeProblemDetails.Create(StatusCodes.Status409Conflict);
+                  pd.Title = ex.Message;
+                  return pd;
+              });
+
+            options.Map<Exception>(
+              (ctx, ex) =>
+              {
+                  var pd = StatusCodeProblemDetails.Create(StatusCodes.Status500InternalServerError);
+                  pd.Title = ex.Message;
+                  return pd;
+              });
         }
     }
 }
