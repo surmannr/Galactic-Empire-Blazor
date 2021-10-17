@@ -28,6 +28,7 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
         public class Command : ICommand<bool>
         {
             public SendAttackDto SendAttackDto { get; set; }
+            public string ConnectionId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -159,7 +160,9 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
 
                 await dbContext.SaveChangesAsync();
 
-                mediator.Schedule(new AttackTimingEvent() { Attack = attack }, TimeConstants.AttackAndSpyingTime);
+                mediator.Schedule(new AttackTimingEvent() { Attack = attack,
+                    ConnectionId = request.ConnectionId
+                }, TimeConstants.AttackAndSpyingTime);
             }
 
             public Guid? CalculateWinner(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire attackedEmpire)
@@ -203,7 +206,7 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
                 {
                     foreach (var unit in attackUnits)
                     {
-                        unit.Amount = (int)Math.Round(unit.Amount * 0.9);
+                        unit.Amount = (int)Math.Round(unit.Amount * 0.6);
                     }
 
                     return attackedEmpire.Id;
@@ -211,6 +214,11 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
                 else
                 {
                     foreach (var unit in defenseUnits)
+                    {
+                        unit.Amount = (int)Math.Round(unit.Amount * 0.9);
+                    }
+
+                    foreach (var unit in attackUnits)
                     {
                         unit.Amount = (int)Math.Round(unit.Amount * 0.9);
                     }
@@ -224,8 +232,8 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
                             throw new NotFoundException("Nincs ilyen nyersanyag.");
                         }
 
-                        empireMaterial.Amount += material.Amount / 2;
-                        material.Amount /= 2;
+                        empireMaterial.Amount += (int) (material.Amount * 0.2);
+                        material.Amount = (int)(material.Amount * 0.8);
                     }
 
                     return empire.Id;

@@ -2,6 +2,7 @@
 @inject EmpireState State
 @inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager uriHelper
+@inject ISnackbar Snackbar
 
 <MudDrawer @bind-Open="@open" Elevation="1" Anchor="Anchor.Right" Style="background-color: rgba(0,0,0,0.7)">
 
@@ -11,7 +12,7 @@
         <MudText Typo="Typo.h5" Style="color: rgb(255,255,255); font-weight: bold">@if (State is not null && State.Empire is not null) {@State.Empire.Name }</MudText>
         <MudText Typo="Typo.h6" Style="color: rgb(255,255,255)" Class="mb-2">@if (State is not null && State.Empire is not null) {@State.Empire.UserName }</MudText>
 
-        <div class="row">
+        <div class="row d-flex justify-content-center align-items-center">
 
              @if(State.Empire != null && State.Empire.Materials != null)
             {
@@ -54,6 +55,6 @@
 
     protected async override Task OnInitializedAsync()
     {
-        await State.InitializeAsync(uriHelper, HttpClientFactory);
+        await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
     }
 }

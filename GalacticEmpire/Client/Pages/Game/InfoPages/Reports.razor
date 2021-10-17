@@ -1,0 +1,210 @@
+﻿@page "/reports"
+@using GalacticEmpire.Shared.Dto.Attack
+@using GalacticEmpire.Shared.Dto.Drone
+@layout MainLayout
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+@implements IDisposable
+@inject EmpireState State
+@inject ISnackbar Snackbar
+
+<div class="row h-100 glass p-5 m-0 w-100">
+
+         <MudTabs Elevation="4" Rounded="true" Color="Color.Transparent" Centered Class="mt-4" Style="width: 100%">
+
+            <MudTabPanel Text="Támadások">
+
+                @if(AttackReports != null && AttackReports.AllResultsCount != 0 && AttackReports.Results != null)
+                {
+                    <MudTimeline TimelinePosition="TimelinePosition.Start" DisableModifiers="true">
+                        
+                    @foreach(var report in AttackReports.Results)
+                    {
+                        @if(report.WinnerEmpireId == State.Empire.Id)
+                        {
+                              <MudTimelineItem Size="Size.Medium" Variant="Variant.Filled" Color="Color.Success">
+                                <MudCard Elevation="25" Style="background-color: #d2dae2">
+                                    <MudCardContent>
+                                        <div class="row">
+                                             <div class="col-md-6 col-sm-12">
+                                                 <MudText Typo="Typo.h6">@report.OpponentEmpireName</MudText>
+                                                 <MudText Typo="Typo.body2">@report.Date.ToString("yyyy.MM.dd.")</MudText>
+                                                 <MudText Typo="Typo.body2">Megnyerted a csatát!</MudText>
+                                             </div>
+                                             <div class="col-md-6 mt-2 col-sm-12 d-flex justify-content-sm-center justify-content-md-end  align-items-center">
+                                                  <MudButton Variant="Variant.Filled" Color="Color.Dark" Style="color: aliceblue; margin-bottom:10px">Részletek</MudButton>
+                                             </div>
+                                        </div>
+                                        
+                                    </MudCardContent>
+                                </MudCard>
+                              </MudTimelineItem>
+                        }
+                        else
+                        {
+                            <MudTimelineItem Size="Size.Medium" Variant="Variant.Filled" Color="Color.Error">
+                                <MudCard Elevation="25" Style="background-color: #d2dae2">
+                                    <MudCardContent>
+                                        <div class="row">
+                                             <div class="col-md-6 col-sm-12">
+                                                 <MudText Typo="Typo.h6">@report.OpponentEmpireName</MudText>
+                                                 <MudText Typo="Typo.body2">@report.Date.ToString("yyyy.MM.dd.")</MudText>
+                                                 <MudText Typo="Typo.body2">Sajnos elveszítetted a csatát!</MudText>
+                                             </div>
+                                             <div class="col-md-6 mt-2 col-sm-12 d-flex justify-content-sm-center justify-content-md-end  align-items-center">
+                                                  <MudButton Variant="Variant.Filled" Color="Color.Dark" Style="color: aliceblue; margin-bottom:10px">Részletek</MudButton>
+                                             </div>
+                                        </div>
+                                    </MudCardContent>
+                                </MudCard>
+                              </MudTimelineItem>
+                        }
+
+                }
+
+                    </MudTimeline>
+                    <Paging
+                        AllResultsCount="AttackReports.AllResultsCount"
+                        CurrentResultsCount="AttackReports.Results.Count()"
+                        PageNumber="AttackReports.PageNumber"
+                        PageSize="AttackReports.PageSize"
+                        PageChanged="AttackReportsPageChanged"
+                    ></Paging>
+                }
+                
+            </MudTabPanel>
+
+            <MudTabPanel Text="Kémkedések">
+
+                 @if(DroneReports != null && DroneReports.AllResultsCount != 0 && DroneReports.Results != null)
+                {
+                    <MudTimeline TimelinePosition="TimelinePosition.Start" DisableModifiers="true">
+                        
+                    @foreach(var report in DroneReports.Results)
+                    {
+                        @if(report.WinnerEmpireId == State.Empire.Id)
+                        {
+                              <MudTimelineItem Size="Size.Medium" Variant="Variant.Filled" Color="Color.Success">
+                                <MudCard Elevation="25" Style="background-color: #d2dae2">
+                                    <MudCardContent>
+                                        <div class="row">
+                                             <div class="col-md-6 col-sm-12">
+                                                 <MudText Typo="Typo.h6">@report.OpponentEmpireName</MudText>
+                                                 <MudText Typo="Typo.body2">@report.Date.ToString("yyyy.MM.dd.")</MudText>
+                                                 <MudText Typo="Typo.body2">Sikeresen kémkedtél!</MudText>
+                                             </div>
+                                             <div class="col-md-6 mt-2 col-sm-12 d-flex justify-content-sm-center justify-content-md-end  align-items-center">
+                                                  <MudButton Variant="Variant.Filled" Color="Color.Dark" Style="color: aliceblue; margin-bottom:10px">Részletek</MudButton>
+                                             </div>
+                                        </div>
+                                        
+                                    </MudCardContent>
+                                </MudCard>
+                              </MudTimelineItem>
+                        }
+                        else
+                        {
+                            <MudTimelineItem Size="Size.Medium" Variant="Variant.Filled" Color="Color.Error">
+                                <MudCard Elevation="25" Style="background-color: #d2dae2">
+                                    <MudCardContent>
+                                        <div class="row">
+                                             <div class="col-md-6 col-sm-12">
+                                                 <MudText Typo="Typo.h6">@report.OpponentEmpireName</MudText>
+                                                 <MudText Typo="Typo.body2">@report.Date.ToString("yyyy.MM.dd.")</MudText>
+                                                 <MudText Typo="Typo.body2">Nem sikerült a kémkedés!</MudText>
+                                             </div>
+                                             <div class="col-md-6 mt-2 col-sm-12 d-flex justify-content-sm-center justify-content-md-end  align-items-center">
+                                                  <MudButton Variant="Variant.Filled" Color="Color.Dark" Style="color: aliceblue; margin-bottom:10px">Részletek</MudButton>
+                                             </div>
+                                        </div>
+                                    </MudCardContent>
+                                </MudCard>
+                              </MudTimelineItem>
+                        }
+
+                }
+
+                    </MudTimeline>
+                    <Paging
+                        AllResultsCount="DroneReports.AllResultsCount"
+                        CurrentResultsCount="DroneReports.Results.Count()"
+                        PageNumber="DroneReports.PageNumber"
+                        PageSize="DroneReports.PageSize"
+                        PageChanged="DroneReportsPageChanged"
+                    ></Paging>
+                }
+                 
+            </MudTabPanel>
+
+        </MudTabs>
+   
+</div>
+
+<style>
+    .glass
+    {
+        box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        border-radius: 15px;
+        background: rgba(0,0,0,0.43);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    .glass2
+    {
+        box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        border-radius: 15px;
+        background: rgba(255,255,255,0.53);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    .invert-img {
+       -webkit-filter: invert(1);
+       filter: invert(1);
+   }
+
+   .mud-tabs-toolbar-content {
+       background-color: #d2dae2
+   }
+
+</style>
+
+@code {
+
+    public PagedResult<AttackReportPreviewDto> AttackReports { get; set; }
+    public PagedResult<DroneReportPreviewDto> DroneReports { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
+        
+        var http = HttpClientFactory.CreateClient("blazorWASM");
+        AttackReports = await http.GetFromJsonAsync<PagedResult<AttackReportPreviewDto>>($"api/Attack/attackreport/list");
+        DroneReports = await http.GetFromJsonAsync<PagedResult<DroneReportPreviewDto>>($"api/Drone/dronereport/list");
+    }
+
+    protected override void OnInitialized()
+    {
+        State.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= StateHasChanged;
+    }
+
+    public async Task AttackReportsPageChanged(int diff)
+    {
+        AttackReports.PageNumber += diff;
+        var http = HttpClientFactory.CreateClient("blazorWASM");
+        AttackReports = await http.GetFromJsonAsync<PagedResult<AttackReportPreviewDto>>($"api/Attack/attackreport/list?PageSize={AttackReports.PageSize}&PageNumber={AttackReports.PageNumber}");
+    }
+
+    public async Task DroneReportsPageChanged(int diff)
+    {
+        DroneReports.PageNumber += diff;
+        var http = HttpClientFactory.CreateClient("blazorWASM");
+        DroneReports = await http.GetFromJsonAsync<PagedResult<DroneReportPreviewDto>>($"api/Drone/dronereport/list?PageSize={DroneReports.PageSize}&PageNumber={DroneReports.PageNumber}");
+    }
+}

@@ -55,7 +55,15 @@
             </div>
         }
         <div class="col-12">
-            <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue; margin-bottom:10px" OnClick="BuyUnitsCollection">Képzés</MudButton>
+            @if(State.Empire.Activities.ActiveTrainingDate == null)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue; margin-bottom:10px" OnClick="BuyUnitsCollection">Képzés</MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue; margin-bottom:10px" Disabled>Folyamatban van egy képzés</MudButton>
+            }
+
         </div>
     }
 </div>
@@ -82,7 +90,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        await State.InitializeAsync(uriHelper, HttpClientFactory);
+        await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
 
         var http = HttpClientFactory.CreateClient("blazorWASM");
         Units = await http.GetFromJsonAsync<List<UnitDto>>($"api/Units/all");

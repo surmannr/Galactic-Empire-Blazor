@@ -12,5 +12,6 @@ namespace GalacticEmpire.Application.Features.Upgrade.Events
         public Guid EmpireId { get; set; }
         public Guid EmpirePlanetId { get; set; }
         public int UpgradeId { get; set; }
+        public string ConnectionId { get; set; }
     }
 }

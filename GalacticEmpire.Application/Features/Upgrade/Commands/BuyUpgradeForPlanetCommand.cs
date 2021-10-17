@@ -23,6 +23,7 @@ namespace GalacticEmpire.Application.Features.Upgrade.Commands
     {
         public class Command : ICommand<bool>
         {
+            public string ConnectionId { get; set; }
             public BuyUpgradeDto BuyUpgrade { get; set; }
         }
 
@@ -111,7 +112,10 @@ namespace GalacticEmpire.Application.Features.Upgrade.Commands
                 mediator.Schedule(new UpgradeTimingEvent { 
                     EmpireId = empire.Id,
                     EmpirePlanetId = request.BuyUpgrade.EmpirePlanetId,
-                    UpgradeId = request.BuyUpgrade.UpgradeId }, upgrade.UpgradeTime
+                    UpgradeId = request.BuyUpgrade.UpgradeId,
+                    ConnectionId = request.ConnectionId
+                },
+                    upgrade.UpgradeTime
                 );
 
                 return true;

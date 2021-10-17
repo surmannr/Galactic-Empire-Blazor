@@ -12,5 +12,6 @@ namespace GalacticEmpire.Application.Features.Unit.Events
     {
         public BuyUnitsCollectionDto UnitsCollection { get; set; }
         public Guid EmpireId { get; set; }
+        public string ConnectionId { get; set; }
     }
 }

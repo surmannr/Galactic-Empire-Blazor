@@ -4,7 +4,7 @@
 @inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager uriHelper
 
-@if(Planets != null)
+@if(Planets != null && Planets.Count() != 0)
 {
     <div class="row container m-auto h-100">
         <Virtualize Items="Planets" Context="planet" OverscanCount="4">

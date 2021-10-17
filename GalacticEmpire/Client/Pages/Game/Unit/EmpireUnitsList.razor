@@ -3,6 +3,7 @@
 @inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager uriHelper
 @inject EmpireState State
+@inject ISnackbar Snackbar
 
 <div class="row h-100 glass pr-md-5 pl-md-5 pb-md-5 m-0">
     <div class="col-12">
@@ -11,7 +12,7 @@
 
     @if(State != null && State.Empire != null && State.Empire.Units != null)
     {
-        @foreach(var unit in State.Empire.Units)
+        @foreach(var unit in State.Empire.Units.Where(u => u.Count > 0).ToList())
         {
             <MudDivider Class="w-100" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
             <div class="row col-md-12 col-sm-12 mt-2 mb-2">
@@ -30,6 +31,10 @@
 
         }
         <MudDivider Class="w-100" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+        @if(!State.Empire.Units.Any(u => u.Count > 0))
+        {
+            <MudText Typo="Typo.body1" Align="Align.Center" Style="color: aliceblue">Nem rendelkezel egységgel!</MudText>
+        }
     }
     else
     {
@@ -56,7 +61,7 @@
 @code {
      protected async override Task OnInitializedAsync()
     {
-        await State.InitializeAsync(uriHelper, HttpClientFactory);
+        await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
     }
 
     protected override void OnInitialized()

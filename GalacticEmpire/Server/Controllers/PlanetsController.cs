@@ -50,14 +50,15 @@ namespace GalacticEmpire.Api.Controllers
 
         [HttpPost]
         [Route("buy-planet/{planetid}")]
-        public async Task<bool> BuyPlanet(int planetid)
+        public async Task<bool> BuyPlanet(int planetid, [FromQuery] string connectionId)
         {
             var command = new BuyPlanetCommand.Command
             {
                 BuyPlanet = new BuyPlanetDto()
                 {
                     PlanetId = planetid
-                }
+                },
+                ConnectionId = connectionId
             };
 
             return await mediator.Send(command);

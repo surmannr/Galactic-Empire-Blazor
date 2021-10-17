@@ -38,7 +38,7 @@ namespace GalacticEmpire.Api.Controllers
 
         [HttpPost]
         [Route("{empirePlanetId}/add-upgrade/{upgradeId}")]
-        public async Task<bool> BuyPlanetUpgrade(Guid empirePlanetId, int upgradeId)
+        public async Task<bool> BuyPlanetUpgrade(Guid empirePlanetId, int upgradeId, [FromQuery] string connectionId)
         {
             var command = new BuyUpgradeForPlanetCommand.Command
             {
@@ -46,7 +46,8 @@ namespace GalacticEmpire.Api.Controllers
                 {
                     EmpirePlanetId = empirePlanetId,
                     UpgradeId = upgradeId
-                }
+                },
+                ConnectionId = connectionId
             };
 
             return await mediator.Send(command);

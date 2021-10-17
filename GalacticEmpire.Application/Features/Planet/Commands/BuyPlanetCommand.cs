@@ -25,6 +25,7 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
         public class Command : ICommand<bool>
         {
             public BuyPlanetDto BuyPlanet { get; set; }
+            public string ConnectionId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -102,7 +103,9 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
 
                 await dbContext.SaveChangesAsync();
 
-                mediator.Schedule(new BuyPlanetTimingEvent { EmpireId = empire.Id, PlanetId = planet.Id }, planet.CapturingTime);
+                mediator.Schedule(new BuyPlanetTimingEvent { EmpireId = empire.Id, PlanetId = planet.Id,
+                    ConnectionId = request.ConnectionId
+                }, planet.CapturingTime);
 
                 return true;
             }

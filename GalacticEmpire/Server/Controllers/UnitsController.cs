@@ -31,11 +31,12 @@ namespace GalacticEmpire.Api.Controllers
 
         [HttpPost]
         [Route("buy-units")]
-        public async Task<bool> BuyUnits([FromBody] BuyUnitsCollectionDto buyUnitsCollection)
+        public async Task<bool> BuyUnits([FromBody] BuyUnitsCollectionDto buyUnitsCollection, [FromQuery] string connectionId)
         {
             var command = new BuyUnitsCommand.Command
             {
-                UnitsCollection = buyUnitsCollection
+                UnitsCollection = buyUnitsCollection,
+                ConnectionId = connectionId
             };
 
             return await mediator.Send(command);

@@ -3,6 +3,7 @@ using GalacticEmpire.Application.Features.User.Queries;
 using GalacticEmpire.Application.PaginationExtensions;
 using GalacticEmpire.Shared.Dto.User;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -45,13 +46,13 @@ namespace GalacticEmpire.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("attackable-users")]
-        public async Task<PagedResult<AttackableUserDto>> GetAttackableUsers([FromQuery] string filter, [FromQuery] PaginationData data)
+        public async Task<List<AttackableUserDto>> GetAttackableUsers([FromQuery] string filter)
         {
             var query = new GetAttackableUsersQuery.Query
             {
-                Filter = filter,
-                PaginationData = data
+                Filter = filter
             };
 
             return await mediator.Send(query);

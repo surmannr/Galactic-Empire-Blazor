@@ -5,6 +5,8 @@
 @attribute [Authorize]
 @inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager uriHelper
+@using Microsoft.AspNetCore.SignalR.Client
+@inject ISnackbar Snackbar
 
 <AuthorizeView>
     <Authorized>
@@ -36,7 +38,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        await State.InitializeAsync(uriHelper, HttpClientFactory);
+        await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
     }
 
     bool openLeft = false;

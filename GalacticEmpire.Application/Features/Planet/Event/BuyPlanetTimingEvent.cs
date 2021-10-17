@@ -11,5 +11,6 @@ namespace GalacticEmpire.Application.Features.Planet.Event
     {
         public int PlanetId { get; set; }
         public Guid EmpireId { get; set; }
+        public string ConnectionId { get; set; }
     }
 }

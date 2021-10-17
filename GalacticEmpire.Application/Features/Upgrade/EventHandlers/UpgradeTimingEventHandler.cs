@@ -1,4 +1,6 @@
-﻿using GalacticEmpire.Application.Features.Upgrade.Events;
+﻿using GalacticEmpire.Application.ExtensionsAndServices.Identity;
+using GalacticEmpire.Application.Features.Upgrade.Events;
+using GalacticEmpire.Application.SignalR;
 using GalacticEmpire.Dal;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +16,12 @@ namespace GalacticEmpire.Application.Features.Upgrade.EventHandlers
     public class UpgradeTimingEventHandler : INotificationHandler<UpgradeTimingEvent>
     {
         private readonly GalacticEmpireDbContext dbContext;
+        private readonly IGameHubService gameHubService;
 
-        public UpgradeTimingEventHandler(GalacticEmpireDbContext dbContext)
+        public UpgradeTimingEventHandler(GalacticEmpireDbContext dbContext, IGameHubService gameHubService)
         {
             this.dbContext = dbContext;
+            this.gameHubService = gameHubService;
         }
 
         public async Task Handle(UpgradeTimingEvent notification, CancellationToken cancellationToken)
@@ -60,6 +64,8 @@ namespace GalacticEmpire.Application.Features.Upgrade.EventHandlers
             }
 
             await dbContext.SaveChangesAsync();
+
+            await gameHubService.FinishJob(notification.ConnectionId, $"A(z) {upgrade.Name} fejlesztés elkészült.");
         }
     }
 }

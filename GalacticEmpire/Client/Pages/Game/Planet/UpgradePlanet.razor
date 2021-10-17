@@ -1,6 +1,8 @@
 ﻿@page "/upgrade-planet"
 @using GalacticEmpire.Shared.Dto.Empire
 @using GalacticEmpire.Shared.Dto.Upgrade
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.Extensions.Logging
 @layout MainLayout
 @inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager uriHelper
@@ -127,8 +129,10 @@
 
     protected async override Task OnInitializedAsync()
     {
-        await State.InitializeAsync(uriHelper, HttpClientFactory);
+        await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
     }
+
+     
 
     public async Task GetAvailableUpgrades()
     {

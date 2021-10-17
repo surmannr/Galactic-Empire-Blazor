@@ -7,6 +7,7 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Event.Queries;
 using GalacticEmpire.Application.Mapper;
 using GalacticEmpire.Application.MediatorExtension;
+using GalacticEmpire.Application.SignalR;
 using GalacticEmpire.Application.Timing;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.UserModel.Base;
@@ -196,12 +197,20 @@ namespace GalacticEmpire.Server
             services.AddTransient<TimingService>();
             services.AddMediatR(typeof(GetAllEventsQuery));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+            services.AddTransient<GameHub>();
+            services.AddTransient<IGameHubService, GameHubService>();
 
             services.AddProblemDetails(ConfigureProblemDetails);
 
+            services.AddSignalR();
             services.AddControllers().AddFluentValidation();
-
             services.AddRazorPages();
+
+            services.AddResponseCompression(opts =>
+            {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
+            });
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -215,6 +224,8 @@ namespace GalacticEmpire.Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseResponseCompression();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -266,6 +277,7 @@ namespace GalacticEmpire.Server
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapHub<GameHub>("/gamehub");
                 endpoints.MapFallbackToFile("index.html");
             });
         }

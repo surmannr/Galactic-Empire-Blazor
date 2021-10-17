@@ -3,10 +3,11 @@
 @inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager uriHelper
 @inject EmpireState State
+@inject ISnackbar Snackbar
 
 @if(State != null && State.Empire != null && State.Empire.Planets != null)
 {
-    <div class="row">
+    <div class="row container m-auto">
         @foreach(var planet in State.Empire.Planets)
         {
             <div class="col-md-6 col-sm-12 mb-5">
@@ -63,7 +64,7 @@
                                             }
                                             @foreach(var upgrade in planet.Upgrades)
                                             {
-                                                <div class="row col-md-12 col-sm-12 w-100 m-0 mb-1 p-0" style="color:aliceblue">
+                                                <div class="row col-md-12 col-sm-12 w-100 m-0 mb-1 p-0 wtool" style="color:aliceblue">
                                                     <MudTooltip Text="@upgrade.UpgradeDescription" Class="w-100 col-md-12 col-sm-12" style="width:100%">
                                                         <MudText Typo="Typo.body2" Align="Align.Center" Style="color: aliceblue" Class="mb-2 w-100">@upgrade.UpgradeName</MudText>
                                                     </MudTooltip>
@@ -108,7 +109,7 @@
       margin-bottom: 30px;
     }
 
-    .mud-tooltip-root{
+    .wtool .mud-tooltip-root{
         width:100%
     }
 </style>
@@ -116,6 +117,6 @@
 @code {
     protected async override Task OnInitializedAsync()
     {
-        await State.InitializeAsync(uriHelper, HttpClientFactory);
+        await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
     }
 }

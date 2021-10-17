@@ -26,6 +26,7 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
         public class Command : ICommand<bool>
         {
             public SendDroneDto SendDrone { get; set; }
+            public string ConnectionId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -134,7 +135,9 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
 
                 await dbContext.SaveChangesAsync();
 
-                mediator.Schedule(new DroneTimingEvent() { DroneAttack = droneAttack }, TimeConstants.AttackAndSpyingTime);
+                mediator.Schedule(new DroneTimingEvent() { DroneAttack = droneAttack,
+                    ConnectionId = request.ConnectionId
+                }, TimeConstants.AttackAndSpyingTime);
             }
 
             public Guid? CalculateWinner(EmpireUnit attackerDroneUnit, Command request, EmpireUnit? defenderDroneUnit)

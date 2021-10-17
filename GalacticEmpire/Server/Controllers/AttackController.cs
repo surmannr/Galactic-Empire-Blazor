@@ -50,11 +50,12 @@ namespace GalacticEmpire.Api.Controllers
 
         [HttpPost]
         [Route("sendattack")]
-        public async Task<bool> SendAttack([FromBody] SendAttackDto sendAttack)
+        public async Task<bool> SendAttack([FromBody] SendAttackDto sendAttack, [FromQuery] string connectionId)
         {
             var command = new SendAttackCommand.Command
             {
-                SendAttackDto = sendAttack
+                SendAttackDto = sendAttack,
+                ConnectionId = connectionId
             };
 
             return await mediator.Send(command);

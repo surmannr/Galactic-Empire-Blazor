@@ -21,6 +21,7 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
         public class Command : ICommand<bool>
         {
             public BuyUnitsCollectionDto UnitsCollection { get; set; }
+            public string ConnectionId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -123,7 +124,9 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
 
                 await dbContext.SaveChangesAsync();
 
-                mediator.Schedule(new UnitTrainingTimeEvent() { UnitsCollection = request.UnitsCollection, EmpireId = empire.Id }, time);
+                mediator.Schedule(new UnitTrainingTimeEvent() { UnitsCollection = request.UnitsCollection, EmpireId = empire.Id,
+                    ConnectionId = request.ConnectionId
+                }, time);
 
                 return true;
             }
