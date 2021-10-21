@@ -1,0 +1,160 @@
+﻿@page "/upgrade-planet"
+@using GalacticEmpire.Shared.Dto.Empire
+@using GalacticEmpire.Shared.Dto.Upgrade
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.Extensions.Logging
+@layout MainLayout
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+@implements IDisposable
+@inject EmpireState State
+@inject ISnackbar Snackbar
+
+<div class="row glass w-100 p-2">
+    <div class="col-md-12 col-sm-12" style="color:aliceblue">
+        @if(State != null && State.Empire != null && State.Empire.Planets != null && State.Empire.Planets.Count() != 0)
+        {
+           <MudSelect Label="Bolygó kiválasztása" T="EmpirePlanetDto" @bind-Value="PlanetEmpire" SelectedValuesChanged="GetAvailableUpgrades" Required="true" ToStringFunc="@converter" AdornmentColor="Color.Tertiary" Style="color:aliceblue !important">
+            @foreach(var planet in State.Empire.Planets)
+            {
+               <MudSelectItem Value="planet"/>
+            }
+
+           </MudSelect>
+        } else
+        {
+            <MudText Typo="Typo.h4" Align="Align.Center" Style="color: aliceblue" Class="mb-2 w-100">Nem foglaltál el még egy bolygót sem!</MudText>
+        }
+    </div>
+    @if(PlanetEmpire != null)
+    {
+        <div class="col-md-12 col-sm-12" style="color:aliceblue">
+            <MudText Typo="Typo.h4" Align="Align.Center" Style="color: aliceblue" Class="mb-2 w-100">A kiválasztott bolygó: @PlanetEmpire.Name</MudText>
+            <MudText Typo="Typo.h6" Align="Align.Left" Style="color: aliceblue" Class="mb-4 w-100"><i>A bolygó eddigi fejlesztései:</i> </MudText>
+            @if(PlanetEmpire.Upgrades != null && PlanetEmpire.Upgrades.Count != 0)
+            {
+                <div class="row">
+                     @foreach(var upgrade in PlanetEmpire.Upgrades)
+                    {
+                        <div class="col-md-3 col-sm-12">
+                            <MudCard Class="h-100">
+                                <MudCardMedia Image="@upgrade.ImageUrl" Height="200" />
+                                <MudCardContent Class="d-flex flex-column justify-content-between" >
+                                    <MudText Typo="Typo.h5">@upgrade.UpgradeName</MudText>
+                                    <MudText Typo="Typo.body2">@upgrade.UpgradeDescription</MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </div>
+                    }
+                </div>
+            } else
+            {
+                <MudText Typo="Typo.body1" Align="Align.Center" Style="color: red" Class="mb-2 w-100">A bolygó nem rendelkezik fejlesztéssel! </MudText>
+            }
+            <MudText Typo="Typo.h6" Align="Align.Left" Style="color: aliceblue" Class="mb-4 w-100"><i>Elérhető fejlesztések:</i> </MudText>
+            <TimerComponent EndDate="State.Empire.Activities.ActiveUpgradingDate"></TimerComponent>
+            @if(AvailableUpgrades != null)
+            {
+                <div class="row mt-4">
+
+                    @foreach(var upgrade in AvailableUpgrades)
+                    {
+                        <div class="col-md-3 col-sm-12">
+                            <MudCard Class="h-100 d-flex flex-column justify-content-between">
+                                <MudCardMedia Image="@upgrade.ImageUrl" Height="160" />
+                                <MudCardContent Class="d-flex flex-column justify-content-between h-100" >
+                                    <div class="h-100">
+                                        <MudText Typo="Typo.h5">@upgrade.Name</MudText>
+                                        <MudText Typo="Typo.body2">@upgrade.Description</MudText>
+                                    </div>
+                                    <div>
+                                        <MudText Typo="Typo.body2" Class="mt-2 mb-2" Color="Color.Error" Align="Align.Center">@upgrade.UpgradeTime.Hour óra @upgrade.UpgradeTime.Minute perc @upgrade.UpgradeTime.Second másodperc</MudText>
+                                        @if (upgrade.RequiredMaterials != null)
+                                        {
+                                            @foreach(var price in upgrade.RequiredMaterials)
+                                            {
+                                                <PriceComponent Price="price" IsInverted="false"></PriceComponent>
+                                            }
+                                        }
+                                    </div>
+                                </MudCardContent>
+                                <MudCardActions>
+                                    @if(State.Empire.Activities.ActiveUpgradingDate == null)
+                                    {
+                                        <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" OnClick="() => BuyUpgrade(upgrade.Id)">Fejlesztés</MudButton>
+                                    }
+                                    else
+                                    {
+                                        <MudButton Variant="Variant.Filled" Color="Color.Surface" FullWidth="true" Disabled>Folyamatban van egy fejlesztés</MudButton>
+                                    }
+                                </MudCardActions>
+                            </MudCard>
+                        </div>
+                    }
+
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .glass
+    {
+        box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        border-radius: 15px;
+        background: rgba(0,0,0,0.43);
+        color: aliceblue !important;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    [class*="col-"] {
+      margin-bottom: 30px;
+    }
+    .mud-select .mud-select-input .mud-input-slot {
+        color: aliceblue !important;
+    }
+    .mud-shrink~label.mud-input-label.mud-input-label-inputcontrol, .mud-input:focus-within~label.mud-input-label.mud-input-label-inputcontrol {
+        color: aliceblue !important;
+    }
+    .mud-input-control>.mud-input-control-input-container>.mud-input-label-inputcontrol {
+        color: aliceblue !important;
+    }
+</style>
+
+@code {
+
+    public EmpirePlanetDto PlanetEmpire { get; set; }
+    public List<UpgradeDto> AvailableUpgrades { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
+    }
+
+     
+
+    public async Task GetAvailableUpgrades()
+    {
+        var http = HttpClientFactory.CreateClient("blazorWASM");
+        AvailableUpgrades = await http.GetFromJsonAsync<List<UpgradeDto>>($"api/Upgrades/all-available?empirePlanetId={PlanetEmpire.Id}");
+    }
+
+    protected override void OnInitialized()
+    {
+        State.OnChange += StateHasChanged;
+    }
+
+    public async Task BuyUpgrade(int upgradeId)
+    {
+        await State.BuyUpgrade(PlanetEmpire.Id, upgradeId, HttpClientFactory, uriHelper, Snackbar);
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= StateHasChanged;
+    }
+
+    Func<EmpirePlanetDto,string> converter = p => p?.Name;
+}

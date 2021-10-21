@@ -13,6 +13,11 @@ html {
     overflow: hidden;
 }
 
+::-webkit-scrollbar {
+    width: 0 !important; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make scrollbar invisible */
+}
+
 .glass
 {
     box-shadow: 20px 20px 50px rgba(0,0,0,0.5);

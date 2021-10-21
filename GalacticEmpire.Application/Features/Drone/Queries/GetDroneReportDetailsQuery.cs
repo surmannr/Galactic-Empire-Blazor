@@ -3,6 +3,7 @@ using FluentValidation;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Shared.Dto.Drone;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -56,13 +57,14 @@ namespace GalacticEmpire.Application.Features.Drone.Queries
                         DronedEmpireName = a.Defender.Name,
                         OpponentEmpireName = a.Attacker.Name == empire.Name ? a.Defender.Name : a.Attacker.Name,
                         WinnerEmpireId = a.WinnerId,
-                        WinnerEmpireName = GetWinnerEmpireName(a)
+                        WinnerEmpireName = GetWinnerEmpireName(a),
+                        IsAttacker = a.AttackerId == empire.Id
                     })
                     .SingleOrDefaultAsync();
 
                 if (droneAttack == null)
                 {
-                    throw new Exception("Nem létezik ilyen azonosítójú kémkedés.");
+                    throw new NotFoundException("Nem létezik ilyen azonosítójú kémkedés.");
                 }
 
                 return droneAttack;

@@ -2,6 +2,7 @@
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -48,7 +49,7 @@ namespace GalacticEmpire.Application.Features.Alliance.Commands
                 {
                     if (request.NewLeaderEmpireId == Guid.Empty)
                     {
-                        throw new Exception("A szövetség vezéreként muszáj átadnod a vezetőséget valakinek.");
+                        throw new InvalidActionException("A szövetség vezéreként muszáj átadnod a vezetőséget valakinek.");
                     }
 
                     var member = await dbContext.AllianceMembers
@@ -62,7 +63,7 @@ namespace GalacticEmpire.Application.Features.Alliance.Commands
 
                     if (newLeaderMember == null)
                     {
-                        throw new Exception("Nincsen ilyen tagja a szervezetnek.");
+                        throw new NotFoundException("Nincsen ilyen tagja a szervezetnek.");
                     }
 
                     newLeaderMember.Empire.Alliance.IsLeader = true;

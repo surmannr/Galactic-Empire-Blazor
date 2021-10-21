@@ -3,10 +3,12 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Drone.Events;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Domain.Models.EmpireModel;
 using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Drone;
 using GalacticEmpire.Shared.Enums.Unit;
+using GalacticEmpire.Shared.Exceptions;
 using GalacticEmpire.Shared.Extensions.EnumExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +26,7 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
         public class Command : ICommand<bool>
         {
             public SendDroneDto SendDrone { get; set; }
+            public string ConnectionId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -53,13 +56,20 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
                     .Where(e => e.OwnerId == userId)
                     .FirstOrDefaultAsync();
 
+                var active = await dbContext.ActiveSpyings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+
+                if (active != null)
+                {
+                    throw new InProcessException("Folyamatban van egy kémkedés.");
+                }
+
                 var drone = await dbContext.Units
                     .Where(e => e.Name == UnitEnum.ScoutDrone.GetDisplayName())
                     .SingleOrDefaultAsync();
 
                 if (request.SendDrone.DronedEmpireId == empire.Id)
                 {
-                    throw new Exception("Nem kémkedheted meg magadat!");
+                    throw new InvalidActionException("Nem kémkedheted meg magadat!");
                 }
 
                 var attackedEmpire = await dbContext.Empires
@@ -74,15 +84,15 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
 
                 if (attackedEmpire is null)
                 {
-                    throw new Exception("Nincs ilyen birodalom, amit kémkedhetnél.");
+                    throw new NotFoundException("Nincs ilyen birodalom, amit kémkedhetnél.");
                 }
 
-                DroneLogic(empire, request, attackedEmpire, drone);
+                await DroneLogic(empire, request, attackedEmpire, drone);
 
                 return true;
             }
 
-            public void DroneLogic(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire dronedEmpire, Domain.Models.UnitModel.Base.Unit drone)
+            public async Task DroneLogic(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire dronedEmpire, Domain.Models.UnitModel.Base.Unit drone)
             {
                 var empireDroneUnit = empire.EmpireUnits
                     .Where(eu => eu.Level == 1 && eu.UnitId == drone.Id)
@@ -94,12 +104,12 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
 
                 if (empireDroneUnit is null)
                 {
-                    throw new Exception("Nincsen ilyen típusú egységed!");
+                    throw new NotFoundException("Nincsen ilyen típusú egységed!");
                 }
 
                 if (empireDroneUnit.Amount < request.SendDrone.NumberOfDrones)
                 {
-                    throw new Exception("Nincs elegendő drónod a kémkedéshez.");
+                    throw new NotFoundException("Nincs elegendő drónod a kémkedéshez.");
                 }
 
                 var droneAttack = new Domain.Models.AttackModel.DroneAttack()
@@ -114,7 +124,20 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
 
                 droneAttack.DefenderDefensivePoints = CalculateOpponentDefensivePoints(empire, droneAttack.WinnerId, dronedEmpire.EmpireUnits);
 
-                mediator.Schedule(new DroneTimingEvent() { DroneAttack = droneAttack }, TimeConstants.AttackAndSpyingTime);
+                var activeSpying = new ActiveSpying
+                {
+                    EmpireId = empire.Id,
+                    EndDate = DateTimeOffset.Now.Add(TimeConstants.AttackAndSpyingTime),
+                    DefenderEmpireName = dronedEmpire.Name
+                };
+
+                dbContext.ActiveSpyings.Add(activeSpying);
+
+                await dbContext.SaveChangesAsync();
+
+                mediator.Schedule(new DroneTimingEvent() { DroneAttack = droneAttack,
+                    ConnectionId = request.ConnectionId
+                }, TimeConstants.AttackAndSpyingTime);
             }
 
             public Guid? CalculateWinner(EmpireUnit attackerDroneUnit, Command request, EmpireUnit? defenderDroneUnit)
@@ -163,7 +186,7 @@ namespace GalacticEmpire.Application.Features.Drone.Commands
 
                         if (unitlevel is null)
                         {
-                            throw new Exception("Nincs ilyen szintje az egységnek.");
+                            throw new NotFoundException("Nincs ilyen szintje az egységnek.");
                         }
 
                         defensePoints += (int)(((unitlevel.DefensePoint + unit.FightPoint.DefensePointBonus) * unit.Amount) * unit.FightPoint.DefensePointMultiplier);

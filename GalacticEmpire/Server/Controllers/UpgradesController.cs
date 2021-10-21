@@ -29,9 +29,16 @@ namespace GalacticEmpire.Api.Controllers
             return await mediator.Send(query);
         }
 
+        [HttpGet]
+        [Route("all-available")]
+        public async Task<List<UpgradeDto>> GetAllAvailableUpgrades([FromQuery] GetAvailableUpgradesForPlanet.Query query)
+        {
+            return await mediator.Send(query);
+        }
+
         [HttpPost]
         [Route("{empirePlanetId}/add-upgrade/{upgradeId}")]
-        public async Task<bool> BuyPlanetUpgrade(Guid empirePlanetId, int upgradeId)
+        public async Task<bool> BuyPlanetUpgrade(Guid empirePlanetId, int upgradeId, [FromQuery] string connectionId)
         {
             var command = new BuyUpgradeForPlanetCommand.Command
             {
@@ -39,7 +46,8 @@ namespace GalacticEmpire.Api.Controllers
                 {
                     EmpirePlanetId = empirePlanetId,
                     UpgradeId = upgradeId
-                }
+                },
+                ConnectionId = connectionId
             };
 
             return await mediator.Send(command);

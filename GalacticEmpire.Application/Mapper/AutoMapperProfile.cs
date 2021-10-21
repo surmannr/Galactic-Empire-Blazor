@@ -20,6 +20,7 @@ using GalacticEmpire.Shared.Dto.Empire;
 using GalacticEmpire.Shared.Dto.Event;
 using GalacticEmpire.Shared.Dto.Material;
 using GalacticEmpire.Shared.Dto.Planet;
+using GalacticEmpire.Shared.Dto.Time;
 using GalacticEmpire.Shared.Dto.Unit;
 using GalacticEmpire.Shared.Dto.Upgrade;
 using GalacticEmpire.Shared.Dto.User;
@@ -38,6 +39,17 @@ namespace GalacticEmpire.Application.Mapper
             CreateMap<Event, EventDto>();
 
             CreateMap<Material, MaterialDto>();
+
+            CreateMap<TimeSpan, TimeDto>()
+                .ForMember(
+                    tdto => tdto.Hour, time => time.MapFrom(t => t.Hours)
+                )
+                .ForMember(
+                    tdto => tdto.Minute, time => time.MapFrom(t => t.Minutes)
+                )
+                .ForMember(
+                    tdto => tdto.Second, time => time.MapFrom(t => t.Seconds)
+                );
 
             CreateMap<PlanetProperty, PlanetPropertyDto>();
 
@@ -78,12 +90,20 @@ namespace GalacticEmpire.Application.Mapper
                 .ForMember(
                     planetDto => planetDto.RequiredMaterials,
                     planet => planet.MapFrom(u => u.PlanetPriceMaterials)
+                )
+                .ForMember(
+                    planetDto => planetDto.CapturingTime,
+                    planet => planet.MapFrom(u => u.CapturingTime)
                 );
 
             CreateMap<Upgrade, UpgradeDto>()
                 .ForMember(
                     upgradeDto => upgradeDto.RequiredMaterials,
                     upgrade => upgrade.MapFrom(u => u.UpgradePriceMaterials)
+                )
+                .ForMember(
+                    upgradeDto => upgradeDto.UpgradeTime,
+                    upgrade => upgrade.MapFrom(u => u.UpgradeTime)
                 );
 
             CreateMap<UnitLevel, UnitLevelDto>();
@@ -106,12 +126,16 @@ namespace GalacticEmpire.Application.Mapper
                     epu => epu.MapFrom(e => e.Upgrade.Name)
                 )
                 .ForMember(
-                    epudto => epudto.UpgradeDescription,
-                    epu => epu.MapFrom(e => e.Upgrade.Description)
+                    epudto => epudto.UpgradeId,
+                    epu => epu.MapFrom(e => e.Upgrade.Id)
                 )
                 .ForMember(
-                    epudto => epudto.RemainingTime,
-                    epu => epu.MapFrom(e => e.Upgrade.UpgradeTime)
+                    epudto => epudto.ImageUrl,
+                    epu => epu.MapFrom(e => e.Upgrade.ImageUrl)
+                )
+                .ForMember(
+                    epudto => epudto.UpgradeDescription,
+                    epu => epu.MapFrom(e => e.Upgrade.Description)
                 );
 
             CreateMap<EmpireEvent, EventDto>()
@@ -122,6 +146,10 @@ namespace GalacticEmpire.Application.Mapper
                 .ForMember(
                     edto => edto.Description,
                     ee => ee.MapFrom(e => e.Event.Description)
+                )
+                .ForMember(
+                    edto => edto.ImageUrl,
+                    ee => ee.MapFrom(e => e.Event.ImageUrl)
                 );
 
             CreateMap<EmpireMaterial, MaterialDetailsDto>()

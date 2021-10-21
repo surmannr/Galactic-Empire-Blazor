@@ -19,13 +19,12 @@ namespace GalacticEmpire.Application.Features.User.Queries
 {
     public static class GetAttackableUsersQuery
     {
-        public class Query : IRequest<PagedResult<AttackableUserDto>>
+        public class Query : IRequest<List<AttackableUserDto>>
         {
-            public PaginationData PaginationData { get; set; }
             public string? Filter { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, PagedResult<AttackableUserDto>>
+        public class Handler : IRequestHandler<Query, List<AttackableUserDto>>
         {
             private readonly GalacticEmpireDbContext dbContext;
             private readonly IIdentityService identityService;
@@ -38,7 +37,7 @@ namespace GalacticEmpire.Application.Features.User.Queries
                 this.mapper = mapper;
             }
 
-            public async Task<PagedResult<AttackableUserDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<AttackableUserDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var userId = identityService.GetCurrentUserId();
 
@@ -47,26 +46,24 @@ namespace GalacticEmpire.Application.Features.User.Queries
                     .Where(e => e.OwnerId == userId)
                     .FirstOrDefaultAsync();
 
-                var allianceMembers = dbContext.AllianceMembers
-                    .Where(a => a.AllianceId == empire.Alliance.AllianceId)
-                    .AsEnumerable();
-
-                var attackableUsers = dbContext.Users
-                    .Include(u => u.Empire)
-                    .Where(u => u.Id != userId &&
-                        !allianceMembers.Any(am => am.EmpireId == u.Empire.Id)
-                    )
-                    .ProjectTo<AttackableUserDto>(mapper.ConfigurationProvider)
-                    .AsQueryable();
-
-
                 if (!string.IsNullOrEmpty(request.Filter) && !string.IsNullOrWhiteSpace(request.Filter))
                 {
-                    attackableUsers = attackableUsers
-                        .Where(u => u.UserName.Contains(request.Filter) || u.EmpireName.Contains(request.Filter));
+                    return await dbContext.Users
+                    .Include(u => u.Empire)
+                    .Where(u => u.Id != userId && !u.Empire.Alliance.Alliance.Members.Any(am => am.EmpireId == u.Empire.Id)
+                        && u.UserName.Contains(request.Filter) || u.Empire.Name.Contains(request.Filter)
+                    )
+                    .ProjectTo<AttackableUserDto>(mapper.ConfigurationProvider)
+                    .ToListAsync();
                 }
 
-                return attackableUsers.ToPagedList(request.PaginationData.PageSize, request.PaginationData.PageNumber);
+                var attackableUsers = await dbContext.Users
+                    .Include(u => u.Empire)
+                    .Where(u => u.Id != userId && !u.Empire.Alliance.Alliance.Members.Any(am => am.EmpireId == u.Empire.Id))
+                    .ProjectTo<AttackableUserDto>(mapper.ConfigurationProvider)
+                    .ToListAsync();
+
+                return attackableUsers;
             }
         }
 
@@ -74,7 +71,7 @@ namespace GalacticEmpire.Application.Features.User.Queries
         {
             public QueryValidator()
             {
-                RuleFor(x => x.PaginationData).SetValidator(new PaginationRuleValidator()).When(x => x.PaginationData is not null);
+                
             }
         }
     }

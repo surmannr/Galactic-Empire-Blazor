@@ -1,0 +1,138 @@
+﻿@page "/train-units"
+@using GalacticEmpire.Shared.Dto.Unit
+@layout MainLayout
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+@implements IDisposable
+@inject EmpireState State
+@inject ISnackbar Snackbar
+
+<div class="row h-100 glass justify-content-center pt-5 p-md-5">
+    @if(Units != null)
+    {
+        <TimerComponent EndDate="State.Empire.Activities.ActiveTrainingDate"></TimerComponent>
+
+
+        <div class="col-12">
+           <MudText Typo="Typo.h4" Align="Align.Center" Style="color: aliceblue" Class="mb-4 mt-4">Egységek képzése</MudText>
+        </div>
+        <MudDivider Class="w-100 mb-4" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+        @foreach(var unit in Units)
+        {
+            <div class="row col-12 justify-content-center mb-2">
+                <div class="col-12 d-flex justify-content-center mt-2 mb-2">
+                    <img src="@unit.ImageUrl" class="img-responsive invert-img" height="18"/>
+                    &nbsp;
+                    <MudText Typo="Typo.h6" Style="color: aliceblue">@unit.Name</MudText>
+                    &nbsp;
+                    <img src="@unit.ImageUrl" class="img-responsive invert-img" height="18"/>
+                </div>
+                @foreach(var level in unit.UnitLevels)
+                {
+                    <div class="row col-12 d-flex justify-content-center mt-2 mb-2">
+                        <div class="col-md-1 col-sm-12 d-flex justify-content-center mt-2 mb-2">
+                             <MudText Typo="Typo.body2" Style="color: aliceblue">@level.Level szint</MudText>
+                        </div>
+                        <div class="col-md-3 col-sm-12 d-flex justify-content-center mt-2 mb-2">
+                             <MudText Typo="Typo.body2" Style="color: aliceblue">Támadás/Védekezés: @level.AttackPoint / @level.DefensePoint</MudText>
+                        </div>
+                        <div class="col-md-3 col-sm-12 d-flex justify-content-center mt-2 mb-2">
+                             <MudText Typo="Typo.body2" Style="color: aliceblue">Képzés idő:@level.TrainingTime.Minute p @level.TrainingTime.Second mp / egység</MudText>
+                        </div>
+                        <div class="col-md-3 col-sm-12 d-flex justify-content-center mt-2 mb-2">
+                             <MudText Typo="Typo.body2" Style="color: aliceblue">Fogyasztás: @unit.SupplyPerHour étel és @unit.MercenaryPerHour kvarc / óra</MudText>
+                        </div>
+                        <div class="col-md-2 col-sm-12 d-flex justify-content-center mt-2 mb-2">
+                            @foreach(var price in unit.RequiredMaterials)
+                            {
+                                <MudText Typo="Typo.body1" Style="color: aliceblue" Class="mr-1">@((price.Amount * level.Level).ToString("N0"))</MudText>
+                                <MudTooltip Text="@price.Name"><img src="@price.ImageUrl" class="m-auto img-responsive invert-img" height="18"/></MudTooltip>
+                            }
+                        </div>
+                         <div class="col-md-12 col-sm-12 d-flex justify-content-center mt-2 mb-2">
+                             <MudSlider Step="1" Max="@TotalSumUnits" @bind-Value="@level.CurrentCount" Color="Color.Tertiary"><MudText Color="Color.Tertiary" Typo="Typo.body1" Class="mr-1">Mennyiség: @level.CurrentCount.ToString()</MudText></MudSlider>
+                        </div>
+                        
+                    </div>
+                }
+            </div>
+        }
+        <div class="col-12">
+            @if(State.Empire.Activities.ActiveTrainingDate == null)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue; margin-bottom:10px" OnClick="BuyUnitsCollection">Képzés</MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue; margin-bottom:10px" Disabled>Folyamatban van egy képzés</MudButton>
+            }
+
+        </div>
+    }
+</div>
+
+<style>
+    .glass
+    {
+        box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        border-radius: 15px;
+        background: rgba(0,0,0,0.43);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    .invert-img {
+       -webkit-filter: invert(1);
+       filter: invert(1);
+   }
+</style>
+
+@code {
+    public List<UnitDto> Units { get; set; }
+    public int TotalSumUnits { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
+
+        var http = HttpClientFactory.CreateClient("blazorWASM");
+        Units = await http.GetFromJsonAsync<List<UnitDto>>($"api/Units/all");
+
+        TotalSumUnits = State.Empire.MaxNumberOfUnits - State.Empire.Units.Sum(c => c.Count);
+    }
+
+    protected override void OnInitialized()
+    {
+        State.OnChange += StateHasChanged;
+    }
+
+    public async Task BuyUnitsCollection()
+    {
+        var trainingUnits = new List<BuyUnitDetailsDto>();
+
+        foreach (var unit in Units)
+        {
+            foreach(var level in unit.UnitLevels)
+            {
+                if(level.CurrentCount > 0)
+                {
+                    var buyUnit = new BuyUnitDetailsDto
+                    {
+                        UnitId = unit.Id,
+                        Count = level.CurrentCount,
+                        Level = level.Level
+                    };
+
+                    trainingUnits.Add(buyUnit);
+                }
+            }
+        }
+
+        await State.BuyUnits(trainingUnits, HttpClientFactory, uriHelper, Snackbar);
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= StateHasChanged;
+    }
+}

@@ -4,8 +4,10 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Upgrade.Events;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Upgrade;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,6 +23,7 @@ namespace GalacticEmpire.Application.Features.Upgrade.Commands
     {
         public class Command : ICommand<bool>
         {
+            public string ConnectionId { get; set; }
             public BuyUpgradeDto BuyUpgrade { get; set; }
         }
 
@@ -50,9 +53,16 @@ namespace GalacticEmpire.Application.Features.Upgrade.Commands
                             .ThenInclude(e => e.Upgrade)
                     .SingleAsync();
 
+                var active = await dbContext.ActiveUpgradings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+
+                if (active != null)
+                {
+                    throw new InProcessException("Folyamatban van egy fejlesztés.");
+                }
+
                 if (!empire.EmpirePlanets.Any(e => e.Id == request.BuyUpgrade.EmpirePlanetId))
                 {
-                    throw new Exception("Ez a bolygó, amihez a fejlesztést vásárolnád nincsen a birodalmadban.");
+                    throw new InvalidActionException("Ez a bolygó, amihez a fejlesztést vásárolnád nincsen a birodalmadban.");
                 }
 
                 var upgrade = await dbContext.Upgrades
@@ -62,7 +72,7 @@ namespace GalacticEmpire.Application.Features.Upgrade.Commands
 
                 if (upgrade == null)
                 {
-                    throw new Exception("Nem létezik ilyen fejlesztés.");
+                    throw new NotFoundException("Nem létezik ilyen fejlesztés.");
                 }
 
                 var empirePlanet = empire.EmpirePlanets
@@ -70,7 +80,7 @@ namespace GalacticEmpire.Application.Features.Upgrade.Commands
 
                 if (empirePlanet.EmpirePlanetUpgrades.Any(e => e.Upgrade.Id == request.BuyUpgrade.UpgradeId))
                 {
-                    throw new Exception("Már van ilyen fejlesztés a kiválasztott bolygón!");
+                    throw new InvalidActionException("Már van ilyen fejlesztés a kiválasztott bolygón!");
                 }
 
                 foreach (var material in upgrade.UpgradePriceMaterials)
@@ -83,15 +93,29 @@ namespace GalacticEmpire.Application.Features.Upgrade.Commands
 
                         if (empireMaterial.Amount < 0)
                         {
-                            throw new Exception("Nincs elegendő nyersanyag!");
+                            throw new InvalidActionException("Nincs elegendő nyersanyag!");
                         }
                     }
                 }
 
+                var activeUpgrading = new ActiveUpgrading
+                {
+                    EmpireId = empire.Id,
+                    EndDate = DateTimeOffset.Now.Add(upgrade.UpgradeTime),
+                    UpgradeName = upgrade.Name
+                };
+
+                dbContext.ActiveUpgradings.Add(activeUpgrading);
+
+                await dbContext.SaveChangesAsync();
+
                 mediator.Schedule(new UpgradeTimingEvent { 
                     EmpireId = empire.Id,
                     EmpirePlanetId = request.BuyUpgrade.EmpirePlanetId,
-                    UpgradeId = request.BuyUpgrade.UpgradeId }, upgrade.UpgradeTime
+                    UpgradeId = request.BuyUpgrade.UpgradeId,
+                    ConnectionId = request.ConnectionId
+                },
+                    upgrade.UpgradeTime
                 );
 
                 return true;

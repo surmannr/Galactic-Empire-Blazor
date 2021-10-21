@@ -29,16 +29,36 @@ namespace GalacticEmpire.Api.Controllers
             return await mediator.Send(query);
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<PlanetDetailsDto> GetAllPlanets(int id)
+        {
+            var query = new GetPlanetDetailsQuery.Query()
+            {
+                Id = id
+            };
+
+            return await mediator.Send(query);
+        }
+
+        [HttpGet]
+        [Route("capturable-all")]
+        public async Task<List<PlanetDetailsDto>> GetAllCapturablePlanets([FromQuery] GetAllCapturablePlanetsQuery.Query query)
+        {
+            return await mediator.Send(query);
+        }
+
         [HttpPost]
         [Route("buy-planet/{planetid}")]
-        public async Task<bool> BuyPlanet(int planetid)
+        public async Task<bool> BuyPlanet(int planetid, [FromQuery] string connectionId)
         {
             var command = new BuyPlanetCommand.Command
             {
                 BuyPlanet = new BuyPlanetDto()
                 {
                     PlanetId = planetid
-                }
+                },
+                ConnectionId = connectionId
             };
 
             return await mediator.Send(command);

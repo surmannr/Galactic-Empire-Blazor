@@ -1,0 +1,156 @@
+﻿@page "/attack-report/{Id}"
+@using GalacticEmpire.Shared.Dto.Attack
+@using GalacticEmpire.Shared.Enums.Unit
+@using GalacticEmpire.Shared.Extensions.EnumExtensions
+@layout MainLayout
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+@inject EmpireState State
+@inject ISnackbar Snackbar
+
+<div class="row glass w-100 h-100 justify-content-center pt-5">
+    @if(AttackReport != null && State.Empire != null)
+    {
+        <div class="col-12 mt-4 mb-2">
+            <MudText Typo="Typo.h4" Style="color: aliceblue; background-color:#b33939; border-radius:10px" Align="Align.Center">@AttackReport.Date.ToString("yyyy.MM.dd. HH:mm") csata</MudText>
+        </div>
+
+        <div class="row col-md-6 col-sm-12 align-items-start justify-content-center w-100" style="height:fit-content">
+
+            <div class="row col-12 mt-2 justify-content-center">
+                <div class="col-12">
+                    <MudText Typo="Typo.h5" Style="color: aliceblue" Align="Align.Center">@State.Empire.Name</MudText>
+                </div>
+
+                <MudDivider Class="w-100 mb-3 mt-5" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+
+                <div class="col-12">
+                    <MudText Typo="Typo.body1" Style="color: aliceblue" Align="Align.Left"><u>Egységek:</u></MudText>
+                </div>
+            </div>
+
+            <div class="row col-12 justify-content-center">
+                 @if (AttackReport.IsAttacker)
+                {
+                    @foreach(var unit in AttackReport.AttackUnits.Where(c => c.Name != UnitEnum.ScoutDrone.GetDisplayName()).ToList())
+                    {
+                        <ReportUnitComponent unit="unit" IsAttacker="AttackReport.IsAttacker"></ReportUnitComponent>
+                    }
+                }
+                else
+                {
+                    @foreach(var unit in AttackReport.DefenseUnits.Where(c => c.Name != UnitEnum.ScoutDrone.GetDisplayName()).ToList())
+                    {
+                        <ReportUnitComponent unit="unit" IsAttacker="!AttackReport.IsAttacker"></ReportUnitComponent> 
+                    }
+                }
+            </div>
+            
+        </div>
+
+        <div class="row col-md-6 col-sm-12 align-items-start justify-content-center w-100">
+             <div class="row col-12 mt-2 justify-content-center">
+                <div class="col-12">
+                <MudText Typo="Typo.h5" Style="color: aliceblue" Align="Align.Center">@AttackReport.OpponentEmpireName</MudText>
+                </div>
+
+                <MudDivider Class="w-100 mb-3 mt-5" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+
+                <div class="col-12">
+                    <MudText Typo="Typo.body1" Style="color: aliceblue" Align="Align.Left"><u>Egységek:</u></MudText>
+                </div>
+            </div>
+            <div class="row col-12 justify-content-center">
+                @if (AttackReport.IsAttacker)
+                {
+                    @foreach(var unit in AttackReport.DefenseUnits.Where(c => c.Name != UnitEnum.ScoutDrone.GetDisplayName()).ToList())
+                    {
+                        <ReportUnitComponent unit="unit" IsAttacker="!AttackReport.IsAttacker"></ReportUnitComponent>
+                    }
+                }
+                else
+                {
+                    @foreach(var unit in AttackReport.AttackUnits.Where(c => c.Name != UnitEnum.ScoutDrone.GetDisplayName()).ToList())
+                    {
+                        <ReportUnitComponent unit="unit" IsAttacker="AttackReport.IsAttacker"></ReportUnitComponent> 
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="row col-12 w-100 mb-5">
+            <MudDivider Class="w-100 mb-5 mt-5" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+            <div class="col-5">
+                @if (AttackReport.IsAttacker)
+                {
+                    <MudText Typo="Typo.body1" Style="color: aliceblue" Align="Align.Center">@AttackReport.AttackUnits.Sum(c => c.AttackPoint).ToString("N0") pont</MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.body1" Style="color: aliceblue" Align="Align.Center">@AttackReport.DefenseUnits.Sum(c => c.DefensePoint).ToString("N0") pont</MudText>
+                }
+            </div>
+
+            <div class="col-2">
+               <MudText Typo="Typo.body1" Style="color: aliceblue" Align="Align.Center">vs</MudText>
+            </div>
+
+            <div class="col-5">
+                @if (!AttackReport.IsAttacker)
+                {
+                    <MudText Typo="Typo.body1" Style="color: aliceblue" Align="Align.Center">@AttackReport.AttackUnits.Sum(c => c.AttackPoint).ToString("N0") pont</MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.body1" Style="color: aliceblue" Align="Align.Center">@AttackReport.DefenseUnits.Sum(c => c.DefensePoint).ToString("N0") pont</MudText>
+                }
+            </div>
+
+            <div class="col-12 mt-3">
+               <MudText Typo="Typo.body1" Color="Color.Error" Align="Align.Center">A fenti pontszámok a birodalom bónuszai nélkül vannak, titkosítottak.</MudText>
+            </div>
+
+            @if(State.Empire.Name == @AttackReport.WinnerEmpireName)
+            {
+                <div class="col-12">
+                   <MudText Typo="Typo.h4" Class="mt-3 mb-4" Color="Color.Tertiary" Align="Align.Center">Az ütközetet a(z) <b>@AttackReport.WinnerEmpireName</b> birodalom nyerte meg!</MudText>
+                </div>
+            }
+            else
+            {
+                <div class="col-12">
+                   <MudText Typo="Typo.h4" Class="mt-3 mb-4" Color="Color.Error" Align="Align.Center">Az ütközetet a(z) <b>@AttackReport.WinnerEmpireName</b> birodalom nyerte meg!</MudText>
+                </div>
+            }
+
+
+        </div>
+    }
+</div>
+
+<style>
+     .glass
+    {
+        box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        border-radius: 15px;
+        background: rgba(0,0,0,0.43);
+        color: aliceblue !important;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+</style>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    public AttackReportDetailsDto AttackReport { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
+        
+        var http = HttpClientFactory.CreateClient("blazorWASM");
+        AttackReport = await http.GetFromJsonAsync<AttackReportDetailsDto>($"api/Attack/attackreport/details/{Id}");
+    }
+}

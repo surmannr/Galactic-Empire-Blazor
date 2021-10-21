@@ -3,10 +3,13 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Unit.Events;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Shared.Dto.Unit;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +21,7 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
         public class Command : ICommand<bool>
         {
             public BuyUnitsCollectionDto UnitsCollection { get; set; }
+            public string ConnectionId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -49,16 +53,24 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
                     .Where(e => e.OwnerId == userId)
                     .SingleOrDefaultAsync();
 
+                var active = await dbContext.ActiveTrainings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+
+                if (active != null)
+                {
+                    throw new InProcessException("Folyamatban van egy egységképzés.");
+                }
+
                 var unitBuyCollection = request.UnitsCollection.Units;
 
                 int maxCountOfUnits = unitBuyCollection.Max(e => e.Count) + empire.EmpireUnits.Max(e => e.Amount);
 
                 if(empire.MaxNumberOfUnits -  maxCountOfUnits < 0)
                 {
-                    throw new Exception("A megvételre szánt egység mennyisége túl lépi a birodalom korlátját.");
+                    throw new InvalidActionException("A megvételre szánt egység mennyisége túl lépi a birodalom korlátját.");
                 }
 
                 var time = new TimeSpan(0, 0, 0);
+                var activeTrainings = new List<ActiveTraining>();
 
                 foreach (var buyUnit in unitBuyCollection)
                 {
@@ -68,7 +80,7 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
 
                     if(empireUnit == null)
                     {
-                        throw new Exception("Nem létezik ilyen egység!");
+                        throw new NotFoundException("Nem létezik ilyen egység!");
                     }
 
                     foreach (var material in empireUnit.Unit.UnitPriceMaterials)
@@ -77,11 +89,11 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
 
                         if (empireMaterial != null)
                         {
-                            empireMaterial.Amount -= material.Amount;
+                            empireMaterial.Amount -= material.Amount * buyUnit.Level;
 
                             if (empireMaterial.Amount < 0)
                             {
-                                throw new Exception("Nincs elegendő nyersanyag!");
+                                throw new InvalidActionException("Nincs elegendő nyersanyag!");
                             }
                         }
                     }
@@ -89,15 +101,32 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
 
                     if (trainingTime == null)
                     {
-                        throw new Exception("Nem tartozik hozzá kiképzési idő.");
+                        throw new NotFoundException("Nem tartozik hozzá kiképzési idő.");
                     }
 
-                    time = time.Add(trainingTime.TrainingTime.Multiply(buyUnit.Count));
+                    activeTrainings.Add(new ActiveTraining
+                    {
+                        EmpireId = empire.Id,
+                        UnitName = empireUnit.Unit.Name,
+                        UnitAmount = buyUnit.Count,
+                        UnitLevel = buyUnit.Level,
+                    });
 
-                    empireUnit.Amount += buyUnit.Count;
+                    time = time.Add(trainingTime.TrainingTime.Multiply(buyUnit.Count));
                 }
 
-                mediator.Schedule(new UnitTrainingTimeEvent() { UnitsCollection = request.UnitsCollection, EmpireId = empire.Id }, time);
+                foreach(var activeTraining in activeTrainings)
+                {
+                    activeTraining.EndDate = DateTimeOffset.Now.Add(time);
+                }
+
+                dbContext.ActiveTrainings.AddRange(activeTrainings);
+
+                await dbContext.SaveChangesAsync();
+
+                mediator.Schedule(new UnitTrainingTimeEvent() { UnitsCollection = request.UnitsCollection, EmpireId = empire.Id,
+                    ConnectionId = request.ConnectionId
+                }, time);
 
                 return true;
             }

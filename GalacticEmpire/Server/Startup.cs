@@ -1,4 +1,4 @@
-using Autofac;
+Ôªøusing Autofac;
 using FluentValidation.AspNetCore;
 using GalacticEmpire.Api.Areas.Identity;
 using GalacticEmpire.Api.ExtensionsAndServices.Hangfire;
@@ -7,11 +7,14 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Event.Queries;
 using GalacticEmpire.Application.Mapper;
 using GalacticEmpire.Application.MediatorExtension;
+using GalacticEmpire.Application.SignalR;
 using GalacticEmpire.Application.Timing;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.UserModel.Base;
+using GalacticEmpire.Shared.Exceptions;
 using Hangfire;
 using Hangfire.SqlServer;
+using Hellang.Middleware.ProblemDetails;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.Configuration;
 using MediatR;
@@ -19,6 +22,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -110,10 +114,10 @@ namespace GalacticEmpire.Server
 
             services.AddHttpContextAccessor();
 
-            // IdentityService beregisztr·l·sa
+            // IdentityService beregisztr√°l√°sa
             services.AddScoped<IIdentityService, IdentityService>();
 
-            // EmailSender beregisztr·l·sa
+            // EmailSender beregisztr√°l√°sa
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
@@ -193,10 +197,20 @@ namespace GalacticEmpire.Server
             services.AddTransient<TimingService>();
             services.AddMediatR(typeof(GetAllEventsQuery));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+            services.AddTransient<GameHub>();
+            services.AddTransient<IGameHubService, GameHubService>();
 
+            services.AddProblemDetails(ConfigureProblemDetails);
+
+            services.AddSignalR();
             services.AddControllers().AddFluentValidation();
-
             services.AddRazorPages();
+
+            services.AddResponseCompression(opts =>
+            {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
+            });
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -210,6 +224,8 @@ namespace GalacticEmpire.Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseResponseCompression();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -255,12 +271,52 @@ namespace GalacticEmpire.Server
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseProblemDetails();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapHub<GameHub>("/gamehub");
                 endpoints.MapFallbackToFile("index.html");
             });
+        }
+
+        private void ConfigureProblemDetails(ProblemDetailsOptions options)
+        {
+            options.IncludeExceptionDetails = (ctx, ex) => false;
+
+            options.Map<NotFoundException>(
+              (ctx, ex) =>
+              {
+                  var pd = StatusCodeProblemDetails.Create(StatusCodes.Status404NotFound);
+                  pd.Title = ex.Message;
+                  return pd;
+              });
+
+            options.Map<InvalidActionException>(
+              (ctx, ex) =>
+              {
+                  var pd = StatusCodeProblemDetails.Create(StatusCodes.Status400BadRequest);
+                  pd.Title = ex.Message;
+                  return pd;
+              });
+
+            options.Map<InProcessException>(
+              (ctx, ex) =>
+              {
+                  var pd = StatusCodeProblemDetails.Create(StatusCodes.Status409Conflict);
+                  pd.Title = ex.Message;
+                  return pd;
+              });
+
+            options.Map<Exception>(
+              (ctx, ex) =>
+              {
+                  var pd = StatusCodeProblemDetails.Create(StatusCodes.Status500InternalServerError);
+                  pd.Title = ex.Message;
+                  return pd;
+              });
         }
     }
 }

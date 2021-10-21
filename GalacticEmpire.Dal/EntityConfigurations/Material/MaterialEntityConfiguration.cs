@@ -18,17 +18,20 @@ namespace GalacticEmpire.Dal.EntityConfigurations.Material
                 new Domain.Models.MaterialModel.Base.Material
                 {
                     Id = 1,
-                    Name = MaterialEnum.Quartz.GetDisplayName()
+                    Name = MaterialEnum.Quartz.GetDisplayName(),
+                    ImageUrl = @"https://galacticempire.blob.core.windows.net/materialimages/quartz.png"
                 },
                 new Domain.Models.MaterialModel.Base.Material
                 {
                     Id = 2,
-                    Name = MaterialEnum.Food.GetDisplayName()
+                    Name = MaterialEnum.Food.GetDisplayName(),
+                    ImageUrl = @"https://galacticempire.blob.core.windows.net/materialimages/food.png"
                 },
                 new Domain.Models.MaterialModel.Base.Material
                 {
                     Id = 3,
-                    Name = MaterialEnum.Bitcoin.GetDisplayName()
+                    Name = MaterialEnum.Bitcoin.GetDisplayName(),
+                    ImageUrl = @"https://galacticempire.blob.core.windows.net/materialimages/bitcoin.png"
                 }
             );
         }

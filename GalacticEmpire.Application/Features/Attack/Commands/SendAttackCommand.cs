@@ -3,11 +3,13 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Attack.Events;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Domain.Models.AttackModel;
 using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Attack;
 using GalacticEmpire.Shared.Dto.Unit;
 using GalacticEmpire.Shared.Enums.Unit;
+using GalacticEmpire.Shared.Exceptions;
 using GalacticEmpire.Shared.Extensions.EnumExtensions;
 using Hangfire;
 using MediatR;
@@ -26,6 +28,7 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
         public class Command : ICommand<bool>
         {
             public SendAttackDto SendAttackDto { get; set; }
+            public string ConnectionId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -55,18 +58,25 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
                     .Where(e => e.OwnerId == userId)
                     .FirstOrDefaultAsync();
 
+                var active = await dbContext.ActiveAttackings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+
+                if (active != null)
+                {
+                    throw new InProcessException("Folyamatban van egy támadás.");
+                }
+
                 var drone = await dbContext.Units
                     .Where(e => e.Name == UnitEnum.ScoutDrone.GetDisplayName())
                     .SingleOrDefaultAsync();
 
                 if (request.SendAttackDto.Units.Any(u => u.UnitId == drone.Id))
                 {
-                    throw new Exception("Nem lehet támadásba küldeni a felfedező drónt.");
+                    throw new InvalidActionException("Nem lehet támadásba küldeni a felfedező drónt.");
                 }
 
                 if (request.SendAttackDto.AttackedEmpireId == empire.Id)
                 {
-                    throw new Exception("Nem támadhatod meg magadat!");
+                    throw new InvalidActionException("Nem támadhatod meg magadat!");
                 }
 
                 var attackedEmpire = await dbContext.Empires
@@ -81,15 +91,15 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
 
                 if (attackedEmpire is null)
                 {
-                    throw new Exception("Nincs ilyen birodalom, amit megtámadnál.");
+                    throw new NotFoundException("Nincs ilyen birodalom, amit megtámadnál.");
                 }
 
-                AttackLogic(empire, request, attackedEmpire);
+                await AttackLogic(empire, request, attackedEmpire);
 
                 return true;
             }
 
-            public void AttackLogic(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire attackedEmpire)
+            public async Task AttackLogic(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire attackedEmpire)
             {
                 var attack = new Domain.Models.AttackModel.Base.Attack()
                 {
@@ -104,12 +114,12 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
 
                         if (empireUnit is null)
                         {
-                            throw new Exception("Nincs ilyen egységed.");
+                            throw new NotFoundException("Nincs ilyen egységed.");
                         }
 
                         if (unit.Count > empireUnit.Amount)
                         {
-                            throw new Exception("Nem áll rendelkezésre ennyi egység.");
+                            throw new InvalidActionException("Nem áll rendelkezésre ennyi egység.");
                         }
 
                         var attackUnit = new AttackUnit
@@ -139,7 +149,20 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
                     WinnerId = CalculateWinner(empire,request,attackedEmpire)
                 };
 
-                mediator.Schedule(new AttackTimingEvent() { Attack = attack }, TimeConstants.AttackAndSpyingTime);
+                var activeAttacking = new ActiveAttacking
+                {
+                    EmpireId = empire.Id,
+                    EndDate = DateTimeOffset.Now.Add(TimeConstants.AttackAndSpyingTime),
+                    DefenderEmpireName = attackedEmpire.Name
+                };
+
+                dbContext.ActiveAttackings.Add(activeAttacking);
+
+                await dbContext.SaveChangesAsync();
+
+                mediator.Schedule(new AttackTimingEvent() { Attack = attack,
+                    ConnectionId = request.ConnectionId
+                }, TimeConstants.AttackAndSpyingTime);
             }
 
             public Guid? CalculateWinner(Domain.Models.EmpireModel.Base.Empire empire, Command request, Domain.Models.EmpireModel.Base.Empire attackedEmpire)
@@ -156,7 +179,7 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
 
                     if (unitlevel is null)
                     {
-                        throw new Exception("Nincs ilyen szintje az egységnek.");
+                        throw new NotFoundException("Nincs ilyen szintje az egységnek.");
                     }
 
                     attackPoints += ((unitlevel.AttackPoint + unit.FightPoint.AttackPointBonus) * unit.Amount) * unit.FightPoint.AttackPointMultiplier;
@@ -168,7 +191,7 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
 
                     if (unitlevel is null)
                     {
-                        throw new Exception("Nincs ilyen szintje az egységnek.");
+                        throw new NotFoundException("Nincs ilyen szintje az egységnek.");
                     }
 
                     defensePoints += ((unitlevel.DefensePoint + unit.FightPoint.DefensePointBonus) * unit.Amount) * unit.FightPoint.DefensePointMultiplier;
@@ -183,7 +206,7 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
                 {
                     foreach (var unit in attackUnits)
                     {
-                        unit.Amount = (int)Math.Round(unit.Amount * 0.9);
+                        unit.Amount = (int)Math.Round(unit.Amount * 0.6);
                     }
 
                     return attackedEmpire.Id;
@@ -195,17 +218,22 @@ namespace GalacticEmpire.Application.Features.Attack.Commands
                         unit.Amount = (int)Math.Round(unit.Amount * 0.9);
                     }
 
+                    foreach (var unit in attackUnits)
+                    {
+                        unit.Amount = (int)Math.Round(unit.Amount * 0.9);
+                    }
+
                     foreach (var material in attackedEmpire.EmpireMaterials)
                     {
                         var empireMaterial = empire.EmpireMaterials.SingleOrDefault(cm => cm.MaterialId == material.MaterialId);
 
                         if (empireMaterial is null)
                         {
-                            throw new Exception("Nincs ilyen nyersanyag.");
+                            throw new NotFoundException("Nincs ilyen nyersanyag.");
                         }
 
-                        empireMaterial.Amount += material.Amount / 2;
-                        material.Amount /= 2;
+                        empireMaterial.Amount += (int) (material.Amount * 0.2);
+                        material.Amount = (int)(material.Amount * 0.8);
                     }
 
                     return empire.Id;

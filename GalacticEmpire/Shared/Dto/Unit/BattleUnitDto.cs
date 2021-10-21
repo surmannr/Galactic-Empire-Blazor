@@ -13,5 +13,7 @@ namespace GalacticEmpire.Shared.Dto.Unit
         public int Level { get; set; }
         public int Count { get; set; }
         public string ImageUrl { get; set; }
+        public int AttackPoint { get; set; }
+        public int DefensePoint { get; set; }
     }
 }

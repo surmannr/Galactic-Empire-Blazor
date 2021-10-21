@@ -10,5 +10,6 @@ namespace GalacticEmpire.Application.Features.Drone.Events
     public class DroneTimingEvent : INotification
     {
         public Domain.Models.AttackModel.DroneAttack DroneAttack { get; set; }
+        public string ConnectionId { get; set; }
     }
 }

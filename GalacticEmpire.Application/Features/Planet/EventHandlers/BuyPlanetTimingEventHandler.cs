@@ -1,4 +1,5 @@
 ﻿using GalacticEmpire.Application.Features.Planet.Event;
+using GalacticEmpire.Application.SignalR;
 using GalacticEmpire.Dal;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,12 @@ namespace GalacticEmpire.Application.Features.Planet.EventHandlers
     public class BuyPlanetTimingEventHandler : INotificationHandler<BuyPlanetTimingEvent>
     {
         private readonly GalacticEmpireDbContext dbContext;
+        private readonly IGameHubService gameHubService;
 
-        public BuyPlanetTimingEventHandler(GalacticEmpireDbContext dbContext)
+        public BuyPlanetTimingEventHandler(GalacticEmpireDbContext dbContext, IGameHubService gameHubService)
         {
             this.dbContext = dbContext;
+            this.gameHubService = gameHubService;
         }
 
         public async Task Handle(BuyPlanetTimingEvent notification, CancellationToken cancellationToken)
@@ -47,7 +50,16 @@ namespace GalacticEmpire.Application.Features.Planet.EventHandlers
 
             planet.ApplyEffect(empire);
 
+            var activeCapturing = await dbContext.ActiveCapturings.FirstOrDefaultAsync(a => a.EmpireId == notification.EmpireId);
+
+            if(activeCapturing != null)
+            {
+                dbContext.ActiveCapturings.Remove(activeCapturing);
+            }
+
             await dbContext.SaveChangesAsync();
+
+            await gameHubService.FinishJob(notification.ConnectionId, $"A(z) {planet.Name} bolygó foglalása befejeződött.");
         }
     }
 }

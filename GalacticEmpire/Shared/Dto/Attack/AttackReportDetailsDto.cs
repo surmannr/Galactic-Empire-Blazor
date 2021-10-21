@@ -16,5 +16,6 @@ namespace GalacticEmpire.Shared.Dto.Attack
         public ICollection<BattleUnitDto> DefenseUnits { get; set; }
         public Guid? WinnerEmpireId { get; set; }
         public string WinnerEmpireName { get; set; }
+        public bool IsAttacker { get; set; }
     }
 }

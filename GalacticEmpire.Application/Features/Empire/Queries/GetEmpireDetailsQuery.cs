@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using FluentValidation;
 using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Shared.Dto.Activities;
 using GalacticEmpire.Shared.Dto.Empire;
 using GalacticEmpire.Shared.Dto.Event;
 using GalacticEmpire.Shared.Dto.Material;
@@ -60,6 +61,12 @@ namespace GalacticEmpire.Application.Features.Empire.Queries
 
                 var empireEvent = empire.EmpireEvents.LastOrDefault();
 
+                var activeAttack = await dbContext.ActiveAttackings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+                var activeSpy = await dbContext.ActiveSpyings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+                var activeCapturing= await dbContext.ActiveCapturings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+                var activeUpgrading = await dbContext.ActiveUpgradings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+                var activeTraining = await dbContext.ActiveTrainings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+
                 var empireDetails = new EmpireDetailsDto
                 {
                     Id = empire.Id,
@@ -74,7 +81,15 @@ namespace GalacticEmpire.Application.Features.Empire.Queries
                     AllianceInvitationRight = empire.Alliance?.InvitationRight,
                     IsAllianceLeader = empire.Alliance?.IsLeader,
                     Population = empire.Population,
-                    Units = mapper.Map<List<BattleUnitDto>>(empire.EmpireUnits)
+                    Units = mapper.Map<List<BattleUnitDto>>(empire.EmpireUnits),
+                    Activities = new HasActiveDto
+                    {
+                        ActiveAttackingDate = activeAttack?.EndDate,
+                        ActiveCapturingDate = activeCapturing?.EndDate,
+                        ActiveSpyingDate = activeSpy?.EndDate,
+                        ActiveTrainingDate = activeTraining?.EndDate,
+                        ActiveUpgradingDate = activeUpgrading?.EndDate,
+                    }
                 };
 
                 return empireDetails;

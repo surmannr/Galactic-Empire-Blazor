@@ -12,11 +12,10 @@ namespace GalacticEmpire.Shared.Dto.Unit
         public int Id { get; set; }
         public string Name { get; set; }
         public ICollection<UnitLevelDto> UnitLevels { get; set; }
-        public int MercenaryPerRound { get; set; }
-        public int SupplyPerRound { get; set; }
+        public int MercenaryPerHour { get; set; }
+        public int SupplyPerHour { get; set; }
         public int RankPoint { get; set; }
         public ICollection<PriceMaterialDto> RequiredMaterials { get; set; }
-        public int CurrentCount { get; set; }
         public string ImageUrl { get; set; }
     }
 }

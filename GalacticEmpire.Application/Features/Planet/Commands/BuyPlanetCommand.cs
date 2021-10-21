@@ -5,8 +5,10 @@ using GalacticEmpire.Application.ExtensionsAndServices.Identity;
 using GalacticEmpire.Application.Features.Planet.Event;
 using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
+using GalacticEmpire.Domain.Models.Activities;
 using GalacticEmpire.Shared.Constants.Time;
 using GalacticEmpire.Shared.Dto.Planet;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,6 +25,7 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
         public class Command : ICommand<bool>
         {
             public BuyPlanetDto BuyPlanet { get; set; }
+            public string ConnectionId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -51,9 +54,16 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
                             .ThenInclude(e => e.PlanetPriceMaterials)
                     .SingleAsync();
 
+                var active = await dbContext.ActiveCapturings.FirstOrDefaultAsync(a => a.EmpireId == empire.Id);
+
+                if(active != null)
+                {
+                    throw new InProcessException("Folyamatban van egy bolygófoglalás.");
+                }
+
                 if (empire.EmpirePlanets.Any(e => e.Planet.Id == request.BuyPlanet.PlanetId))
                 {
-                    throw new Exception("Már van ilyen bolygód.");
+                    throw new InvalidActionException("Már van ilyen bolygód.");
                 }
 
                 var planet = await dbContext.Planets
@@ -64,7 +74,7 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
 
                 if(planet == null)
                 {
-                    throw new Exception("Nem létezik ilyen bolygó.");
+                    throw new NotFoundException("Nem létezik ilyen bolygó.");
                 }
 
                 foreach(var material in planet.PlanetPriceMaterials)
@@ -77,12 +87,25 @@ namespace GalacticEmpire.Application.Features.Planet.Commands
 
                         if(empireMaterial.Amount < 0)
                         {
-                            throw new Exception("Nincs elegendő nyersanyag!");
+                            throw new InvalidActionException("Nincs elegendő nyersanyag!");
                         }
                     }
                 }
 
-                mediator.Schedule(new BuyPlanetTimingEvent { EmpireId = empire.Id, PlanetId = planet.Id }, planet.CapturingTime);
+                var activeCapturing = new ActiveCapturing
+                {
+                    EmpireId = empire.Id,
+                    EndDate = DateTimeOffset.Now.Add(planet.CapturingTime),
+                    PlanetName = planet.Name
+                };
+
+                dbContext.ActiveCapturings.Add(activeCapturing);
+
+                await dbContext.SaveChangesAsync();
+
+                mediator.Schedule(new BuyPlanetTimingEvent { EmpireId = empire.Id, PlanetId = planet.Id,
+                    ConnectionId = request.ConnectionId
+                }, planet.CapturingTime);
 
                 return true;
             }

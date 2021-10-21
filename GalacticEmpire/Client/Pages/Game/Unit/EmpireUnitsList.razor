@@ -1,0 +1,76 @@
+﻿@page "/my-units"
+@layout MainLayout
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+@inject EmpireState State
+@inject ISnackbar Snackbar
+
+<div class="row h-100 glass pr-md-5 pl-md-5 pb-md-5 m-0 w-100">
+    <div class="col-12">
+       <MudText Typo="Typo.h4" Align="Align.Center" Style="color: aliceblue" Class="mb-4 mt-4">Egységeim</MudText>
+    </div>
+
+    @if(State != null && State.Empire != null && State.Empire.Units != null)
+    {
+        @foreach(var unit in State.Empire.Units.Where(u => u.Count > 0).ToList())
+        {
+            <MudDivider Class="w-100" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+            <div class="row col-md-12 col-sm-12 mt-2 mb-2">
+                <div class="col-md-2 col-sm-1 d-flex justify-content-center">
+                    <img src="@unit.ImageUrl" class="m-auto img-responsive invert-img" height="18"/>
+                </div>
+                <div class="col-md-5 col-sm-4 d-flex justify-content-center justify-content-md-start">
+                    <MudBadge Content="@("lvl" + @unit.Level)" Color="Color.Primary" Class="mx-6 my-4">
+                        <MudText Typo="Typo.body1" Style="color: aliceblue">@unit.Name</MudText>
+                    </MudBadge>
+                </div>
+                <div class="col-md-5 col-sm-12 d-flex justify-content-center align-items-center">
+                    <MudText Typo="Typo.body1" Align="Align.Center" Style="color: aliceblue">@unit.Count db</MudText>
+                </div>
+            </div>
+
+        }
+        <MudDivider Class="w-100" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+        @if(!State.Empire.Units.Any(u => u.Count > 0))
+        {
+            <MudText Typo="Typo.body1" Align="Align.Center" Style="color: aliceblue" Class="mt-3">Nem rendelkezel egységgel!</MudText>
+        }
+    }
+    else
+    {
+        <MudText Typo="Typo.body2" Align="Align.Center" Color="Color.Error">Nincsen elérhető egységed!</MudText>
+    }
+</div>
+
+<style>
+    .glass
+    {
+        box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        border-radius: 15px;
+        background: rgba(0,0,0,0.43);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    .invert-img {
+       -webkit-filter: invert(1);
+       filter: invert(1);
+   }
+</style>
+
+@code {
+     protected async override Task OnInitializedAsync()
+    {
+        await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
+    }
+
+    protected override void OnInitialized()
+    {
+        State.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= StateHasChanged;
+    }
+}

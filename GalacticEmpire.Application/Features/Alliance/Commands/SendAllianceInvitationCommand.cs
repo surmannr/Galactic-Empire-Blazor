@@ -4,6 +4,7 @@ using GalacticEmpire.Application.MediatorExtension;
 using GalacticEmpire.Dal;
 using GalacticEmpire.Domain.Models.AllianceModel;
 using GalacticEmpire.Shared.Dto.Alliance;
+using GalacticEmpire.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -44,12 +45,12 @@ namespace GalacticEmpire.Application.Features.Alliance.Commands
 
                 if (!empire.Alliance.InvitationRight)
                 {
-                    throw new Exception("Nincsen jogod az új birodalmak felvételére a szövetségbe.");
+                    throw new InvalidActionException("Nincsen jogod az új birodalmak felvételére a szövetségbe.");
                 }
 
                 if (empire.Id == request.SendAllianceInvitation.InvitedEmpireId)
                 {
-                    throw new Exception("Nem hívhatod meg saját magadat a szövetségbe.");
+                    throw new InvalidActionException("Nem hívhatod meg saját magadat a szövetségbe.");
                 }
 
                 var is_member = await dbContext.AllianceMembers
@@ -58,7 +59,7 @@ namespace GalacticEmpire.Application.Features.Alliance.Commands
 
                 if (is_member)
                 {
-                    throw new Exception("A meghívott birodalom már tagja a szövetségnek.");
+                    throw new InvalidActionException("A meghívott birodalom már tagja a szövetségnek.");
                 }
 
                 var is_invited = await dbContext.AllianceInvitations
@@ -67,7 +68,7 @@ namespace GalacticEmpire.Application.Features.Alliance.Commands
 
                 if (is_invited)
                 {
-                    throw new Exception("A birodalom már meghívásra került a szövetségbe.");
+                    throw new InvalidActionException("A birodalom már meghívásra került a szövetségbe.");
                 }
 
                 var invitation = new AllianceInvitation

@@ -2,6 +2,7 @@
 @inject EmpireState State
 @inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager uriHelper
+@inject ISnackbar Snackbar
 
 <MudDrawer @bind-Open="@open" Elevation="1" Anchor="Anchor.Right" Style="background-color: rgba(0,0,0,0.7)">
 
@@ -9,19 +10,44 @@
         <MudText Typo="Typo.h5" Style="color: rgb(255,255,255)" Class="mb-3">Profil</MudText>
         <MudAvatar Image="https://via.placeholder.com/340x255" Style="height:100px; width:100px;"  Class="d-flex align-items-center mb-3"/>
         <MudText Typo="Typo.h5" Style="color: rgb(255,255,255); font-weight: bold">@if (State is not null && State.Empire is not null) {@State.Empire.Name }</MudText>
-            <MudText Typo="Typo.h6" Style="color: rgb(255,255,255)">@if (State is not null && State.Empire is not null) {@State.Empire.UserName }</MudText>
+        <MudText Typo="Typo.h6" Style="color: rgb(255,255,255)" Class="mb-2">@if (State is not null && State.Empire is not null) {@State.Empire.UserName }</MudText>
+
+        <div class="row d-flex justify-content-center align-items-center">
+
+             @if(State.Empire != null && State.Empire.Materials != null)
+            {
+                foreach (var material in State.Empire.Materials)
+                {
+                    <div class="col-12 d-flex justify-content-center mb-1">
+                        <MudText Typo="Typo.body2" Style="color: aliceblue" Class="mr-1">@material.Amount.ToString("N0")</MudText>
+                        <MudTooltip Text="@material.Name"><img src="@material.ImageUrl" class="m-auto img-responsive invert-img" height="14"/></MudTooltip>
+                    </div>
+                }
+            }
+
+        </div>
     </MudDrawerHeader>
     
     <MudNavMenu>
         <MudNavGroup Style="color: rgb(255,255,255)" Title="Beállítások" Expanded="false">
-            <MudNavLink Href="/my-planets-upgrades">Felhasználónév átnevezése</MudNavLink>
-            <MudNavLink Href="/my-planets-upgrades">Jelszó megváltoztatása</MudNavLink>
-            <MudNavLink Href="/upgrade-planet">Email megváltoztatása</MudNavLink>
-            <MudNavLink Href="/upgrade-planet">Birodalom átnevezése</MudNavLink>
+            <MudNavLink Href="/change-username">Felhasználónév átnevezése</MudNavLink>
+            <MudNavLink Href="/change-password">Jelszó megváltoztatása</MudNavLink>
+            <MudNavLink Href="/change-email">Email megváltoztatása</MudNavLink>
+            <MudNavLink Href="/change-empirename">Birodalom átnevezése</MudNavLink>
         </MudNavGroup>
         <MudNavLink Style="color: rgb(255,255,255)" Href="/logout">Kijelentkezés</MudNavLink>
     </MudNavMenu>
+
+    
+
 </MudDrawer>
+
+<style>
+   .invert-img {
+       -webkit-filter: invert(1);
+       filter: invert(1);
+   }
+</style>
 
 @code {
     [Parameter]
@@ -29,6 +55,6 @@
 
     protected async override Task OnInitializedAsync()
     {
-        await State.InitializeAsync(uriHelper, HttpClientFactory);
+        await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
     }
 }

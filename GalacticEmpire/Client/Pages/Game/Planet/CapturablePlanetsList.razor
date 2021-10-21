@@ -1,0 +1,26 @@
+﻿@page "/capturable-planets"
+@using GalacticEmpire.Shared.Dto.Planet
+@layout MainLayout
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+@inject EmpireState State
+
+@if(Planets != null && Planets.Count() != 0)
+{
+     <TimerComponent EndDate="State.Empire.Activities.ActiveCapturingDate"></TimerComponent>
+    <div class="row container m-auto h-100 mt-3">
+        <Virtualize Items="Planets" Context="planet" OverscanCount="4">
+            <PlanetComponent Planet="planet"></PlanetComponent>
+        </Virtualize>
+    </div>
+}
+
+@code {
+    public List<PlanetDetailsDto> Planets { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var http = HttpClientFactory.CreateClient("blazorWASM");
+        Planets = await http.GetFromJsonAsync<List<PlanetDetailsDto>>($"api/Planets/capturable-all");
+    }
+}

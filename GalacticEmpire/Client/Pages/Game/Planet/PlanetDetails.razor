@@ -1,0 +1,133 @@
+﻿@page "/planet/{Id:int}"
+@using GalacticEmpire.Shared.Dto.Planet
+@layout MainLayout
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+@implements IDisposable
+@inject EmpireState State
+@inject ISnackbar Snackbar
+
+@if(Planet != null)
+{
+    <div class="row glass pt-4">
+        <div class="col-md-4 col-sm-12">
+           <img src="@Planet.ImageUrl" class="mb-5 img-responsive img-fluid"/>
+        </div>
+        <div class="col-md-8 col-sm-12 mt-5">
+           <MudText Typo="Typo.h3" Style="color: aliceblue" Class="mb-2">@Planet.Name</MudText>
+           <MudText Typo="Typo.body1" Style="color: aliceblue" Class="mb-5">@Planet.Description</MudText>
+           <MudText Typo="Typo.subtitle2" Style="color: aliceblue" Class="mb-2" Align="Align.Center"><u>Elfoglaláshoz szükséges idő:</u> @Planet.CapturingTime.Minute perc @Planet.CapturingTime.Second másodperc</MudText>
+            @if (Planet.IsCaptured)
+            {
+                <MudText Typo="Typo.body2" Align="Align.Center" Color="Color.Error">A bolygó már a birodalmad része!</MudText>
+            }
+            else
+            {
+                @if(State.Empire.Activities.ActiveCapturingDate == null)
+                {
+                     <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue" OnClick="BuyPlanet">Elfogalalás</MudButton>
+                }
+                else
+                {
+                     <MudText Typo="Typo.body1" Align="Align.Center" Color="Color.Error">Jelenleg folyamatban van egy foglalás</MudText>
+                }
+            }
+            <MudText Typo="Typo.h6" Align="Align.Center" Class="pr-md-5 mb-2" Style="color: aliceblue; margin-top:30px; margin-bottom:20px">A bolygó ára:</MudText>
+            @if (Planet.RequiredMaterials != null)
+            {
+                @foreach(var price in Planet.RequiredMaterials)
+                {
+                    <PriceComponent Price="price"></PriceComponent>
+                }
+            }
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <MudText Typo="Typo.h5" Style="color: aliceblue" Class="mb-2">A bolygó tulajdonságai:</MudText>
+        </div>
+        <div class="row col-md-12 col-sm-12 justify-content-center" style="color:aliceblue">
+             @if(Planet.PlanetProperty != null)
+            {
+                <div class="col-md-2 col-sm-12">
+                    <p class="text-center"><b>Ételtermelés</b></p>
+                    <p class="text-center">@Planet.PlanetProperty.BaseFood / óra</p>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <p class="text-center"><b class="text-center">Kvarctermelés</b></p>
+                    <p class="text-center">@Planet.PlanetProperty.BaseQuartz / óra</p>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <p class="text-center"><b class="text-center">Bitcointermelés</b></p>
+                    <p class="text-center">@Planet.PlanetProperty.BaseBitcoin / óra</p>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <p class="text-center"><b class="text-center">Egységek elszállásolása (fő)</b></p>
+                    <p class="text-center">@Planet.PlanetProperty.MaxUnitCount.ToString("N0") fő</p>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <p class="text-center"><b class="text-center">Lakosság elszállásolása (fő)</b></p>
+                    <p class="text-center">@Planet.PlanetProperty.MaxPopulationCount.ToString("N0") fő</p>
+                </div>
+            }
+        </div>
+       
+    </div>
+}
+
+<style>
+    .glass
+    {
+        box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        border-radius: 15px;
+        background: rgba(0,0,0,0.43);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    .glass2
+    {
+        box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        border-radius: 15px;
+        background: rgba(255,255,255,0.71);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    [class*="col-"] {
+      margin-bottom: 30px;
+    }
+
+    @@media screen and (max-width: 768px) {
+      .marginmobile {
+         margin-top: 600px;
+      }
+    }
+
+</style>
+
+@code {
+    public PlanetDetailsDto Planet { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var http = HttpClientFactory.CreateClient("blazorWASM");
+        Planet = await http.GetFromJsonAsync<PlanetDetailsDto>($"api/Planets/{Id}");
+    }
+
+    protected override void OnInitialized()
+    {
+        State.OnChange += StateHasChanged;
+    }
+
+    public async Task BuyPlanet()
+    {
+        await State.BuyPlanet(Planet.Id, HttpClientFactory, uriHelper, Snackbar);
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= StateHasChanged;
+    }
+}
