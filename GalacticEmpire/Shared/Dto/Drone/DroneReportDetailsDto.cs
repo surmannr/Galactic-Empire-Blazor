@@ -17,5 +17,6 @@ namespace GalacticEmpire.Shared.Dto.Drone
         public Guid? WinnerEmpireId { get; set; }
         public string WinnerEmpireName { get; set; }
         public int? DefensePoints { get; set; }
+        public bool IsAttacker { get; set; }
     }
 }

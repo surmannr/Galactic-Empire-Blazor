@@ -1,0 +1,90 @@
+﻿@page "/events"
+@using GalacticEmpire.Shared.Dto.Event
+@layout MainLayout
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+@inject EmpireState State
+@inject ISnackbar Snackbar
+
+@if(SelectedEvent != null)
+{
+    <MudCard Class="w-100 glass mb-5">
+        <MudCardMedia Image="@SelectedEvent.ImageUrl" Height="600" />
+        <MudCardContent>
+            <MudText Typo="Typo.h5">@SelectedEvent.Name</MudText>
+            <MudText Typo="Typo.body2">@SelectedEvent.Description.</MudText>
+            <MudText Typo="Typo.body2">@SelectedEvent.Date.ToString("yyyy.MM.dd HH:mm:ss")</MudText>
+        </MudCardContent>
+    </MudCard>
+}
+
+<MudTable Items="@EventsList" Class="glass w-100" Hover="true" Breakpoint="Breakpoint.Sm" T="EventDto" @bind-SelectedItem="SelectedEvent" Filter="new Func<EventDto,bool>(FilterFunc)">
+     <ToolBarContent>
+        <MudText Style="color: aliceblue;" Typo="Typo.h6">Események</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Szűrés..." Adornment="Adornment.Start"
+                    AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" ></MudTextField>
+    </ToolBarContent>
+
+    <HeaderContent>
+        <MudTh Style="color: aliceblue;">Dátum</MudTh>
+        <MudTh Style="color: aliceblue;">Esemény neve</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd Style="color: aliceblue;" DataLabel="Dátum">@context.Date.ToString("yyyy.MM.dd HH:mm:ss")</MudTd>
+        <MudTd Style="color: aliceblue;" DataLabel="Esemény neve">@context.Name</MudTd>
+    </RowTemplate>
+
+    <PagerContent>
+        <MudTablePager  RowsPerPageString="Találat oldalanként:" InfoFormat="{first_item}-{last_item} / {all_items}"/>
+    </PagerContent>
+
+</MudTable>
+
+<style>
+    .mud-input>input.mud-input-root, div.mud-input-slot.mud-input-root{
+        color: aliceblue !important;
+    }
+</style>
+
+<style>
+     .glass
+    {
+        box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        border-radius: 15px;
+        background: rgba(0,0,0,0.43);
+        color: aliceblue !important;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+</style>
+
+@code {
+    public List<EventDto> EventsList { get; set; }
+
+    public EventDto SelectedEvent { get; set; }
+
+    private string searchString = "";
+    
+    protected async override Task OnInitializedAsync()
+    {
+        var http = HttpClientFactory.CreateClient("blazorWASM");
+        EventsList = await http.GetFromJsonAsync<List<EventDto>>($"api/Events/user-events");
+        SelectedEvent = EventsList.FirstOrDefault();
+    }
+
+     private bool FilterFunc(EventDto element) => FilterFuncLogic(element, searchString);
+
+    private bool FilterFuncLogic(EventDto element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Date.ToString("yyyy.MM.dd HH:mm:ss").Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    }
+}

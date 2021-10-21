@@ -1,0 +1,116 @@
+﻿@page "/activities"
+@layout MainLayout
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+@inject EmpireState State
+@inject ISnackbar Snackbar
+
+<div class="row glass w-100 h-100 justify-content-center pt-5">
+
+    <div class="col-12">
+        <MudText Typo="Typo.h4" Style="color: aliceblue;" Align="Align.Center">Aktivitások</MudText>
+        <MudDivider Class="w-100 mb-3 mt-5" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+    </div>
+
+    @if(State.Empire != null)
+    {
+        <div class="col-6 mt-3">
+            <MudText Typo="Typo.h6" Style="color: aliceblue;" Align="Align.Left">Aktív foglalás:</MudText>
+        </div>
+
+        <div class="col-6 mt-3">
+            @if (State.Empire.Activities.ActiveCapturingDate.HasValue)
+            {
+                <MudText Typo="Typo.h6" Style="color: aliceblue;" Align="Align.Left">@State.Empire.Activities.ActiveCapturingDate.Value.ToString("yyyy.MM.dd HH:mm:ss") lesz vége</MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.h6" Color="Color.Error" Align="Align.Left">Nincsen folyamatban foglalás.</MudText>
+            }
+        </div>
+
+        <MudDivider Class="w-100 mb-3 mt-5" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+
+        <div class="col-6 mt-3">
+            <MudText Typo="Typo.h6" Style="color: aliceblue;" Align="Align.Left">Aktív fejlesztés:</MudText>
+        </div>
+
+        <div class="col-6 mt-3">
+            @if (State.Empire.Activities.ActiveUpgradingDate.HasValue)
+            {
+                <MudText Typo="Typo.h6" Style="color: aliceblue;" Align="Align.Left">@State.Empire.Activities.ActiveUpgradingDate.Value.ToString("yyyy.MM.dd HH:mm:ss") lesz vége</MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.h6" Color="Color.Error" Align="Align.Left">Nincsen folyamatban fejlesztés.</MudText>
+            }
+        </div>
+
+        <MudDivider Class="w-100 mb-3 mt-5" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+
+        <div class="col-6 mt-3">
+            <MudText Typo="Typo.h6" Style="color: aliceblue;" Align="Align.Left">Aktív képzés:</MudText>
+        </div>
+
+        <div class="col-6 mt-3">
+            @if (State.Empire.Activities.ActiveTrainingDate.HasValue)
+            {
+                <MudText Typo="Typo.h6" Style="color: aliceblue;" Align="Align.Left">@State.Empire.Activities.ActiveTrainingDate.Value.ToString("yyyy.MM.dd HH:mm:ss") lesz vége</MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.h6" Color="Color.Error" Align="Align.Left">Nincsen folyamatban képzés.</MudText>
+            }
+        </div>
+
+        <MudDivider Class="w-100 mb-3 mt-5" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+
+        <div class="col-6 mt-3">
+            <MudText Typo="Typo.h6" Style="color: aliceblue;" Align="Align.Left">Aktív támadás:</MudText>
+        </div>
+
+        <div class="col-6 mt-3">
+            @if (State.Empire.Activities.ActiveAttackingDate.HasValue)
+            {
+                <MudText Typo="Typo.h6" Style="color: aliceblue;" Align="Align.Left">@State.Empire.Activities.ActiveAttackingDate.Value.ToString("yyyy.MM.dd HH:mm:ss") lesz vége</MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.h6" Color="Color.Error" Align="Align.Left">Nincsen folyamatban támadás.</MudText>
+            }
+        </div>
+
+        <MudDivider Class="w-100 mb-3 mt-5" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
+
+        <div class="col-6 mt-3">
+            <MudText Typo="Typo.h6" Style="color: aliceblue;" Align="Align.Left">Aktív kémkedés:</MudText>
+        </div>
+
+        <div class="col-6 mt-3 mb-3">
+            @if (State.Empire.Activities.ActiveSpyingDate.HasValue)
+            {
+                <MudText Typo="Typo.h6" Style="color: aliceblue;" Align="Align.Left">@State.Empire.Activities.ActiveSpyingDate.Value.ToString("yyyy.MM.dd HH:mm:ss") lesz vége</MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.h6" Color="Color.Error" Align="Align.Left">Nincsen folyamatban kémkedés.</MudText>
+            }
+        </div>
+    }
+</div>
+
+<style>
+     .glass
+    {
+        box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        border-radius: 15px;
+        background: rgba(0,0,0,0.43);
+        color: aliceblue !important;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+</style>
+
+@code {
+
+}

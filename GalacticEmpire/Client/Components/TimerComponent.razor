@@ -1,0 +1,11 @@
+﻿@if(EndDate.HasValue)
+{
+    <MudText Typo="Typo.body1" Color="Color.Error" Align="Align.Center">Már van folyamatban eddig: @EndDate.Value.ToString("yyyy.MM.dd HH:mm:ss")</MudText>
+}
+
+@code {
+
+    [Parameter]
+    public DateTimeOffset? EndDate { get; set; }
+
+}

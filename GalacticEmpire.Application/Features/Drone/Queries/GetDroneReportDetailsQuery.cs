@@ -57,7 +57,8 @@ namespace GalacticEmpire.Application.Features.Drone.Queries
                         DronedEmpireName = a.Defender.Name,
                         OpponentEmpireName = a.Attacker.Name == empire.Name ? a.Defender.Name : a.Attacker.Name,
                         WinnerEmpireId = a.WinnerId,
-                        WinnerEmpireName = GetWinnerEmpireName(a)
+                        WinnerEmpireName = GetWinnerEmpireName(a),
+                        IsAttacker = a.AttackerId == empire.Id
                     })
                     .SingleOrDefaultAsync();
 

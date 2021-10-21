@@ -1,0 +1,55 @@
+﻿@using GalacticEmpire.Shared.Dto.Unit
+
+@if (IsAttacker)
+{
+    <div class="row col-12 justify-content-center align-items-center mt-2">
+        <div class="col-md-1 col-sm-1 d-flex justify-content-center">
+        <img src="@unit.ImageUrl" class="m-auto img-responsive invert-img" height="18"/>
+    </div>
+
+    <div class="col-md-3 col-sm-3 d-flex justify-content-center justify-content-md-start">
+        <MudBadge Content="@("lvl" + @unit.Level)" Color="Color.Primary" Class="mx-6 my-4">
+            <MudText Typo="Typo.body1" Style="color: aliceblue">@unit.Name</MudText>
+        </MudBadge>
+    </div>
+
+    <div class="col-md-4 col-sm-4 d-flex justify-content-center align-items-center">
+        <MudText Typo="Typo.body1" Style="color: aliceblue">@unit.Count db</MudText>
+    </div>
+
+    <div class="col-md-4 col-sm-4 d-flex justify-content-center align-items-center">
+        <MudText Typo="Typo.body1" Style="color: aliceblue">@unit.AttackPoint TP</MudText>
+    </div>
+</div>
+}
+else
+{
+    <div class="row col-12 justify-content-center align-items-center mt-2">
+        <div class="col-md-1 col-sm-1 d-flex justify-content-center">
+            <img src="@unit.ImageUrl" class="m-auto img-responsive invert-img" height="18"/>
+        </div>
+
+        <div class="col-md-3 col-sm-3 d-flex justify-content-center justify-content-md-start">
+
+            <MudBadge Content="@("lvl" + @unit.Level)" Color="Color.Primary" Class="mx-6 my-4">
+                <MudText Typo="Typo.body1" Style="color: aliceblue">@unit.Name</MudText>
+            </MudBadge>
+        </div>
+
+        <div class="col-md-4 col-sm-4 d-flex justify-content-center align-items-center">
+            <MudText Typo="Typo.body1" Style="color: aliceblue">@unit.Count db</MudText>
+        </div>
+
+        <div class="col-md-3 col-sm-4 d-flex justify-content-center align-items-center">
+            <MudText Typo="Typo.body1" Style="color: aliceblue">@unit.DefensePoint VP</MudText>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public BattleUnitDto unit { get; set; }
+
+    [Parameter]
+    public bool IsAttacker { get; set; } = false;
+}

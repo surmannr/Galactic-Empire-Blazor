@@ -14,6 +14,14 @@
 
 <div class="row h-100 glass pr-md-5 pl-md-5 pb-md-5 m-0 w-100">
 
+    @if(State.Empire != null && State.Empire.Activities.ActiveAttackingDate.HasValue)
+    {
+        <div class="col-12 mt-4">
+              <TimerComponent EndDate="State.Empire.Activities.ActiveAttackingDate"></TimerComponent>
+        </div>
+    }
+    
+
     <div class="col-12 mt-4">
        <MudText Typo="Typo.h4" Align="Align.Center" Style="color: aliceblue" Class="mb-4 mt-4">Támadás</MudText>
     </div>
@@ -29,7 +37,7 @@
     {
         @foreach(var unit in State.Empire.Units.Where(u => u.Count > 0 && u.Name != UnitEnum.ScoutDrone.GetDisplayName()).ToList())
         {
-            <div class="row col-md-12 col-sm-12 mt-2 mb-2">
+            <div class="row col-md-12 col-sm-12 mt-2 mb-2 p-2">
                 <div class="col-md-1 col-sm-1 d-flex justify-content-center">
                     <img src="@unit.ImageUrl" class="m-auto img-responsive invert-img" height="18"/>
                 </div>

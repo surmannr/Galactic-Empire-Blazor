@@ -56,11 +56,29 @@ namespace GalacticEmpire.Application.Features.Attack.Queries
                     {
                         Id = a.Id,
                         Date = a.Date,
-                        AttackUnits = mapper.Map<List<BattleUnitDto>>(a.AttackUnits),
-                        DefenseUnits = mapper.Map<List<BattleUnitDto>>(a.DefenseUnits),
+                        AttackUnits = a.AttackUnits.Select(s => new BattleUnitDto { 
+                            Id = s.UnitId,
+                            AttackPoint = s.Unit.UnitLevels.FirstOrDefault(k => k.UnitId == s.UnitId)!.AttackPoint * s.Amount,
+                            Count = s.Amount,
+                            ImageUrl = s.Unit.ImageUrl,
+                            Level = s.Level,
+                            Name = s.Unit.Name,
+                            DefensePoint = s.Unit.UnitLevels.FirstOrDefault(k => k.UnitId == s.UnitId)!.DefensePoint * s.Amount
+                        }).ToList(),
+                        DefenseUnits = a.DefenseUnits.Select(s => new BattleUnitDto
+                        {
+                            Id = s.UnitId,
+                            AttackPoint = s.Unit.UnitLevels.FirstOrDefault(k => k.UnitId == s.UnitId)!.AttackPoint * s.Amount,
+                            Count = s.Amount,
+                            ImageUrl = s.Unit.ImageUrl,
+                            Level = s.Level,
+                            Name = s.Unit.Name,
+                            DefensePoint = s.Unit.UnitLevels.FirstOrDefault(k => k.UnitId == s.UnitId)!.DefensePoint * s.Amount
+                        }).ToList(),
                         OpponentEmpireName = a.Attacker.Name == empire.Name ? a.Defender.Name : a.Attacker.Name,
                         WinnerEmpireId = a.WinnerId,
-                        WinnerEmpireName =  GetWinnerEmpireName(a)
+                        WinnerEmpireName =  GetWinnerEmpireName(a),
+                        IsAttacker = a.AttackerId == empire.Id
                     })
                     .SingleOrDefaultAsync();
 

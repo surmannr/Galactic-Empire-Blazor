@@ -146,6 +146,10 @@ namespace GalacticEmpire.Application.Mapper
                 .ForMember(
                     edto => edto.Description,
                     ee => ee.MapFrom(e => e.Event.Description)
+                )
+                .ForMember(
+                    edto => edto.ImageUrl,
+                    ee => ee.MapFrom(e => e.Event.ImageUrl)
                 );
 
             CreateMap<EmpireMaterial, MaterialDetailsDto>()

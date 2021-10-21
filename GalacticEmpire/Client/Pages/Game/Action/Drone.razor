@@ -14,6 +14,13 @@
 
 <div class="row h-100 glass pr-md-5 pl-md-5 pb-md-5 m-0 w-100">
 
+     @if(State.Empire != null && State.Empire.Activities.ActiveSpyingDate.HasValue)
+    {
+        <div class="col-12 mt-4">
+              <TimerComponent EndDate="State.Empire.Activities.ActiveSpyingDate"></TimerComponent>
+        </div>
+    }
+
     <div class="col-12 mt-4">
        <MudText Typo="Typo.h4" Align="Align.Center" Style="color: aliceblue" Class="mb-4 mt-4">Kémkedés</MudText>
     </div>

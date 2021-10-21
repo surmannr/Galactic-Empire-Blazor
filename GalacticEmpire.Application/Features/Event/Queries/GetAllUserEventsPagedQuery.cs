@@ -19,13 +19,12 @@ namespace GalacticEmpire.Application.Features.Event.Queries
 {
     public static class GetAllUserEventsPagedQuery
     {
-        public class Query : IRequest<PagedResult<EventDto>>
+        public class Query : IRequest<List<EventDto>>
         {
-            public PaginationData? PaginationData { get; set; }
             public string? Filter {  get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, PagedResult<EventDto>>
+        public class Handler : IRequestHandler<Query, List<EventDto>>
         {
             private readonly GalacticEmpireDbContext dbContext;
             private readonly IMapper mapper;
@@ -38,7 +37,7 @@ namespace GalacticEmpire.Application.Features.Event.Queries
                 this.identityService = identityService;
             }
 
-            public async Task<PagedResult<EventDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<EventDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var userId = identityService.GetCurrentUserId();
 
@@ -59,21 +58,9 @@ namespace GalacticEmpire.Application.Features.Event.Queries
                     events = events.Where(u => u.Name.Contains(request.Filter) || u.Description.Contains(request.Filter));
                 }
 
-                var pagedEvents = GetPagedResultWithCheck(events, request);
+                var pagedEvents = events.ToList();
 
                 return pagedEvents;
-            }
-
-            private PagedResult<EventDto> GetPagedResultWithCheck(IQueryable<EventDto> events, Query request)
-            {
-                if (request.PaginationData is not null)
-                {
-                    return events.ToPagedList(request.PaginationData.PageSize, request.PaginationData.PageNumber);
-                }
-                else
-                {
-                    return events.ToPagedList(events.Count(), 1);
-                }
             }
         }
 
@@ -81,7 +68,7 @@ namespace GalacticEmpire.Application.Features.Event.Queries
         {
             public QueryValidator()
             {
-                RuleFor(x => x.PaginationData).SetValidator(new PaginationRuleValidator()).When(x => x.PaginationData is not null);
+                
             }
         }
     }

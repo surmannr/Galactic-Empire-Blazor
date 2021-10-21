@@ -5,7 +5,7 @@
 @inject EmpireState State
 @inject ISnackbar Snackbar
 
-<div class="row h-100 glass pr-md-5 pl-md-5 pb-md-5 m-0">
+<div class="row h-100 glass pr-md-5 pl-md-5 pb-md-5 m-0 w-100">
     <div class="col-12">
        <MudText Typo="Typo.h4" Align="Align.Center" Style="color: aliceblue" Class="mb-4 mt-4">Egységeim</MudText>
     </div>
@@ -33,7 +33,7 @@
         <MudDivider Class="w-100" DividerType="DividerType.FullWidth" Style="color: rgb(255,255,255); background-color: rgb(255,255,255)"/>
         @if(!State.Empire.Units.Any(u => u.Count > 0))
         {
-            <MudText Typo="Typo.body1" Align="Align.Center" Style="color: aliceblue">Nem rendelkezel egységgel!</MudText>
+            <MudText Typo="Typo.body1" Align="Align.Center" Style="color: aliceblue" Class="mt-3">Nem rendelkezel egységgel!</MudText>
         }
     }
     else

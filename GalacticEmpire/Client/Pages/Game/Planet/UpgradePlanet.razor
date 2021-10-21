@@ -52,9 +52,10 @@
                 <MudText Typo="Typo.body1" Align="Align.Center" Style="color: red" Class="mb-2 w-100">A bolygó nem rendelkezik fejlesztéssel! </MudText>
             }
             <MudText Typo="Typo.h6" Align="Align.Left" Style="color: aliceblue" Class="mb-4 w-100"><i>Elérhető fejlesztések:</i> </MudText>
+            <TimerComponent EndDate="State.Empire.Activities.ActiveUpgradingDate"></TimerComponent>
             @if(AvailableUpgrades != null)
             {
-                <div class="row">
+                <div class="row mt-4">
 
                     @foreach(var upgrade in AvailableUpgrades)
                     {

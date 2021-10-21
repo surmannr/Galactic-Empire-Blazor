@@ -45,6 +45,62 @@ namespace GalacticEmpire.Api.Controllers
             return result.Succeeded;
         }
 
+        [HttpPost]
+        [Authorize]
+        [Route("change-username")]
+        public async Task<bool> ChangeUserName([FromQuery] string username)
+        {
+            var command = new ChangeUsernameCommand.Command
+            {
+                NewUserName = username
+            };
+
+            var result = await mediator.Send(command);
+            return result;
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("change-empirename")]
+        public async Task<bool> ChangeEmpireName([FromQuery] string empirename)
+        {
+            var command = new ChangeEmpirenameCommand.Command
+            {
+                NewEmpireName = empirename
+            };
+
+            var result = await mediator.Send(command);
+            return result;
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("change-email")]
+        public async Task<bool> ChangeEmail([FromQuery] string email)
+        {
+            var command = new ChangeEmailCommand.Command
+            {
+                NewEmail = email
+            };
+
+            var result = await mediator.Send(command);
+            return result;
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("change-password")]
+        public async Task<bool> ChangePassword([FromBody] ChangePasswordDto changePassword)
+        {
+            var command = new ChangePasswordCommand.Command
+            {
+               ChangePassword = changePassword
+            };
+
+            var result = await mediator.Send(command);
+            return result;
+        }
+
         [HttpGet]
         [Authorize]
         [Route("attackable-users")]

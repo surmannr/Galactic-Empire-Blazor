@@ -1,0 +1,56 @@
+﻿@page "/change-empirename"
+@layout MainLayout
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager uriHelper
+@inject EmpireState State
+@inject ISnackbar Snackbar
+
+<div class="row glass w-100 h-100 justify-content-center p-3">
+    <div class="col-12 mt-5">
+         <MudText Typo="Typo.h5" Style="color: aliceblue" Align="Align.Center">Birodalomnév megváltoztatása</MudText>
+    </div>
+    <div class="col-12 mt-3 mb-5">
+         <MudTextField @bind-Value="EditEmpirename" Required="true" RequiredError="Az birodalom neve kötelező!" Label="Birodalom neve" Variant="Variant.Text" HelperText="Add meg az új birodalmad nevét."></MudTextField>
+    </div>
+    <div class="col-12 mt-3 mb-5">
+         <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue; margin-bottom:10px" OnClick="Change">Megváltoztat</MudButton>
+    </div>
+</div>
+
+<style>
+     .glass
+    {
+        box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        border-radius: 15px;
+        background: rgba(0,0,0,0.43);
+        color: aliceblue !important;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.5);
+    }
+    .mud-input>input.mud-input-root, div.mud-input-slot.mud-input-root, .mud-input-helper-text{
+        color: aliceblue !important;
+    }
+
+    .mud-input-control .mud-input-control-input-container div.mud-input.mud-input-text{
+       color:aliceblue;
+   }
+
+   .mud-shrink~label.mud-input-label.mud-input-label-inputcontrol, .mud-input:focus-within~label.mud-input-label.mud-input-label-inputcontrol,
+   .mud-input-control>.mud-input-control-input-container>.mud-input-label-inputcontrol{
+       color:aliceblue;
+   }
+</style>
+
+@code {
+    public string EditEmpirename { get; set; }
+
+    public async void Change()
+    {
+        var http = HttpClientFactory.CreateClient("blazorWASM");
+        var result = await http.PostAsync($"api/Users/change-empirename?empirename={EditEmpirename}", null);
+        if (result.IsSuccessStatusCode)
+        {
+            Snackbar.Add("Sikeresen megváltoztattad a felhasználóneved!", Severity.Success);
+        }
+    }
+}

@@ -31,12 +31,11 @@ namespace GalacticEmpire.Api.Controllers
         [HttpGet]
         [Authorize]
         [Route("user-events")]
-        public async Task<PagedResult<EventDto>> GetAllUserEventsPaged([FromQuery] PaginationData data, [FromQuery] string filter)
+        public async Task<List<EventDto>> GetAllUserEventsPaged([FromQuery] string filter)
         {
             var query = new GetAllUserEventsPagedQuery.Query()
             {
-                Filter = filter,
-                PaginationData = data
+                Filter = filter
             };
 
             return await mediator.Send(query);
