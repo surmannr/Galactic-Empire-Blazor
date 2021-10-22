@@ -24,13 +24,11 @@ namespace GalacticEmpire.Application.Features.User.Commands
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly UserManager<Domain.Models.UserModel.Base.User> userManager;
             private readonly IIdentityService identityService;
             private readonly GalacticEmpireDbContext dbContext;
 
-            public Handler(UserManager<Domain.Models.UserModel.Base.User> userManager, IIdentityService identityService, GalacticEmpireDbContext dbContext)
+            public Handler(IIdentityService identityService, GalacticEmpireDbContext dbContext)
             {
-                this.userManager = userManager;
                 this.identityService = identityService;
                 this.dbContext = dbContext;
             }
@@ -57,7 +55,7 @@ namespace GalacticEmpire.Application.Features.User.Commands
         {
             public CommandValidator()
             {
-                RuleFor(x => x.NewEmail).NotNull().WithMessage("Az új email cím kitöltése kötelező.");
+                RuleFor(x => x.NewEmail).EmailAddress().NotNull().WithMessage("Az új email cím kitöltése kötelező.");
             }
         }
     }

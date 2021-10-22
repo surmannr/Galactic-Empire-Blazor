@@ -18,6 +18,6 @@ namespace GalacticEmpire.Shared.Dto.Planet
         public bool IsCaptured { get; set; }
 
         public PlanetPropertyDto PlanetProperty { get; set; }
-        public ICollection<PriceMaterialDto> RequiredMaterials { get; set; }
+        public List<PriceMaterialDto> RequiredMaterials { get; set; }
     }
 }

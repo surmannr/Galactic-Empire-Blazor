@@ -62,7 +62,7 @@ namespace GalacticEmpire.Application.Features.Unit.Commands
 
                 var unitBuyCollection = request.UnitsCollection.Units;
 
-                int maxCountOfUnits = unitBuyCollection.Max(e => e.Count) + empire.EmpireUnits.Max(e => e.Amount);
+                int maxCountOfUnits = unitBuyCollection.Sum(e => e.Count) + empire.EmpireUnits.Sum(e => e.Amount);
 
                 if(empire.MaxNumberOfUnits -  maxCountOfUnits < 0)
                 {
