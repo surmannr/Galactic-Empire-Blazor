@@ -124,7 +124,7 @@ namespace GalacticEmpire.Tests.UnitTests
         }
         
         [Fact]
-        public async Task BuyPlanetCheckTest_ActiveFail()
+        public async Task BuyUpgradeCheckTest_ActiveFail()
         {
             int upgradeId = 1;
             int planetId = 1;
@@ -171,7 +171,7 @@ namespace GalacticEmpire.Tests.UnitTests
         }
         
         [Fact]
-        public async Task BuyPlanetCheckTest_DuplicateFail()
+        public async Task BuyUpgradeCheckTest_DuplicateFail()
         {
             int upgradeId = 1;
             int planetId = 1;
@@ -215,7 +215,7 @@ namespace GalacticEmpire.Tests.UnitTests
         }
         
         [Fact]
-        public async Task BuyPlanetCheckTest_NotExistFail()
+        public async Task BuyUpgradeTest_NotExistFail()
         {
             int upgradeId = 100;
             int planetId = 1;
@@ -253,7 +253,7 @@ namespace GalacticEmpire.Tests.UnitTests
         }
         
         [Fact]
-        public async Task BuyPlanetCheckTest_NotEnoughMaterialFail()
+        public async Task BuyUpgradeTest_NotEnoughMaterialFail()
         {
             int upgradeId = 1;
             int planetId = 1;
@@ -298,7 +298,7 @@ namespace GalacticEmpire.Tests.UnitTests
         }
 
         [Fact]
-        public async Task BuyPlanetCheckTest_NotExistEmpirePlanetFail()
+        public async Task BuyUpgradeTest_NotExistEmpirePlanetFail()
         {
             int upgradeId = 1;
             Guid empirePlanetId = Guid.NewGuid();
