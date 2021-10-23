@@ -54,17 +54,20 @@ namespace GalacticEmpire.Api.ExtensionsAndServices.Identity
                 },
                 RedirectUris =
                 {
-                    "http://localhost:44331"
+                    "http://localhost:44331",
+                    "https://galactic-empire.azurewebsites.net"
                 },
                 PostLogoutRedirectUris = 
                 {
-                    "http://localhost:44331"
+                    "http://localhost:44331",
+                    "https://galactic-empire.azurewebsites.net"
                 },
                 AllowedCorsOrigins =
                 {
                     "http://localhost:44331",
                     "http://localhost:5000",
-                    "https://localhost:5001"
+                    "https://localhost:5001",
+                    "https://galactic-empire.azurewebsites.net"
                 }
             },
             new IdentityServer4.Models.Client
@@ -79,7 +82,8 @@ namespace GalacticEmpire.Api.ExtensionsAndServices.Identity
                 { 
                     "https://localhost:5001",
                     "https://localhost:5000",
-                    "https://localhost:44331"
+                    "https://localhost:44331",
+                    "https://galactic-empire.azurewebsites.net"
                 },
                 AllowedScopes =
                 {
@@ -87,8 +91,8 @@ namespace GalacticEmpire.Api.ExtensionsAndServices.Identity
                     IdentityServerConstants.StandardScopes.Profile,
                     "GalacticEmpireApi.all"
                 },
-                RedirectUris = { "https://localhost:44331/authentication/login-callback" },
-                PostLogoutRedirectUris = { "https://localhost:44331/authentication/logout-callback" }
+                RedirectUris = { "https://localhost:44331/authentication/login-callback", "https://galactic-empire.azurewebsites.net" },
+                PostLogoutRedirectUris = { "https://localhost:44331/authentication/logout-callback", "https://galactic-empire.azurewebsites.net" }
             },
         };
     }
