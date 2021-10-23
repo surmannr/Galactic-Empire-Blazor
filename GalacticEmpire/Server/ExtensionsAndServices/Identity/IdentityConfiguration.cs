@@ -91,8 +91,8 @@ namespace GalacticEmpire.Api.ExtensionsAndServices.Identity
                     IdentityServerConstants.StandardScopes.Profile,
                     "GalacticEmpireApi.all"
                 },
-                RedirectUris = { "https://localhost:44331/authentication/login-callback", "https://galactic-empire.azurewebsites.net" },
-                PostLogoutRedirectUris = { "https://localhost:44331/authentication/logout-callback", "https://galactic-empire.azurewebsites.net" }
+                RedirectUris = { "https://localhost:44331/authentication/login-callback", "https://galactic-empire.azurewebsites.net/index.html" },
+                PostLogoutRedirectUris = { "https://localhost:44331/authentication/logout-callback", "https://galactic-empire.azurewebsites.net/mainpage" }
             },
         };
     }
