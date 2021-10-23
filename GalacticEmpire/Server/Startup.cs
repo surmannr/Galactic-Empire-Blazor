@@ -126,9 +126,7 @@ namespace GalacticEmpire.Server
                 options.UserInteraction = new UserInteractionOptions()
                 {
                     LogoutUrl = "/logout",
-                    LoginUrl = "/login",
-
-                    LoginReturnUrlParameter = "returnUrl"
+                    LoginUrl = "/login"
                 };
                 options.Authentication.CookieAuthenticationScheme = IdentityConstants.ApplicationScheme;
             })
