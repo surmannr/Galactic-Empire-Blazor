@@ -29,15 +29,32 @@ namespace GalacticEmpire.Client
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("blazorWASM"));
             builder.Services.AddMudServices();
 
-            builder.Services.AddOidcAuthentication(options =>
+            if (builder.HostEnvironment.IsDevelopment())
             {
-                // Configure your authentication provider options here.
-                // For more information, see https://aka.ms/blazor-standalone-auth
-                builder.Configuration.Bind("oidc", options.ProviderOptions);
-                //options.ProviderOptions.Authority = "https://localhost:44331";
-                //options.ProviderOptions.ClientId = "blazorWASM"; // The client ID
-                //options.ProviderOptions.ResponseType = "code";
-            });
+                builder.Services.AddOidcAuthentication(options =>
+                {
+                    // Configure your authentication provider options here.
+                    // For more information, see https://aka.ms/blazor-standalone-auth
+                    builder.Configuration.Bind("oidc", options.ProviderOptions);
+                    //options.ProviderOptions.Authority = "https://localhost:44331";
+                    //options.ProviderOptions.ClientId = "blazorWASM"; // The client ID
+                    //options.ProviderOptions.ResponseType = "code";
+                });
+            }
+            else
+            {
+                builder.Services.AddOidcAuthentication(options =>
+                {
+                    // Configure your authentication provider options here.
+                    // For more information, see https://aka.ms/blazor-standalone-auth
+                    builder.Configuration.Bind("oidc_azure", options.ProviderOptions);
+                    //options.ProviderOptions.Authority = "https://localhost:44331";
+                    //options.ProviderOptions.ClientId = "blazorWASM"; // The client ID
+                    //options.ProviderOptions.ResponseType = "code";
+                });
+            }
+
+            
 
             builder.Services.AddApiAuthorization();
 
