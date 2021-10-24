@@ -1,15 +1,26 @@
 ﻿@page "/mainpage"
 @layout MainLayout
 @inject EmpireState State
-@attribute [Authorize]
 @inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager uriHelper
 @inject ISnackbar Snackbar
 
+<AuthorizeView>
+    <Authorized>
+        <div class="row glass p-5 d-flex flex-column responsivefontheader" style="background-color: rgba(0,0,0,0.7); color: white; border-radius: 50px; margin-top:150px">
+            <h1 class="text-center responsivefontheader">Örülünk, hogy újra látunk a @if (State is not null && State.Empire is not null) {@State.Empire.Name } birodalom élén, @if (State is not null && State.Empire is not null) {@State.Empire.UserName }!</h1>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToLogin></RedirectToLogin>
+    </NotAuthorized>
+    <Authorizing>
+        <div class="row glass p-5 d-flex flex-column responsivefontheader" style="background-color: rgba(0,0,0,0.7); color: white; border-radius: 50px; margin-top:150px">
+            <h1 class="text-center responsivefontheader">Profil betöltése...</h1>
+        </div>
+    </Authorizing>
+</AuthorizeView>
 
-<div class="row glass p-5 d-flex flex-column responsivefontheader" style="background-color: rgba(0,0,0,0.7); color: white; border-radius: 50px; margin-top:150px">
-    <h1 class="text-center responsivefontheader">Örülünk, hogy újra látunk a @if (State is not null && State.Empire is not null) {@State.Empire.Name } birodalom élén, @if (State is not null && State.Empire is not null) {@State.Empire.UserName }!</h1>
-</div>
 
 <style>
      .glass
