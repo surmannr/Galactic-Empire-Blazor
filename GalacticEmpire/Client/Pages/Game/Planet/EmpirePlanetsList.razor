@@ -80,6 +80,12 @@
             </div>
         }
     </div>
+    @if(State.Empire.Planets.Count() == 0)
+    {
+        <div class="glass row container m-auto">
+            <MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Error" Class="m-4">A birodalmad nem rendelkezik egy bolygóval sem.</MudText>
+        </div>
+    }
 }
 
 <style>

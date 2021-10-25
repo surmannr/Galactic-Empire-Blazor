@@ -34,7 +34,14 @@
 
     @if(State.Empire !=null && State.Empire.Units != null && State.Empire.Units.Count() != 0)
     {
-        @foreach(var unit in State.Empire.Units.Where(u => u.Name == UnitEnum.ScoutDrone.GetDisplayName()).ToList())
+        @if(State.Empire.Units.Where(e => e.Name == UnitEnum.ScoutDrone.GetDisplayName()).Sum(e=>e.Count) == 0)
+        {
+            <div class="col-12 mt-4">
+                  <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Error" Class="mb-4 mt-4">Nem rendelkezel kém egységgel!</MudText>
+            </div>
+        }
+
+        @foreach(var unit in State.Empire.Units.Where(u => u.Name == UnitEnum.ScoutDrone.GetDisplayName() && u.Count > 0).ToList())
         {
             <div class="row col-md-12 col-sm-12 mt-2 mb-2">
                 <div class="col-md-2 col-sm-1 d-flex justify-content-center">
@@ -54,18 +61,12 @@
                          <MudSlider Step="1" Max="@unit.Count" @bind-Value="@AttackerUnitIdPairCount[unit.Id.ToString() + "_" + unit.Level.ToString()]" Color="Color.Tertiary"><MudText Color="Color.Tertiary" Typo="Typo.body1" Class="mr-1">Mennyiség: @AttackerUnitIdPairCount[unit.Id.ToString() + "_" + unit.Level.ToString()]</MudText></MudSlider>
                     </div>
                 }
-                @if(unit.Count == 0)
-                {
-                    <div class="col-12 mt-2">
-                        <MudText Typo="Typo.body1" Align="Align.Center" Color="Color.Error" Class="mb-4 mt-4">Nincs ilyen egység.</MudText>
-                    </div>
-                }
 
             </div>
         }
 
          <div class="col-12 mt-2">
-             @if(State.Empire.Activities.ActiveSpyingDate == null)
+             @if(State.Empire.Activities.ActiveSpyingDate == null && State.Empire.Units.Where(e => e.Name == UnitEnum.ScoutDrone.GetDisplayName()).Sum(e=>e.Count) != 0)
             {
                 <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue; margin-bottom:10px" OnClick="DoDrone">Kémkedés</MudButton>
             }
@@ -74,12 +75,6 @@
                 <MudButton Variant="Variant.Filled" Color="Color.Surface" FullWidth="true" Style="color: aliceblue; margin-bottom:10px" Disabled>Folyamatban van egy támadás</MudButton>
             }
 
-        </div>
-    }
-    else
-    {
-        <div class="col-12 mt-2">
-            <MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Error" Class="mb-4 mt-4">Nincsenek egységeid amivel kémkedhetnél.</MudText>
         </div>
     }
 

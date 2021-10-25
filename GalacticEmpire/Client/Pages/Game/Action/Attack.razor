@@ -35,6 +35,13 @@
 
     @if(State.Empire !=null && State.Empire.Units != null && State.Empire.Units.Count() != 0)
     {
+        @if(State.Empire.Units.Sum(e => e.Count) == 0)
+        {
+            <div class="col-12 mt-4">
+                  <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Error" Class="mb-4 mt-4">Nem rendelkezel egységgel!</MudText>
+            </div>
+        }
+
         @foreach(var unit in State.Empire.Units.Where(u => u.Count > 0 && u.Name != UnitEnum.ScoutDrone.GetDisplayName()).ToList())
         {
             <div class="row col-md-12 col-sm-12 mt-2 mb-2 p-2">
@@ -66,7 +73,7 @@
         }
 
          <div class="col-12 mt-2">
-             @if(State.Empire.Activities.ActiveAttackingDate == null)
+             @if(State.Empire.Activities.ActiveAttackingDate == null && State.Empire.Units.Sum(e => e.Count) != 0)
             {
                 <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Style="color: aliceblue; margin-bottom:10px" OnClick="DoAttack">Támadás</MudButton>
             }

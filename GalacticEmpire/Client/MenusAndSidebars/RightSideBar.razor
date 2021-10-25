@@ -3,6 +3,7 @@
 @inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager uriHelper
 @inject ISnackbar Snackbar
+@implements IDisposable
 
 <MudDrawer @bind-Open="@open" Elevation="1" Anchor="Anchor.Right" Style="background-color: rgba(0,0,0,0.7)">
 
@@ -56,5 +57,15 @@
     protected async override Task OnInitializedAsync()
     {
         await State.InitializeAsync(uriHelper, HttpClientFactory, Snackbar);
+    }
+
+     protected override void OnInitialized()
+    {
+        State.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= StateHasChanged;
     }
 }
